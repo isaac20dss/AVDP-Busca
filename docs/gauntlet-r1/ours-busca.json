@@ -1,0 +1,126 @@
+{
+  "stamp": "R1 05:11",
+  "cases": [
+    {
+      "caso": "todas",
+      "consulta": "pilar de fogo",
+      "total": 111,
+      "ms": 71,
+      "direto": [],
+      "primeiros": [
+        "57-0922N Hebreus, Capítulo 7 #2 §170: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar⟧ ⟦de⟧ ⟦Fogo⟧ que foi adiante dos Filhos ⟦de⟧ Israel. O",
+        "57-0101 Hebreus capitulo 7 parte 2 §170: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar⟧ ⟦de⟧ ⟦Fogo⟧ que foi adiante dos Filhos ⟦de⟧ Israel. O"
+      ]
+    },
+    {
+      "caso": "frase exata",
+      "consulta": "pilar de fogo",
+      "total": 108,
+      "ms": 18,
+      "direto": [],
+      "primeiros": [
+        "57-0922N Hebreus, Capítulo 7 #2 §170: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar de Fogo⟧ que foi adiante dos Filhos de Israel. O ⟦Pila",
+        "57-0101 Hebreus capitulo 7 parte 2 §170: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar de Fogo⟧ que foi adiante dos Filhos de Israel. O ⟦Pila"
+      ]
+    },
+    {
+      "caso": "proximidade 5",
+      "consulta": "anjo luz",
+      "total": 129,
+      "ms": 53,
+      "direto": [],
+      "primeiros": [
+        "51-0503 Como Fui Com Moisés §29: E a ⟦Luz⟧ se concentrou em volta do ⟦Anjo⟧, o ⟦Anjo⟧ subiu na ⟦Luz⟧, a ⟦Luz⟧ continuou girando no quarto, e saiu do quarto. E estou… É só o ",
+        "61-0216 A Marca da Besta e o Selo de Deus #1 §66: Se você for comigo agora em II Coríntios 11:14, a Bíblia diz que ele se transformou em um ⟦anjo⟧ de ⟦luz⟧. Você simplesmente subestima a Sat"
+      ]
+    },
+    {
+      "caso": "qualquer",
+      "consulta": "arrebatamento rapto",
+      "total": 801,
+      "ms": 171,
+      "direto": [],
+      "primeiros": [
+        "60-1211M As Dez Virgens §34: …E então quando isto acontecer, haverá o ⟦arrebatamento⟧ da Igreja, que subirá, e depois a volta de Cristo. E recordem agora, quando… Qual é",
+        "60-1211M As dez virgens §34: …E então quando isto acontecer, haverá o ⟦arrebatamento⟧ da Igreja, que subirá, e depois a volta de Cristo. E recordem agora, quando... Qual"
+      ]
+    },
+    {
+      "caso": "variações",
+      "consulta": "profetizar",
+      "total": 1345,
+      "ms": 259,
+      "direto": [],
+      "primeiros": [
+        "61-0112 Perguntas e Respostas §304: [Um irmão lê Primeira Coríntios 14:5—Ed.] [Eu quero que todos vós faleis em línguas, …] Agora, pare aí um pouco: “Eu quero que todos vós fal",
+        "61-0112 Perguntas e Respostas §304: [Um irmão lê Primeira Coríntios 14:5—Ed.] [Eu quero que todos vós faleis em línguas,…] Agora, pare aí um pouco: “Eu quero que todos vós fale"
+      ]
+    },
+    {
+      "caso": "aproximada (erro)",
+      "consulta": "arebatamento",
+      "total": 313,
+      "ms": 43,
+      "direto": [],
+      "primeiros": [
+        "65-1204 O Arrebatamento §181: Agora nós estamos prontos, esperando pelos ⟦arrebatamentos⟧, o ⟦Arrebatamento⟧ dos santos. Foi falado, e assim será. Quando diz algo: “Passa",
+        "65-1204 O Arrebatamento §180: …Então o espírito de vida entrou neles, e eles foram arrebatados, elevados ao Céu.” Aí estão seus três ⟦arrebatamentos⟧ do Novo Testamento. "
+      ]
+    },
+    {
+      "caso": "curinga",
+      "consulta": "serpent*",
+      "total": 1329,
+      "ms": 193,
+      "direto": [
+        "53-1121 Brass Serpent",
+        "58-0101 Mas no princípio não foi assim"
+      ],
+      "primeiros": [
+        "63-0428 Olhe §138: — Mas quando o verdadeiro crente saiu ali e olhou para aquela ⟦serpente⟧, com a Verdade espiritual revelada... Aquela própria ⟦serpente⟧, se",
+        "55-0221 Cristo §25: Quando Cristo, no Velho Testamento, foi feito na forma de uma ⟦serpente⟧... por que o Senhor Jesus Cristo representaria uma ⟦serpente⟧? Porq"
+      ]
+    },
+    {
+      "caso": "excluir",
+      "consulta": "semente serpente -Eva",
+      "total": 303,
+      "ms": 25,
+      "direto": [
+        "58-0101 Mas no princípio não foi assim"
+      ],
+      "primeiros": [
+        "61-0806 As Setenta Semanas de Daniel §23: E a ⟦semente⟧ da ⟦serpente⟧, esse é o assassino. Muita gente não crê nisso. Porém se você tão somente lesse em Gênesis, a Bíblia diz que a ⟦",
+        "61-0806 Setenta semanas de Daniel §32: 23- E a ⟦semente⟧ da ⟦serpente⟧, esse é o assassino. Muita gente não crê nisso. Porém se você tão somente lesse em Gênesis, a Bíblia diz que"
+      ]
+    },
+    {
+      "caso": "código de data",
+      "consulta": "65-1127B",
+      "total": 0,
+      "ms": 6,
+      "direto": [],
+      "primeiros": []
+    },
+    {
+      "caso": "título",
+      "consulta": "titulo:selo",
+      "total": 1435,
+      "ms": 132,
+      "direto": [],
+      "primeiros": [
+        "63-0317N A Brecha Entre As Sete Eras da Igreja e Os Sete Selos §73: Outra coisa que é, um ⟦Selo⟧ é uma “segurança.” O ⟦selo⟧ significa que você está seguro. Agora, você que não crê em segurança eterna, eu não",
+        "63-0317 Brecha §73: Outra coisa que é, um ⟦Selo⟧ é uma “segurança.” O ⟦selo⟧ significa que você está seguro. Agora, você que não crê em segurança eterna, eu não"
+      ]
+    },
+    {
+      "caso": "por mensagem + anos 1963–65 + data",
+      "total": 13,
+      "primeiros": [
+        "63-0120M A Voz de Deus Nestes Últimos Dias (2 ocorrências)",
+        "63-0120M Voz de Deus Nestes ultimo dias (2 ocorrências)",
+        "63-0428 Olhe (2 ocorrências)"
+      ]
+    }
+  ]
+}

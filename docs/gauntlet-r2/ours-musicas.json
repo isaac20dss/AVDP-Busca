@@ -1,0 +1,67 @@
+{
+  "stamp": "R2 05:41",
+  "musicas_no_banco": 2,
+  "cases": [
+    {
+      "consulta": "grandioso",
+      "total": 1,
+      "aproximada": false,
+      "ms": 5,
+      "primeiros": [
+        "Grandioso És Tu: …minh'alma canta a Ti, Senhor\n⟦Grandioso⟧ és Tu, ⟦grandioso⟧ és Tu"
+      ]
+    },
+    {
+      "consulta": "GRANDIOSO",
+      "total": 1,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": [
+        "Grandioso És Tu: …minh'alma canta a Ti, Senhor\n⟦Grandioso⟧ és Tu, ⟦grandioso⟧ és Tu"
+      ]
+    },
+    {
+      "consulta": "grandiozo",
+      "total": 1,
+      "aproximada": true,
+      "ms": 4,
+      "primeiros": [
+        "Grandioso És Tu: …minh'alma canta a Ti, Senhor\n⟦Grandioso⟧ és Tu, ⟦grandioso⟧ és Tu"
+      ]
+    },
+    {
+      "consulta": "castelo forte",
+      "total": 1,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": [
+        "Castelo Forte: ⟦Castelo⟧ ⟦forte⟧ é nosso Deus\nEspada e bom escudo\nCom Seu poder…"
+      ]
+    },
+    {
+      "consulta": "senhor meu deus",
+      "total": 1,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": [
+        "Grandioso És Tu: ⟦Senhor⟧ ⟦meu⟧ ⟦Deus⟧, quando eu maravilhado\nContemplo a Tua imensa criação\nO…"
+      ]
+    },
+    {
+      "consulta": "oceanos",
+      "total": 1,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": [
+        "Grandioso És Tu: …e a terra, os vastos ⟦oceanos⟧\nFico a pensar em Tua perfeição…"
+      ]
+    },
+    {
+      "consulta": "xyzabc",
+      "total": 0,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": []
+    }
+  ]
+}

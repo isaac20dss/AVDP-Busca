@@ -1,0 +1,163 @@
+AVDP Mensagens para o Holyrics 1.0.0 - passo a passo
+=====================================================
+
+O que é: um módulo do Holyrics (o "plugin") com as Mensagens do AVDP Busca. Dentro do Holyrics
+dá para pesquisar as mensagens do mesmo jeito do AVDP, projetar a mensagem inteira a partir do
+parágrafo (§) escolhido, pôr a mensagem na lista de reprodução e importar a fila exportada pelo
+AVDP Busca (.avdpfila). Funciona com o AVDP fechado e sem internet.
+
+São três peças:
+  - avdp-mensagens.js     o módulo (texto que se cola na janela Módulos do Holyrics);
+  - avdp-consulta.exe     o programa que lê o banco (fica na aba Arquivos da biblioteca do Holyrics);
+  - avdp-mensagens.db     o banco só com as mensagens (220 MB), em C:\AVDP Holyrics\.
+O banco fica fora da biblioteca do Holyrics de propósito: assim ele não entra no backup nem na
+sincronização do Holyrics com o Google Drive.
+
+
+1. INSTALAR (UMA VEZ EM CADA COMPUTADOR)
+----------------------------------------
+
+ 1. Extraia o zip  AVDP-Mensagens-Holyrics-1.0.0.zip : botão direito > "Extrair tudo..." > "Extrair".
+
+ 2. Na pasta extraída, dê dois cliques em  INSTALAR.cmd
+    - Se o Windows perguntar "Deseja executar este arquivo?", clique em "Executar".
+    - Se aparecer "O Windows protegeu o computador", clique em "Mais informações" e depois em
+      "Executar assim mesmo" (o programa não tem assinatura digital; é normal).
+
+ 3. A janela preta:
+    - cria a pasta  C:\AVDP Holyrics\  com o banco, o programa, o módulo e o
+      ATUALIZAR-BANCO-DO-PLUGIN.cmd;
+    - copia o avdp-consulta.exe para a biblioteca do Holyrics:
+      C:\Holyrics\Holyrics\files\media\file   (é a aba "Arquivos" da biblioteca).
+      Se o Holyrics estiver em outra pasta, ela pergunta o caminho;
+    - testa o programa. No fim deve aparecer uma linha assim:
+      OK: avdp-consulta 1.0.0 lendo C:\AVDP Holyrics\avdp-mensagens.db: 727 mensagens com texto ...
+    Aperte uma tecla para fechar.
+
+
+2. COLAR O MÓDULO NO HOLYRICS (UMA VEZ)
+---------------------------------------
+
+ Funciona no Holyrics grátis (testado na versão 2.30.0 em 2026-10-18; não precisa do Holyrics Plan).
+
+ 1. Abra o Holyrics normalmente.
+
+ 2. Abra a janela Módulos: na barra de módulos (logo abaixo de "Favoritos"), clique nos três
+    pontinhos (⋮) bem à esquerda > "Módulos (Editar)". Clique em "Adicionar" para criar um módulo
+    JavaScript novo (dê o nome que quiser, por exemplo "AVDP Busca").
+
+ 3. Abra o arquivo  C:\AVDP Holyrics\avdp-mensagens.js  no Bloco de Notas, selecione tudo
+    (Ctrl+A) e copie (Ctrl+C). Na janela Módulos, clique em "Código" no módulo novo, apague o que
+    tiver (Ctrl+A) e cole (Ctrl+V). Clique em "Salvar".
+
+ 4. Deixe o módulo marcado (ativado) na primeira coluna.
+
+ 5. Libere o programa: na janela Módulos, "Configurações" do módulo > "Permissões avançadas" >
+    "allowed_files", marque  avdp-consulta.exe .
+    Sem isso o Holyrics não deixa o módulo rodar o programa (aparece um aviso dizendo isso).
+
+ 6. Aparecem 5 botões na barra de módulos:
+      Pesquisar mensagem | Abrir por data | Adicionar à lista | Importar fila do AVDP | Conferir
+
+ 7. Teste: clique em "Conferir". Deve mostrar o banco, "Mensagens com texto: 727 de 1300" e
+    "Respostas do programa: 64000 ok +7 quebras, ... 2000 ok".
+
+ Para trocar o módulo por uma versão nova: mesmo caminho do passo 2, botão "Código", Ctrl+A,
+ Ctrl+V do arquivo novo e "Salvar".
+
+
+3. USAR
+-------
+
+Pesquisar mensagem
+  - Digite como no AVDP: palavras soltas, "frase exata", -palavra (excluir), OU, prefixo*,
+    parecida~, titulo:palavra. Um código de data (65-1127B) também funciona.
+  - Escolha o modo (todas as palavras, frase exata, qualquer palavra, palavras próximas), os anos
+    (1963 ou 1960-1965) e as opções (palavra inteira, variações, parecidas, uma linha por mensagem).
+  - Na lista de resultados: as linhas com "≡" são mensagens achadas pelo título ou pela data;
+    as outras são parágrafos, com o trecho achado entre « ».
+  - Depois de escolher: "Projetar a partir do §", "Adicionar à lista a partir do §",
+    "Adicionar à lista a mensagem inteira" ou "Escolher outro §".
+
+Abrir por data
+  - Digite o código (65-1127B; sem a letra abre o dia todo) ou palavras do título.
+  - Se a mensagem tem mais de uma tradução, escolha a tradução (a primeira é a escolhida no AVDP);
+    depois escolha o § e o que fazer.
+
+Projetar
+  - A mensagem inteira entra na apresentação rápida do Holyrics, começando no § escolhido.
+    Parágrafo grande é dividido em mais de um slide (420 caracteres por slide, dá para mudar).
+  - Passe os slides como no Holyrics (setas, clique). Cada slide mostra embaixo o código e o §.
+
+Adicionar à lista
+  - O botão "Adicionar à lista" põe na lista de reprodução a mensagem que está sendo projetada,
+    a partir do § que está na tela.
+  - A mensagem vai para a lista de reprodução QUE ESTIVER ABERTA no Holyrics.
+  - Há dois jeitos (configuração "Mensagem na lista de reprodução"):
+      "Texto copiado na lista" (padrão) - o item aparece com o nome da mensagem
+        ("63-0324N O Sétimo Selo — §177 [GVD]") e leva o texto do § até o fim, como um texto do
+        Holyrics; funciona mesmo com o módulo desligado (sem o rodapé código + §);
+      "Busca o texto na hora (ação do módulo)" - o item guarda só a referência e, no duplo clique,
+        o módulo lê o texto no banco e projeta a mensagem inteira a partir do §, com rodapé.
+        Na lista ele aparece só como "Mostrar mensagem do AVDP" (o Holyrics não deixa dar nome).
+
+Importar fila do AVDP
+  - No AVDP Busca, na lista de reprodução, use "Exportar esta fila" (fica um arquivo .avdpfila).
+  - No Holyrics, clique em "Importar fila do AVDP": aparecem as filas achadas em Downloads,
+    Área de Trabalho e Documentos (ou "Outro arquivo..." para digitar o caminho).
+  - Antes de mandar, ele mostra para qual programação vai e o resumo; confirme com OK.
+  - Como cada item entra na lista:
+      título "AVDP - nome da fila" no começo;
+      música: a música do Holyrics com o mesmo título (se não existir, vai como texto);
+      versículo: item de versículo na versão do Holyrics com a mesma sigla (ACF, NVI, KJA...);
+      mensagem: como no item acima (ação do módulo ou texto copiado);
+      texto: como texto;
+      mídia (imagem, vídeo, áudio): fica de fora (o arquivo só existe no AVDP).
+
+Configurações do módulo (janela Módulos > "Configurações" do módulo)
+  - Tema das mensagens; máximo de caracteres por slide; rodapé com código e §; como a mensagem
+    entra na lista; máximo de resultados; caminho do banco (vazio = C:\AVDP Holyrics\avdp-mensagens.db);
+    nome do programa (avdp-consulta.exe).
+
+
+4. QUANDO ENTRAREM MENSAGENS NOVAS NO AVDP
+------------------------------------------
+
+O banco do plugin é uma cópia. Depois de baixar mensagens novas no AVDP Busca (Tabernáculo da Fé,
+Busca CBB...), dê dois cliques em  C:\AVDP Holyrics\ATUALIZAR-BANCO-DO-PLUGIN.cmd .
+Ele lê o banco do AVDP deste computador (só lê, não muda nada nele), gera um banco novo do plugin
+(uns 15 segundos) e só troca o antigo depois de conferir o novo. Rode com o Holyrics fechado, ou
+pelo menos sem usar o módulo naquele momento.
+
+
+5. LEVAR PARA O OUTRO COMPUTADOR
+--------------------------------
+
+ 1. Ponha no Google Drive (na mesma pasta do AVDP Busca, fora da pasta do Obsidian):
+      AVDP-Mensagens-Holyrics-1.0.0.zip
+      LEIA-ME - PASSO A PASSO.txt (este arquivo)
+ 2. No outro computador: baixe o zip e siga as partes 1 e 2 deste arquivo.
+    O banco já vai dentro do zip; não precisa do AVDP Busca instalado para o plugin funcionar.
+
+
+6. SE ALGO DER ERRADO
+---------------------
+
+  "não deu para rodar o avdp-consulta.exe" / "o arquivo não está liberado"
+      Confira se o avdp-consulta.exe aparece na aba Arquivos da biblioteca do Holyrics e se ele
+      está marcado em "allowed_files" (Configurações do módulo > Permissões avançadas).
+  "resposta inválida do avdp-consulta.exe"
+      Clique em "Conferir" e veja a linha "Respostas do programa". O módulo mede sozinho o tamanho
+      que chega inteiro e pede as respostas grandes em pedaços; se aparecer "errada" em todos os
+      tamanhos, o log do módulo (janela Módulos > "Log") mostra o que chegou.
+  Os botões do módulo ficam escondidos atrás da prévia ao vivo (janelinha no canto)
+      Encerre a apresentação (ESC sair) ou mova a prévia.
+  "banco das mensagens não encontrado"
+      Rode o INSTALAR.cmd de novo, ou ponha o caminho certo do banco nas configurações do módulo.
+  Antivírus bloqueou o avdp-consulta.exe
+      Libere o arquivo no antivírus (ele só lê o banco e responde ao Holyrics).
+  O item da lista não faz nada
+      O módulo precisa estar ativado; se a "execução condicional" do módulo estiver restrita
+      (só em certos cultos), o item não roda fora deles. Ou troque para "Texto copiado na lista".
+  "Erro ao copiar" no INSTALAR.cmd
+      Feche o Holyrics e rode de novo.

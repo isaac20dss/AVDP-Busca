@@ -1,0 +1,43 @@
+OK   O5 lista do dia existe e está aberta SEX, 16/10/2026
+OK   B5 estrofes numeradas 1, Refrão, 2 ["1","Refrão","2"]
+OK   B3 letra tem rodapé (título · autor · copyright) Teste Gauntlet · Autor Teste · Domínio público
+OK   B1 ⏭ fora do ar começa pelo selecionado (não pula) {"live":"Teste Gauntlet","idx":1}
+OK   B1 ⏭ no ar vai ao próximo 
+OK   B4 "mais tocadas" conta 1 vez por dia play_count=1
+OK   O2 palco mostra título, slide e próximo Teste Gauntlet Refrão (2/3) 08:30 Coro aqui Coro dois A SEGUIR Terceira linha / linha dois Anotação de teste para o palco
+OK   O2 palco mostra a anotação 
+OK   O2 palco mostra o estado da tela (F10 = TELA PRETA) 
+OK   B11 painel ao vivo mostra e troca o tema próprio da música {"shownTheme":"2","live":3,"kind":null}
+OK   B2 dica mostra F10 e Esc (não "B" nem "Espaço") Clique num slide para projetar • → próximo • ← anterior • F10 tela preta • Esc encerrar • Ctrl + K busca geral
+OK   B12/Bi1 trecho 1co 13:4-7 em sequência = 4 slides {"t":"1 Coríntios 13:4-7","n":4}
+OK   Bi1 trecho juntos = 1 slide com 4 versículos {"t":"1 Coríntios 13:4-7","n":1,"refs":4,"txt":"⁴ O amor é sofredor, é benigno; o amor n"}
+OK   Bi1 → depois do trecho continua no versículo seguinte 1 Coríntios 13:8 (ACF)
+OK   Bi12 Ctrl+clique escolhe versículos fora de sequência 2 escolhidos
+OK   Bi12 "Projetar" leva os versículos escolhidos {"t":"João 3:16, 18"}
+OK   Bi12 Shift+clique escolhe o trecho 
+OK   Bi12 Shift+clique não seleciona o texto da página 
+OK   B10 item de Bíblia na lista guarda trecho e versão João 3:1-18 — ACF
+OK   B10 item da lista reabre na versão guardada (NVI) nvi
+OK   Bi3 favorito guardado ["João 3:1-18ACF"]
+OK   Bi3 histórico tem o trecho e os versículos projetados ["João 3:1ACF","Romanos 8:28NVI","João 3:16, 18ACF","João 3:16ACF"]
+OK   Bi5 só a referência na tela João 3:16
+OK   Bi11 versículo longo dividido (opção) {"slides":18,"verses":17,"peek":"² E tirou o rei o seu anel, que…"}
+OK   Bi11 começo do próximo versículo (opção) ² E tirou o rei o seu anel, que…
+OK   Bi8 Ctrl+B passa só por ACF/KJA/NVI kja → nvi → acf → kja
+OK   Bi8 Ctrl+Alt+3 vai direto à 3ª versão nvi
+OK   Bi6 reserva noutra língua espera confirmação A BPM ainda não tem Marcos (tradução incompleta). Mostrando ASV. Não foi projetado porque está noutra língua. Projetar em ASV mesmo assim
+OK   Bi6 "mesmo assim" projeta a reserva Marcos 1:1 (ASV)
+OK   B9 pesquisa só AT rápida 9 ms, 30 versículos
+OK   Bi9 ordem bíblica começa em Gênesis 1:1 Gênesis 1:1
+OK   B13 pesquisa grande mostra "Mostrar mais" Mostrar mais (6670 restantes)
+OK   M9 sugestões ao digitar (palavras e títulos) [" arrebatamento312 §"," arrebatados113 §"," arrebatado103 §"]
+OK   M9 Enter completa a palavra "arrebatamento "
+OK   M9 sugere com a última palavra de 1 letra foi, fazer, fez
+OK   M9 sugere mensagens por código começado (65-11) 65-1121, 65-1125, 65-1126
+OK   B8 leitor destaca a frase, não "Selo(s)" solto 36 destaques, 0 soltos: ["Sétimo Selo","sétimo selo","Sétimo Selo"]
+OK   B6 curinga no meio não vira prefixo 7174 | profeta,projeta,prometa,proveta
+OK   B7 XOR = (fé OU obras) − (fé E obras) 13459 = 13861 − 402
+OK   B7 peso ^3 acha resultados 461
+OK   B7 peso ^5 puxa o termo para o topo "fé" destacado no top 10: 16 → 40
+OK   ordem por título no modo parágrafo 
+42 ok, 0 falhas

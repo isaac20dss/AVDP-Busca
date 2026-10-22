@@ -1,0 +1,310 @@
+{
+  "stamp": "R3 05:51",
+  "versoes_instaladas": [
+    "ACF (pt) Almeida Corrigida Fiel — 31102 versículos",
+    "ASV (en) American Standard Version — 31102 versículos",
+    "BPM (pt) Bíblia Portuguesa Mundial (2022) — 27687 versículos",
+    "KJA (pt) King James Atualizada — 31102 versículos",
+    "KJV (en) King James Version — 31102 versículos",
+    "NVI (pt) Nova Versão Internacional — 31105 versículos"
+  ],
+  "versao_principal": [
+    "acf"
+  ],
+  "cobertura": {
+    "ACF": {
+      "versiculos": 31102,
+      "livros_ausentes": []
+    },
+    "ASV": {
+      "versiculos": 31102,
+      "livros_ausentes": []
+    },
+    "BPM": {
+      "versiculos": 27687,
+      "livros_ausentes": [
+        "Ct",
+        "Ez",
+        "Jl",
+        "Na",
+        "Mc",
+        "Jo",
+        "Fp",
+        "Tg",
+        "1Jo",
+        "2Jo",
+        "3Jo"
+      ]
+    },
+    "KJA": {
+      "versiculos": 31102,
+      "livros_ausentes": []
+    },
+    "KJV": {
+      "versiculos": 31102,
+      "livros_ausentes": []
+    },
+    "NVI": {
+      "versiculos": 31105,
+      "livros_ausentes": []
+    }
+  },
+  "referencias": [
+    {
+      "entrada": "jo 3 16",
+      "resultado": "43:3:16"
+    },
+    {
+      "entrada": "jo3:16",
+      "resultado": "43:3:16"
+    },
+    {
+      "entrada": "João 3.16",
+      "resultado": "43:3:16"
+    },
+    {
+      "entrada": "joao 3 16",
+      "resultado": "43:3:16"
+    },
+    {
+      "entrada": "1co 13:4-7",
+      "resultado": "46:13:4-7"
+    },
+    {
+      "entrada": "1 Co 13 4",
+      "resultado": "46:13:4"
+    },
+    {
+      "entrada": "i samuel 3",
+      "resultado": "9:3"
+    },
+    {
+      "entrada": "sl 23",
+      "resultado": "19:23"
+    },
+    {
+      "entrada": "Sl 119:105",
+      "resultado": "19:119:105"
+    },
+    {
+      "entrada": "gn 1",
+      "resultado": "1:1"
+    },
+    {
+      "entrada": "ap 22 21",
+      "resultado": "66:22:21"
+    },
+    {
+      "entrada": "jd 5",
+      "resultado": "65:1:5"
+    },
+    {
+      "entrada": "Jó 1:1",
+      "resultado": "18:1:1"
+    },
+    {
+      "entrada": "ct 2",
+      "resultado": "22:2"
+    },
+    {
+      "entrada": "mt 5:3-12",
+      "resultado": "40:5:3-12"
+    },
+    {
+      "entrada": "rm 8 28",
+      "resultado": "45:8:28"
+    },
+    {
+      "entrada": "apocalipse",
+      "resultado": "66:1"
+    },
+    {
+      "entrada": "xyz 9",
+      "resultado": null
+    }
+  ],
+  "capitulos_abertos": [
+    {
+      "entrada": "gn 1",
+      "titulo": "Gênesis 1",
+      "versoes": "ACF",
+      "versiculos": 31,
+      "aviso": null
+    },
+    {
+      "entrada": "jo 3",
+      "titulo": "João 3",
+      "versoes": "ACF",
+      "versiculos": 36,
+      "aviso": null
+    },
+    {
+      "entrada": "mc 1",
+      "titulo": "Marcos 1",
+      "versoes": "ACF",
+      "versiculos": 45,
+      "aviso": null
+    },
+    {
+      "entrada": "sl 23",
+      "titulo": "Salmos 23",
+      "versoes": "ACF",
+      "versiculos": 6,
+      "aviso": null
+    },
+    {
+      "entrada": "ap 22",
+      "titulo": "Apocalipse 22",
+      "versoes": "ACF",
+      "versiculos": 21,
+      "aviso": null
+    }
+  ],
+  "pesquisa": [
+    {
+      "caso": "todas",
+      "consulta": "amor Deus",
+      "total": 49,
+      "ms": 314,
+      "referencia": null,
+      "primeiros": [
+        "1 João 4:16: E nós conhecemos, e cremos no ⟦amor⟧ que ⟦Deus⟧ nos tem. ⟦Deus⟧ é ⟦amor⟧; e quem está em ⟦amor⟧ está em ⟦Deus⟧",
+        "1 João 4:8: Aquele que não ama não conhece a ⟦Deus⟧; porque ⟦Deus⟧ é ⟦amor⟧.",
+        "João 5:42: Mas bem vos conheço, que não tendes em vós o ⟦amor⟧ de ⟦Deus⟧."
+      ]
+    },
+    {
+      "caso": "frase exata",
+      "consulta": "no princípio",
+      "total": 25,
+      "ms": 9,
+      "referencia": null,
+      "primeiros": [
+        "João 1:2: Ele estava ⟦no princípio⟧ com Deus.",
+        "Gênesis 1:1: ⟦No princípio⟧ criou Deus os céus e a terra.",
+        "Provérbios 20:21: A herança que ⟦no princípio⟧ é adquirida às pressas, no fim não será abençoada."
+      ]
+    },
+    {
+      "caso": "qualquer",
+      "consulta": "graça misericórdia",
+      "total": 353,
+      "ms": 28,
+      "referencia": null,
+      "primeiros": [
+        "Hebreus 4:16: Cheguemos, pois, com confiança ao trono da ⟦graça⟧, para que possamos alcançar ⟦misericórdia⟧ e achar ⟦graça⟧,",
+        "Daniel 1:9: Ora, Deus fez com que Daniel achasse ⟦graça⟧ e ⟦misericórdia⟧ diante do chefe dos eunucos.",
+        "2 Timóteo 1:2: A Timóteo, meu amado filho: ⟦Graça⟧, ⟦misericórdia⟧, e paz da parte de Deus Pai, e da de Cristo Jesus, Senhor "
+      ]
+    },
+    {
+      "caso": "próximas (até 3)",
+      "consulta": "luz trevas",
+      "total": 29,
+      "ms": 9,
+      "referencia": null,
+      "primeiros": [
+        "Isaías 5:20: Ai dos que ao mal chamam bem, e ao bem mal; que fazem das ⟦trevas⟧ ⟦luz⟧, e da ⟦luz⟧ ⟦trevas⟧; e fazem do amar",
+        "Jó 18:18: Da ⟦luz⟧ o lançarão nas ⟦trevas⟧, e afugentá-lo-ão do mundo.",
+        "Salmos 112:4: Aos justos nasce ⟦luz⟧ nas ⟦trevas⟧; ele é piedoso, misericordioso e justo."
+      ]
+    },
+    {
+      "caso": "palavra inteira desligada",
+      "consulta": "amor",
+      "total": 356,
+      "ms": 35,
+      "referencia": null,
+      "primeiros": [
+        "1 Coríntios 13:4: O ⟦amor⟧ é sofredor, é benigno; o ⟦amor⟧ não é invejoso; o ⟦amor⟧ não trata com leviandade, não se ensoberbece",
+        "Provérbios 7:18: Vem, saciemo-nos de ⟦amores⟧ até à manhã; alegremo-nos com ⟦amores⟧.",
+        "2 Pedro 1:7: E à piedade o ⟦amor⟧ fraternal, e ao ⟦amor⟧ fraternal a caridade."
+      ]
+    },
+    {
+      "caso": "variações",
+      "consulta": "amar",
+      "total": 60,
+      "ms": 11,
+      "referencia": null,
+      "primeiros": [
+        "Tito 2:4: Para que ensinem as mulheres novas a serem prudentes, a ⟦amarem⟧ seus maridos, a ⟦amarem⟧ seus filhos,",
+        "Salmos 18:1: Eu te ⟦amarei⟧, ó SENHOR, fortaleza minha.",
+        "1 Crônicas 6:7: E Meraiote gerou a ⟦Amarias⟧, e ⟦Amarias⟧ gerou a Aitube."
+      ]
+    },
+    {
+      "caso": "aproximada",
+      "consulta": "misericodia",
+      "total": 181,
+      "ms": 40,
+      "referencia": null,
+      "primeiros": [
+        "Salmos 77:9: Esqueceu-se Deus de ter ⟦misericórdia⟧? Ou encerrou ele as suas ⟦misericórdias⟧ na sua ira? (Selá.)",
+        "Salmos 51:1: Tem ⟦misericórdia⟧ de mim, ó Deus, segundo a tua benignidade; apaga as minhas transgressões, segundo a multidã",
+        "Lamentações 3:22: As ⟦misericórdias⟧ do SENHOR são a causa de não sermos consumidos, porque as suas ⟦misericórdias⟧ não têm fim;"
+      ]
+    },
+    {
+      "caso": "acentos ignorados",
+      "consulta": "misericordia",
+      "total": 157,
+      "ms": 20,
+      "referencia": null,
+      "primeiros": [
+        "Tiago 2:13: Porque o juízo será sem ⟦misericórdia⟧ sobre aquele que não fez ⟦misericórdia⟧; e a ⟦misericórdia⟧ triunfa do ",
+        "Romanos 11:31: Assim também estes agora foram desobedientes, para também alcançarem ⟦misericórdia⟧ pela ⟦misericórdia⟧ a vós ",
+        "Jeremias 42:12: E vos concederei ⟦misericórdia⟧, para que ele tenha ⟦misericórdia⟧ de vós, e vos faça voltar à vossa terra."
+      ]
+    },
+    {
+      "caso": "só AT",
+      "consulta": "pastor",
+      "total": 30,
+      "ms": 1526,
+      "referencia": null,
+      "primeiros": [
+        "Ezequiel 34:23: E suscitarei sobre elas um só ⟦pastor⟧, e ele as apascentará; o meu servo Davi é que as apascentará; ele lhes ",
+        "Salmos 23:1: O SENHOR é o meu ⟦pastor⟧, nada me faltará.",
+        "Zacarias 11:15: E o SENHOR disse-me: Toma ainda para ti o instrumento de um ⟦pastor⟧ insensato."
+      ]
+    },
+    {
+      "caso": "só NT",
+      "consulta": "pastor",
+      "total": 13,
+      "ms": 538,
+      "referencia": null,
+      "primeiros": [
+        "João 10:11: Eu sou o bom ⟦Pastor⟧; o bom ⟦Pastor⟧ dá a sua vida pelas ovelhas.",
+        "João 10:2: Aquele, porém, que entra pela porta é o ⟦pastor⟧ das ovelhas.",
+        "1 Pedro 5:4: E, quando aparecer o Sumo ⟦Pastor⟧, alcançareis a incorruptível coroa da glória."
+      ]
+    },
+    {
+      "caso": "só no livro (Salmos)",
+      "consulta": "pastor",
+      "total": 2,
+      "ms": 8,
+      "referencia": null,
+      "primeiros": [
+        "Salmos 23:1: O SENHOR é o meu ⟦pastor⟧, nada me faltará.",
+        "Salmos 80:1: Tu, que és ⟦pastor⟧ de Israel, dá ouvidos; tu, que guias a José como a um rebanho; tu, que te assentas entre o"
+      ]
+    },
+    {
+      "caso": "referência digitada na pesquisa",
+      "consulta": "jo 3 16",
+      "total": 0,
+      "ms": 5,
+      "referencia": {
+        "book": 43,
+        "chapter": 3,
+        "verse": 16,
+        "verse_end": null
+      },
+      "primeiros": []
+    }
+  ],
+  "holyrics_api_versoes": "erro: Error: page.evaluate: Informe o token do API Server do Holyrics em Configurações."
+}

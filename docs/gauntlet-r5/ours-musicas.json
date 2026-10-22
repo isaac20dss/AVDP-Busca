@@ -1,0 +1,58 @@
+{
+  "stamp": "R5 14:58",
+  "musicas_no_banco": 1,
+  "cases": [
+    {
+      "consulta": "hino de teste",
+      "total": 1,
+      "aproximada": false,
+      "ms": 5,
+      "primeiros": [
+        "Hino de Teste: …santo é o Senhor\nDigno ⟦de⟧ louvor\n\nNa noite escura vens a…"
+      ]
+    },
+    {
+      "consulta": "HINO",
+      "total": 1,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": [
+        "Hino de Teste"
+      ]
+    },
+    {
+      "consulta": "hyno",
+      "total": 1,
+      "aproximada": true,
+      "ms": 5,
+      "primeiros": [
+        "Hino de Teste"
+      ]
+    },
+    {
+      "consulta": "santo senhor",
+      "total": 1,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": [
+        "Hino de Teste: ⟦Senhor⟧, Tua palavra é luz\nque guia os passos meus\n\nRefrão\n⟦Santo⟧…"
+      ]
+    },
+    {
+      "consulta": "noite escura",
+      "total": 1,
+      "aproximada": false,
+      "ms": 5,
+      "primeiros": [
+        "Hino de Teste: …Senhor\nDigno de louvor\n\nNa ⟦noite⟧ ⟦escura⟧ vens a mim\ne me…"
+      ]
+    },
+    {
+      "consulta": "xyzabc",
+      "total": 0,
+      "aproximada": false,
+      "ms": 4,
+      "primeiros": []
+    }
+  ]
+}

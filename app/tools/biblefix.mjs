@@ -1,0 +1,15 @@
+export default async ({ main, shot }) => {
+  const state = () => main.evaluate(() => { const s = window.__avdp.getState(); return { live: s.live?.title ?? null, idx: s.liveIndex, slide: s.live?.slides[s.liveIndex]?.footer } })
+  await main.click('.tabs button:nth-child(2)')
+  await main.waitForTimeout(400)
+  await main.click('.center-head h1')
+  await main.keyboard.type('sl 23 1')
+  await main.keyboard.press('Enter')
+  await main.waitForTimeout(1000)
+  console.log('após sl 23 1 + Enter:', JSON.stringify(await state()))
+  await main.keyboard.press('ArrowRight')
+  await main.waitForTimeout(200)
+  console.log('após →:', JSON.stringify(await state()))
+  await shot('70-biblia-sl23')
+  await main.keyboard.press('Escape')
+}

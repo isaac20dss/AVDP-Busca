@@ -1,0 +1,634 @@
+{
+  "stamp": "R5 14:58",
+  "banco": {
+    "datas": 1297,
+    "traducoes": 1740,
+    "com_texto": 722,
+    "paragrafos": 212802
+  },
+  "cases": [
+    {
+      "caso": "todas as palavras",
+      "consulta": "pilar de fogo",
+      "total": 111,
+      "ms": 48,
+      "termos": [
+        "de",
+        "fogo",
+        "pilar"
+      ],
+      "direto": [],
+      "primeiros": [
+        "57-0922N Hebreus, Capítulo 7 #2 §170 · Jeffersonville - Indiana - E.U.A.: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar⟧ ⟦de⟧ ⟦Fogo⟧ que foi adiante dos Filhos ⟦de⟧ Israel. O ⟦Pilar⟧ ⟦",
+        "57-0922N Hebreus capitulo 7 parte 2 §170 · Jeff (IN): E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar⟧ ⟦de⟧ ⟦Fogo⟧ que foi adiante dos Filhos ⟦de⟧ Israel. O ⟦Pilar⟧ ⟦",
+        "57-0922N Hebreus, Capítulo 7 #2 §106 · Jeffersonville - Indiana - E.U.A.: Mas então Aquele mesmo que era carne, se tornou no ⟦Pilar⟧ ⟦de⟧ ⟦Fogo⟧ novamente. “Eu vim ⟦de⟧ Deus. Eu volto para Deus.” Aqui nós encontramos Paulo e"
+      ]
+    },
+    {
+      "caso": "frase exata",
+      "consulta": "pilar de fogo",
+      "total": 108,
+      "ms": 40,
+      "termos": [
+        "de",
+        "fogo",
+        "pilar"
+      ],
+      "direto": [],
+      "primeiros": [
+        "57-0922N Hebreus, Capítulo 7 #2 §170 · Jeffersonville - Indiana - E.U.A.: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar de Fogo⟧ que foi adiante dos Filhos de Israel. O ⟦Pilar de Fogo⟧",
+        "57-0922N Hebreus capitulo 7 parte 2 §170 · Jeff (IN): E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar de Fogo⟧ que foi adiante dos Filhos de Israel. O ⟦Pilar de Fogo⟧",
+        "57-0922N Hebreus, Capítulo 7 #2 §106 · Jeffersonville - Indiana - E.U.A.: Mas então Aquele mesmo que era carne, se tornou no ⟦Pilar de Fogo⟧ novamente. “Eu vim de Deus. Eu volto para Deus.” Aqui nós encontramos Paulo encontr"
+      ]
+    },
+    {
+      "caso": "frase exata pela sintaxe",
+      "consulta": "\"pilar de fogo\"",
+      "total": 108,
+      "ms": 30,
+      "termos": [
+        "de",
+        "fogo",
+        "pilar"
+      ],
+      "direto": [],
+      "primeiros": [
+        "57-0922N Hebreus, Capítulo 7 #2 §170 · Jeffersonville - Indiana - E.U.A.: E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar de Fogo⟧ que foi adiante dos Filhos de Israel. O ⟦Pilar de Fogo⟧",
+        "57-0922N Hebreus capitulo 7 parte 2 §170 · Jeff (IN): E esta pequena, Luz branca, o que é a Luz? O que era aquela Luz branca? Aquele ⟦Pilar de Fogo⟧ que foi adiante dos Filhos de Israel. O ⟦Pilar de Fogo⟧",
+        "57-0922N Hebreus, Capítulo 7 #2 §106 · Jeffersonville - Indiana - E.U.A.: Mas então Aquele mesmo que era carne, se tornou no ⟦Pilar de Fogo⟧ novamente. “Eu vim de Deus. Eu volto para Deus.” Aqui nós encontramos Paulo encontr"
+      ]
+    },
+    {
+      "caso": "proximidade (até 5)",
+      "consulta": "anjo luz",
+      "total": 129,
+      "ms": 40,
+      "termos": [
+        "anjo",
+        "luz"
+      ],
+      "direto": [],
+      "primeiros": [
+        "51-0503 Como Fui Com Moisés §29 · (Obrigado, irmão. Desculpe-me pelo atraso.): E a ⟦Luz⟧ se concentrou em volta do ⟦Anjo⟧, o ⟦Anjo⟧ subiu na ⟦Luz⟧, a ⟦Luz⟧ continuou girando no quarto, e saiu do quarto. E estou… É só o que posso ",
+        "61-0216 A Marca da Besta e o Selo de Deus #1 §66 · Long Beach - Califórnia – E. U. A.: Se você for comigo agora em II Coríntios 11:14, a Bíblia diz que ele se transformou em um ⟦anjo⟧ de ⟦luz⟧. Você simplesmente subestima a Satanás; isto",
+        "63-0123 Identificação §161: A Bíblia disse: “Seu rosto era como o de um ⟦Anjo⟧. ” Não creio que fosse como ⟦luz⟧ elétrica, ou algo assim. Um ⟦Anjo⟧ conhece sua posição. Um Anjo n"
+      ]
+    },
+    {
+      "caso": "qualquer palavra",
+      "consulta": "arrebatamento rapto",
+      "total": 801,
+      "ms": 59,
+      "termos": [
+        "arrebatamento",
+        "rapto"
+      ],
+      "direto": [
+        "65-1204 O Arrebatamento"
+      ],
+      "primeiros": [
+        "60-1211M As Dez Virgens §34 · Jeffersonville – Indiana – E.U.A.: …E então quando isto acontecer, haverá o ⟦arrebatamento⟧ da Igreja, que subirá, e depois a volta de Cristo. E recordem agora, quando… Qual é a coisa s",
+        "60-1211M As dez virgens §34 · Jeff (IN): …E então quando isto acontecer, haverá o ⟦arrebatamento⟧ da Igreja, que subirá, e depois a volta de Cristo. E recordem agora, quando... Qual é a coisa",
+        "65-1204 O Arrebatamento §81 · Yuma – Arizona – E.U.A.: Agora, o ⟦Arrebatamento⟧ é só…Este ⟦Arrebatamento⟧ acerca do qual estamos falando, é só para a Noiva. Lembre-se, a Bíblia disse: “E os outros mortos n"
+      ]
+    },
+    {
+      "caso": "OU na sintaxe",
+      "consulta": "Laodiceia OU Éfeso",
+      "total": 890,
+      "ms": 62,
+      "termos": [
+        "efeso",
+        "laodiceia"
+      ],
+      "direto": [
+        "58-0609 A Mensagem à Igreja de Laodiceia",
+        "60-1205 A Era da Igreja de Éfeso",
+        "60-1211N As Sete Eras da Igreja - A era da Igreja de Laodicéia"
+      ],
+      "primeiros": [
+        "54-0513 A Marca da Besta §3: …E começamos com a Era da Igreja de ⟦Éfeso⟧, de ⟦Éfeso⟧; e terminamos na Era da Igreja de ⟦Laodicéia⟧, a última era da igreja. E que o Senhor acrescen",
+        "54-0513 A MARCA DA BESTA §3 · Tabernáculo Branham em Jeffersonville, Indiana, E.U.A.: …E começamos com a Era da Igreja de ⟦Éfeso⟧, de ⟦Éfeso⟧; e terminamos na Era da Igreja de ⟦Laodicéia⟧, a última era da igreja. E que o Senhor acrescen",
+        "54-0513 A marca da besta §3 · Jeff (IN): …E começamos com a Era da Igreja de ⟦Éfeso⟧, de ⟦Éfeso⟧; e terminamos na Era da Igreja de ⟦Laodicéia⟧, a última era da igreja. E que o Senhor acrescen"
+      ]
+    },
+    {
+      "caso": "variações (radical)",
+      "consulta": "profetizar",
+      "total": 1345,
+      "ms": 87,
+      "termos": [
+        "profetiza",
+        "profetizada",
+        "profetizadas",
+        "profetizado",
+        "profetizador",
+        "profetizadores",
+        "profetizados",
+        "profetizam",
+        "profetizamos",
+        "profetizando",
+        "profetizar",
+        "profetizara"
+      ],
+      "direto": [],
+      "primeiros": [
+        "63-0322 O Quinto Selo §304: Agora, notem, no meio destas três semanas e meia agora, em que eles estão ⟦profetizando⟧ aqui embaixo e o—o Apocalipse aqui disse…E eles—eles ⟦profeti",
+        "63-0322 Quinto selo §304 · Jeff (IN): Agora, notem, no meio destas três semanas e meia agora, em que eles estão ⟦profetizando⟧ aqui embaixo e o—o Apocalipse aqui disse…E eles—eles ⟦profeti",
+        "57-0120N Deus Guarda Sua Palavra §140 · Jeffersonville - Indiana - E.U.A.: Agora, nós vamos dizer o que as Escrituras dizem. Ele disse: “Micaías, os outros profetas ⟦profetizaram⟧ coisas boas para o nosso rei. E por outro lad"
+      ]
+    },
+    {
+      "caso": "aproximada (erro de digitação)",
+      "consulta": "arebatamento",
+      "total": 313,
+      "ms": 85,
+      "termos": [
+        "arebatamento",
+        "arrebatamento",
+        "arrebatamentos"
+      ],
+      "direto": [
+        "65-1204 O Arrebatamento"
+      ],
+      "primeiros": [
+        "65-1204 O Arrebatamento §181 · Yuma – Arizona – E.U.A.: Agora nós estamos prontos, esperando pelos ⟦arrebatamentos⟧, o ⟦Arrebatamento⟧ dos santos. Foi falado, e assim será. Quando diz algo: “Passarão todos ",
+        "65-1204 O Arrebatamento §180 · Yuma – Arizona – E.U.A.: …Então o espírito de vida entrou neles, e eles foram arrebatados, elevados ao Céu.” Aí estão seus três ⟦arrebatamentos⟧ do Novo Testamento. Três ⟦arre",
+        "65-1204 O Arrebatamento §167 · Yuma – Arizona – E.U.A.: …Agora nós já tivemos três ⟦arrebatamentos⟧ no Antigo Testamento. Você sabia disso? Como uma testemunha. Agora observe. Enoque foi um; Elias foi o out"
+      ]
+    },
+    {
+      "caso": "aproximada pela sintaxe",
+      "consulta": "arebatamento~",
+      "total": 313,
+      "ms": 85,
+      "termos": [
+        "arebatamento",
+        "arrebatamento",
+        "arrebatamentos"
+      ],
+      "direto": [
+        "65-1204 O Arrebatamento"
+      ],
+      "primeiros": [
+        "65-1204 O Arrebatamento §181 · Yuma – Arizona – E.U.A.: Agora nós estamos prontos, esperando pelos ⟦arrebatamentos⟧, o ⟦Arrebatamento⟧ dos santos. Foi falado, e assim será. Quando diz algo: “Passarão todos ",
+        "65-1204 O Arrebatamento §180 · Yuma – Arizona – E.U.A.: …Então o espírito de vida entrou neles, e eles foram arrebatados, elevados ao Céu.” Aí estão seus três ⟦arrebatamentos⟧ do Novo Testamento. Três ⟦arre",
+        "65-1204 O Arrebatamento §167 · Yuma – Arizona – E.U.A.: …Agora nós já tivemos três ⟦arrebatamentos⟧ no Antigo Testamento. Você sabia disso? Como uma testemunha. Agora observe. Enoque foi um; Elias foi o out"
+      ]
+    },
+    {
+      "caso": "curinga no fim",
+      "consulta": "serpent*",
+      "total": 1329,
+      "ms": 68,
+      "termos": [
+        "serpent"
+      ],
+      "direto": [
+        "53-1121 Brass Serpent",
+        "58-0928N A Semente da Serpente",
+        "61-0611 Apocalipse, Capítulo Cinco - 1ª Parte - A Serpente Ferida"
+      ],
+      "primeiros": [
+        "63-0428 Olhe §138 · Phoenix - Arizona – E. U. A.: — Mas quando o verdadeiro crente saiu ali e olhou para aquela ⟦serpente⟧, com a Verdade espiritual revelada... Aquela própria ⟦serpente⟧, sendo ela na",
+        "55-0221 Cristo §25 · Phoenix, Arizona — EUA: Quando Cristo, no Velho Testamento, foi feito na forma de uma ⟦serpente⟧... por que o Senhor Jesus Cristo representaria uma ⟦serpente⟧? Porque ela – a",
+        "59-0920 Plantando a Vinha e Onde Plantá-la §34 · Nós temos tantas coisas, mas Tu conheces o nosso: E Moisés estava no final da sua capacidade, então Deus interveio e fez com que sua ⟦serpente⟧ comesse a ⟦serpente⟧ do outro homem. Então acabou-se a ⟦"
+      ]
+    },
+    {
+      "caso": "curinga no meio",
+      "consulta": "pro?eta",
+      "total": 7174,
+      "ms": 179,
+      "termos": [
+        "profeta",
+        "projeta",
+        "prometa",
+        "proveta"
+      ],
+      "direto": [
+        "53-0800 O Profeta do Século XX",
+        "54-0723 O Profeta Eliseu",
+        "55-1125 Um Profeta Envergonhado",
+        "56-1002N Eliseu, O Profeta",
+        "56-1125N Um Profeta Envergonhado"
+      ],
+      "primeiros": [
+        "61-0827 A Mensagem da Graça §193: Um ⟦profeta⟧ não é ⟦profeta⟧ se alguém impõe as mãos sobre ele e o torna ⟦profeta⟧. Um ⟦profeta⟧ nasce desde o ventre da mãe, é um ⟦profeta⟧, vejam, a",
+        "62-1013 A influência de um homem sobre outro §163 · Jeff (IN): 128- Isaias disse: \"Ai de mim!\" Um ⟦profeta⟧, um ⟦profeta⟧ vindicado, nasceu ⟦profeta⟧, o ⟦profeta⟧ maior da Bíblia; e ele disse:",
+        "65-0410 O Selo da Páscoa §208 · Phoenix – Arizona – E.U.A.: Eles sabiam que era um ⟦profeta⟧. Abraão era um ⟦profeta⟧. Isaque era um ⟦profeta⟧. Jacó era um ⟦profeta⟧. José era um ⟦profeta⟧. E eles tinham a reve"
+      ]
+    },
+    {
+      "caso": "excluir",
+      "consulta": "semente serpente -Eva",
+      "total": 303,
+      "ms": 45,
+      "termos": [
+        "semente",
+        "serpente"
+      ],
+      "direto": [
+        "58-0928N A Semente da Serpente"
+      ],
+      "primeiros": [
+        "61-0806 As Setenta Semanas de Daniel §23 · Jeffersonville – Indiana – E.U.A.: E a ⟦semente⟧ da ⟦serpente⟧, esse é o assassino. Muita gente não crê nisso. Porém se você tão somente lesse em Gênesis, a Bíblia diz que a ⟦serpente⟧ ",
+        "61-0806 Setenta semanas de Daniel §32 · Jeff (IN): 23- E a ⟦semente⟧ da ⟦serpente⟧, esse é o assassino. Muita gente não crê nisso. Porém se você tão somente lesse em Gênesis, a Bíblia diz que a ⟦serpen",
+        "61-0618 Apocalipse, Capítulo Cinco - 2ª Parte §144 · Jeffersonville – Indiana – E.U.A.: E a ⟦semente⟧ da ⟦serpente⟧ tem sido desde Gênesis. Se a ⟦serpente⟧ não tivesse vindo, se ele não tivesse nenhuma ⟦semente⟧, então Cristo não teria na"
+      ]
+    },
+    {
+      "caso": "acentos ignorados",
+      "consulta": "graca",
+      "total": 3824,
+      "ms": 123,
+      "termos": [
+        "graca"
+      ],
+      "direto": [
+        "54-1006 Lei ou Graça",
+        "61-???? A Igreja mudando da lei para a graça",
+        "61-0317 O pacto da graça de Abraão",
+        "61-0827 A Mensagem da Graça"
+      ],
+      "primeiros": [
+        "61-0827 A Mensagem da Graça §148: Só isso, foi a ⟦graça⟧ que me trouxe. A ⟦graça⟧ o fez. A ⟦graça⟧ é como… outra coisa que gostaria de dizer , às vezes a ⟦graça⟧ é…",
+        "61-0827 A Mensagem da Graça §138: É isso, ⟦graça⟧, a ⟦graça⟧ de Deus. A ⟦graça⟧ de Deus fez uma sombra… Deus trouxe ⟦graça⟧ à nossa vida pelo Seu amor por nós. Isto é o que a ⟦graça⟧ n",
+        "61-0827 A mensagem de graça §82 · Jeff (IN): Mas a ⟦graça⟧ foi prometida no Jardim do Éden, e a ⟦graça⟧ veio, ⟦graça⟧ para Adão e Eva. Nenhum lugar para ir, nem para onde virar, e ainda a ⟦graça⟧"
+      ]
+    },
+    {
+      "caso": "número por extenso",
+      "consulta": "sete selos",
+      "total": 472,
+      "ms": 47,
+      "termos": [
+        "selos",
+        "sete"
+      ],
+      "direto": [
+        "63-0317N A Brecha Entre As Sete Eras da Igreja e Os Sete Selos"
+      ],
+      "primeiros": [
+        "63-1110M Almas Que Estão Em Prisão Agora §141 · Jeffersonville – Indiana – E.U.A.: Os mistérios estavam nos ⟦Sete⟧ ⟦Selos⟧. Quando estes ⟦Sete⟧ ⟦Selos⟧ foram abertos, isso abriu a Bíblia inteira. Os ⟦Sete⟧ ⟦Selos⟧; Ela foi selada com",
+        "63-1110M Almas que estão em prisão agora §141 · Jeff (IN): Os mistérios estavam nos ⟦Sete⟧ ⟦Selos⟧. Quando estes ⟦Sete⟧ ⟦Selos⟧ foram abertos, isso abriu a Bíblia inteira. Os ⟦Sete⟧ ⟦Selos⟧; Ela foi selada com",
+        "62-1230N Senhores, É Este o Tempo? §206 · Jeffersonville – Indiana – E.U.A.: …E agora nisto, concordará exatamente nestes ⟦sete⟧ ⟦selos⟧ sobre os quais viremos falar. E os ⟦sete⟧ ⟦selos⟧ dos quais estamos tratando de falar quan"
+      ]
+    },
+    {
+      "caso": "número em algarismo",
+      "consulta": "7 selos",
+      "total": 52,
+      "ms": 33,
+      "termos": [
+        "7",
+        "selos"
+      ],
+      "direto": [],
+      "primeiros": [
+        "61-0730N O sêxtuplo propósito da visita de Gabriel à Daniel §255 · Jeff (IN): [Aquele Cordeiro com estes ⟦7⟧ ⟦Selos⟧, somente no céu e na terra foi capaz de tomar]...",
+        "63-1110M Almas Que Estão Em Prisão Agora §156 · Jeffersonville – Indiana – E.U.A.: Note, era a Mensagem do sétimo anjo que devia revelar o sétimo, os Sete ⟦Selos⟧. Apocalipse 10:⟦7⟧, agora, você encontrará isto. Vê?",
+        "63-1110M Almas que estão em prisão agora §156 · Jeff (IN): Note, era a Mensagem do sétimo anjo que devia revelar o sétimo, os Sete ⟦Selos⟧. Apocalipse 10:⟦7⟧, agora, você encontrará isto. Vê?"
+      ]
+    },
+    {
+      "caso": "código de data",
+      "consulta": "65-1127B",
+      "total": 0,
+      "ms": 5,
+      "termos": [],
+      "direto": [
+        "65-1127C Tentando Fazer Um Serviço Para Deus Sem Ser da Vontade de Deus",
+        "65-1127N Ouvi, Mas Agora Vejo"
+      ],
+      "primeiros": []
+    },
+    {
+      "caso": "código de data longo",
+      "consulta": "1965-1127",
+      "total": 0,
+      "ms": 5,
+      "termos": [],
+      "direto": [
+        "65-1127C Tentando Fazer Um Serviço Para Deus Sem Ser da Vontade de Deus",
+        "65-1127N Ouvi, Mas Agora Vejo"
+      ],
+      "primeiros": []
+    },
+    {
+      "caso": "só títulos",
+      "consulta": "titulo:selo",
+      "total": 14,
+      "ms": 28,
+      "termos": [],
+      "direto": [
+        "54-0514 O Selo de Deus",
+        "55-0311 O Selo Do Anticristo",
+        "55-0312 O Selo De Cristo",
+        "61-0216 A Marca da Besta e o Selo de Deus #1",
+        "61-0217 A Marca da Besta e o Selo de Deus #2"
+      ],
+      "primeiros": []
+    },
+    {
+      "caso": "XOR (The Table tem)",
+      "consulta": "fé XOR obras",
+      "total": 13459,
+      "ms": 242,
+      "termos": [
+        "fe",
+        "obras"
+      ],
+      "direto": [
+        "47-???? Fé é a substância",
+        "47-0412 A Fé É o Firme Fundamento",
+        "47-1204 A FÉ É O FIRME FUNDAMENTO",
+        "51-0508 Fé É A Substância",
+        "54-0320 A Fé Vem Pelo Ouvir"
+      ],
+      "primeiros": [
+        "63-1103 Vá Despertar Jesus §213 · Fiquemos de pé um momento agora, e vamos fazer uma: Alguém disse: “Oh, fazemos ⟦obras⟧ maiores. ” Bem, apenas faça as ⟦obras⟧ primeiro, veja. E apenas faça as ⟦obras⟧. Está vendo?",
+        "59-1220M Conferência Com Deus §40: Ele disse: “Se não podeis crer que Eu o sou, então crede nas ⟦obras⟧ que Eu faço. Porque se não faço as ⟦obras⟧ de Meu Pai, então não me acrediteis. M",
+        "59-1220M CONFERÊNCIA COM DEUS §40 · Tabernáculo Branham Jeffersonville, Indiana E.U.A.: Ele disse: “Se não podeis crer que Eu o sou, então crede nas ⟦obras⟧ que Eu faço. Porque se não faço as ⟦obras⟧ de Meu Pai, então não me acrediteis. M"
+      ]
+    },
+    {
+      "caso": "proximidade na sintaxe",
+      "consulta": "\"anjo luz\"~5",
+      "total": 129,
+      "ms": 40,
+      "termos": [
+        "anjo",
+        "luz"
+      ],
+      "direto": [],
+      "primeiros": [
+        "51-0503 Como Fui Com Moisés §29 · (Obrigado, irmão. Desculpe-me pelo atraso.): E a ⟦Luz⟧ se concentrou em volta do ⟦Anjo⟧, o ⟦Anjo⟧ subiu na ⟦Luz⟧, a ⟦Luz⟧ continuou girando no quarto, e saiu do quarto. E estou… É só o que posso ",
+        "61-0216 A Marca da Besta e o Selo de Deus #1 §66 · Long Beach - Califórnia – E. U. A.: Se você for comigo agora em II Coríntios 11:14, a Bíblia diz que ele se transformou em um ⟦anjo⟧ de ⟦luz⟧. Você simplesmente subestima a Satanás; isto",
+        "63-0123 Identificação §161: A Bíblia disse: “Seu rosto era como o de um ⟦Anjo⟧. ” Não creio que fosse como ⟦luz⟧ elétrica, ou algo assim. Um ⟦Anjo⟧ conhece sua posição. Um Anjo n"
+      ]
+    },
+    {
+      "caso": "parênteses",
+      "consulta": "(arrebatamento OU rapto) noiva",
+      "total": 137,
+      "ms": 35,
+      "termos": [
+        "arrebatamento",
+        "noiva",
+        "rapto"
+      ],
+      "direto": [],
+      "primeiros": [
+        "65-1204 O Arrebatamento §65 · Yuma – Arizona – E.U.A.: Mas, para a Igreja, a ⟦Noiva⟧, o ⟦Arrebatamento⟧ é uma revelação para Ela. É revelado a Ela. Que, a revelação, a verdadeira ⟦Noiva⟧ de Cristo estará e",
+        "65-1204 O Arrebatamento §81 · Yuma – Arizona – E.U.A.: Agora, o ⟦Arrebatamento⟧ é só…Este ⟦Arrebatamento⟧ acerca do qual estamos falando, é só para a ⟦Noiva⟧. Lembre-se, a Bíblia disse: “E os outros mortos",
+        "60-1204M A Revelação de Jesus Cristo §350 · HOW THE ANGEL CAME TO ME, AND HIS 77: Para onde irá a Igreja gentia no ⟦Arrebatamento⟧? Para o Palácio. A ⟦Noiva⟧, aleluia, a ⟦Noiva⟧ será tirada da terra, no ⟦Arrebatamento⟧. Então quando"
+      ]
+    },
+    {
+      "caso": "curinga com peso igual entre formas",
+      "consulta": "pro?eta",
+      "total": 7174,
+      "ms": 176,
+      "termos": [
+        "profeta",
+        "projeta",
+        "prometa",
+        "proveta"
+      ],
+      "direto": [
+        "53-0800 O Profeta do Século XX",
+        "54-0723 O Profeta Eliseu",
+        "55-1125 Um Profeta Envergonhado",
+        "56-1002N Eliseu, O Profeta",
+        "56-1125N Um Profeta Envergonhado"
+      ],
+      "primeiros": [
+        "61-0827 A Mensagem da Graça §193: Um ⟦profeta⟧ não é ⟦profeta⟧ se alguém impõe as mãos sobre ele e o torna ⟦profeta⟧. Um ⟦profeta⟧ nasce desde o ventre da mãe, é um ⟦profeta⟧, vejam, a",
+        "62-1013 A influência de um homem sobre outro §163 · Jeff (IN): 128- Isaias disse: \"Ai de mim!\" Um ⟦profeta⟧, um ⟦profeta⟧ vindicado, nasceu ⟦profeta⟧, o ⟦profeta⟧ maior da Bíblia; e ele disse:",
+        "65-0410 O Selo da Páscoa §208 · Phoenix – Arizona – E.U.A.: Eles sabiam que era um ⟦profeta⟧. Abraão era um ⟦profeta⟧. Isaque era um ⟦profeta⟧. Jacó era um ⟦profeta⟧. José era um ⟦profeta⟧. E eles tinham a reve"
+      ]
+    },
+    {
+      "caso": "exclusão também nos títulos",
+      "consulta": "graça -lei",
+      "total": 3583,
+      "ms": 121,
+      "termos": [
+        "graca"
+      ],
+      "direto": [
+        "61-0317 O pacto da graça de Abraão",
+        "61-0827 A Mensagem da Graça"
+      ],
+      "primeiros": [
+        "61-0827 A Mensagem da Graça §148: Só isso, foi a ⟦graça⟧ que me trouxe. A ⟦graça⟧ o fez. A ⟦graça⟧ é como… outra coisa que gostaria de dizer , às vezes a ⟦graça⟧ é…",
+        "61-0827 A Mensagem da Graça §138: É isso, ⟦graça⟧, a ⟦graça⟧ de Deus. A ⟦graça⟧ de Deus fez uma sombra… Deus trouxe ⟦graça⟧ à nossa vida pelo Seu amor por nós. Isto é o que a ⟦graça⟧ n",
+        "61-0827 A mensagem de graça §82 · Jeff (IN): Mas a ⟦graça⟧ foi prometida no Jardim do Éden, e a ⟦graça⟧ veio, ⟦graça⟧ para Adão e Eva. Nenhum lugar para ir, nem para onde virar, e ainda a ⟦graça⟧"
+      ]
+    },
+    {
+      "caso": "peso/boost (The Table tem)",
+      "consulta": "graça^3 fé",
+      "total": 461,
+      "ms": 59,
+      "termos": [
+        "fe",
+        "graca"
+      ],
+      "direto": [],
+      "primeiros": [
+        "61-0827 A Mensagem da Graça §89: Como Ele tomou o bom Abraão, trouxe-o de volta! E lembre-se, Abraão não foi salvo pelas suas obras, foi salvo pela ⟦graça⟧. Abraão foi salvo pela ⟦fé⟧",
+        "61-0423 Abraão e sua semente depois dele §59 · Chicago (IL): …Agora, como nós chamamos o… Como Ele chamou a Abraão Por ⟦fé⟧, chamou-o pela ⟦graça⟧, salvou-o pela ⟦graça⟧, o justificou pela ⟦graça⟧. Está correto ",
+        "61-0827 A mensagem de graça §89 · Jeff (IN): Como Ele levou bem o velho Abraão, o trouxe de volta! E recordem, Abraão não foi salvo por suas obras, ele foi salvo pela ⟦graça⟧. Abraão foi salvo pe"
+      ]
+    },
+    {
+      "caso": "local (filtro)",
+      "consulta": "fé",
+      "total": 2224,
+      "ms": 190,
+      "termos": [
+        "fe"
+      ],
+      "direto": [
+        "47-???? Fé é a substância",
+        "47-0412 A Fé É o Firme Fundamento",
+        "47-1204 A FÉ É O FIRME FUNDAMENTO",
+        "51-0508 Fé É A Substância",
+        "53-0905 Fé Sem Obras É Morta"
+      ],
+      "primeiros": [
+        "58-1002 Mas ao Princípio Não Foi Assim §73 · Jeffersonville – Indiana – E.U.A.: Há somente uma ⟦fé⟧. A Bíblia diz assim. Não ⟦fé⟧ em um credo, não ⟦fé⟧ em uma denominação, mas ⟦fé⟧ em Deus. Esta é a única ⟦fé⟧ que há. Uma só ⟦fé⟧,",
+        "58-1004 A Fé É A Nossa Vitória §64 · Jeffersonville - Indiana - E. U. A.: E a ⟦fé⟧ é a vitória que vence toda a maldição do diabo. A ⟦fé⟧ é a vitória. ⟦Fé⟧ em quê? Não é ⟦fé⟧ na sua igreja, não é ⟦fé⟧ no seu credo, não é ⟦fé",
+        "58-1004 A Fé É A Nossa Vitória §116 · Jeffersonville - Indiana - E. U. A.: Qual é a diferença entre você está aqui, ou está sentado onde está? Mas vai ser preciso um pouco de ⟦fé⟧ para fazer isso. Vai ser necessária a sua ⟦fé"
+      ]
+    },
+    {
+      "caso": "ordenar por título",
+      "consulta": "pilar de fogo",
+      "total": 108,
+      "ms": 40,
+      "termos": [
+        "de",
+        "fogo",
+        "pilar"
+      ],
+      "direto": [],
+      "primeiros": [
+        "63-0120M A Voz de Deus Nestes Últimos Dias §17 · Phoenix – Arizona – E.U.A.: E esta manhã nos traz recordações, recordações de um avivamento que estava só começando, com o Espírito Santo que havia descido na forma de uma grande",
+        "63-0120M A Voz de Deus Nestes Últimos Dias §103 · Phoenix – Arizona – E.U.A.: …Ele viu um ⟦Pilar de Fogo⟧ e ele conheceu que havia algo diferente. E isto mudou sua vida. Não importava quantos fariseus, quantos Gamaliéis ou qualq",
+        "61-0730M As Setenta Semanas de Daniel - Instruções de Gabriel a Daniel §20 · Jeffersonville – Indiana – E.U.A.: …Agora, nós não somos Moisés, nem estes são os anciãos, porém estamos todavia servindo ao Deus Jeová com o mesmo ⟦Pilar de Fogo⟧ guiando-nos à terra p"
+      ]
+    },
+    {
+      "caso": "ordenar por local",
+      "consulta": "pilar de fogo",
+      "total": 108,
+      "ms": 34,
+      "termos": [
+        "de",
+        "fogo",
+        "pilar"
+      ],
+      "direto": [],
+      "primeiros": [
+        "53-???? O homem interno §51 · Chicago (IL): …Agora, aqui está Ele num ⟦Pilar de Fogo⟧. Ninguém podia tocá-lO. Ele é Santo. Ninguém podia chegar perto Dele. Não, senhor. E quando Ele veio naquela",
+        "53-???? O homem interno §52 · Chicago (IL): …Deus apareceu lá em um ⟦Pilar de fogo⟧. Então a próxima vez que Ele apareceu em uma forma visível, foi quando Ele apareceu em Seu Filho, Cristo Jesus",
+        "53-???? O homem interno §96 · Chicago (IL): …Se representou num ⟦Pilar de Fogo⟧, em água num certo tempo. E Se representou em forma de pomba uma vez, descendo, então foi representado em Jesus Cr"
+      ]
+    },
+    {
+      "caso": "por mensagem + anos 1963–65 + data",
+      "consulta": "pilar de fogo",
+      "total": 13,
+      "ms": 43,
+      "termos": [
+        "de",
+        "fogo",
+        "pilar"
+      ],
+      "direto": [],
+      "primeiros": [
+        "63-0120M A Voz de Deus Nestes Últimos Dias (2 parágrafos) · Phoenix – Arizona – E.U.A.: …Ele viu um ⟦Pilar de Fogo⟧ e ele conheceu que havia algo diferente. E isto mudou sua vida. Não importava quantos fariseus, quantos Gamaliéis ou qualq",
+        "63-0120M Voz de Deus Nestes ultimo dias (2 parágrafos) · Phoenix (AZ): …Ele viu um ⟦Pilar de Fogo⟧ e ele conheceu que havia algo diferente. E isto mudou sua vida. Não importava quantos fariseus, quantos Gamaliéis ou qualq",
+        "63-0428 Olhe (2 parágrafos) · Phoenix (AZ): Observe aquele grande ⟦Pilar de Fogo⟧ que guiou os filhos de Israel. Qualquer pessoa, qualquer mestre na Bíblia sabe que aquele era o Anjo do pacto, J"
+      ]
+    }
+  ],
+  "sugestoes_ao_digitar": [
+    {
+      "digitado": "arreb",
+      "ms": 11,
+      "pares": [],
+      "palavras": [
+        "arrebatamento (312)",
+        "arrebatados (113)",
+        "arrebatado (103)",
+        "arrebatada (81)",
+        "arrebata (26)",
+        "arrebentou (16)",
+        "arrebanhar (14)",
+        "arrebatara (14)"
+      ],
+      "titulos": [
+        "65-1204 O Arrebatamento"
+      ]
+    },
+    {
+      "digitado": "sete se",
+      "ms": 301,
+      "pares": [
+        "sete selos (≈68)",
+        "sete semanas (≈17)",
+        "sete sete (≈8)",
+        "sete se (≈3)",
+        "sete sétimo (≈1)"
+      ],
+      "palavras": [
+        "se (96305)",
+        "seu (42222)",
+        "senhor (40863)",
+        "ser (30163)",
+        "seus (19562)",
+        "seja (13641)",
+        "sei (10682)",
+        "sempre (9858)"
+      ],
+      "titulos": [
+        "54-0512 As Sete Eras da Igreja",
+        "55-0120 Os Sete Nomes Compostos De Jeová",
+        "60-1204N As Sete Eras da Igreja - A Visão de Patmos",
+        "60-1204 Uma Exposição das Sete Eras da Igreja",
+        "60-1206 As Sete Eras da Igreja - A Era da Igreja de Smirna",
+        "60-1207 As Sete Eras da Igreja - A Era da Igreja de Pérgamo"
+      ]
+    },
+    {
+      "digitado": "pilar de ",
+      "ms": 236,
+      "pares": [
+        "pilar de fogo (≈141)",
+        "pilar de pedra (≈2)",
+        "pilar de luz (≈1)",
+        "pilar de si (≈1)"
+      ],
+      "palavras": [],
+      "titulos": []
+    },
+    {
+      "digitado": "pilar de f",
+      "ms": 247,
+      "pares": [
+        "pilar de fogo (≈141)"
+      ],
+      "palavras": [
+        "foi (36939)",
+        "fazer (25777)",
+        "fez (14581)",
+        "filho (12280)",
+        "fe (11390)",
+        "faz (11284)",
+        "fora (9897)",
+        "falar (8176)"
+      ],
+      "titulos": []
+    },
+    {
+      "digitado": "o sétimo se",
+      "ms": 858,
+      "pares": [
+        "o setimo selo (≈100)",
+        "o setimo segundo (≈1)"
+      ],
+      "palavras": [
+        "se (96305)",
+        "seu (42222)",
+        "senhor (40863)",
+        "ser (30163)",
+        "seus (19562)",
+        "seja (13641)",
+        "sei (10682)",
+        "sempre (9858)"
+      ],
+      "titulos": [
+        "63-0324N O Sétimo Selo"
+      ]
+    },
+    {
+      "digitado": "65-11",
+      "ms": 12,
+      "pares": [],
+      "palavras": [],
+      "titulos": [
+        "65-1121 What House Will You Build Me?",
+        "65-1125 A União Invisível da Noiva de Cristo",
+        "65-1126 Obra é Fé Expressada",
+        "65-1127C Tentando Fazer Um Serviço Para Deus Sem Ser da Vontade de Deus",
+        "65-1127N Ouvi, Mas Agora Vejo",
+        "65-1128M O Único Lugar Provido Por Deus Para Adoração",
+        "65-1128N Nas Asas de Uma Pomba Branca"
+      ]
+    }
+  ]
+}

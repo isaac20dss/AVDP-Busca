@@ -1,0 +1,30 @@
+OK   R10 "anjo luz"~5 = modo Próximas até 5 129 = 129
+OK   R10 parênteses: (arrebatamento OU rapto) noiva 137 entre 85 e 139
+OK   R8 curinga: a forma comum (profeta) vem primeiro ⟦profeta⟧
+OK   R8 aproximada: a forma comum (arrebatamento) vem primeiro ⟦arrebatamentos⟧
+OK   R9 XOR não traz título com as duas palavras Fé é a substância | A Fé É o Firme Fundamento | A FÉ É O FIRME FUNDAMENTO | Fé É A Substância | A Fé Vem Pelo Ouvir | Fundamento necessário à fé | A Base Fundamental Para A Fé | Batalhando Pela Fé
+OK   R9 exclusão vale nos títulos O pacto da graça de Abraão | A Mensagem da Graça
+OK   R9 palavra curta ("fé") também puxa título Fé é a substância | A Fé É o Firme Fundamento
+OK   R9 títulos diretos obedecem ao filtro de anos 65-1126
+OK   R9 palavra vazia ("de") não puxa título 
+OK   R7 "sete se" sugere "sete selos" sete selos (68), sete semanas (17), sete sete (8)
+OK   R7 o par mostra o que foi digitado (com acento) o sétimo selo
+OK   R7 "pilar de " sugere a palavra seguinte (fogo) pilar de fogo, pilar de pedra, pilar de luz
+OK   R7 lista de sugestões mostra o par primeiro pair |  sete selos≈ 68
+OK   R7 Enter completa com o par 
+OK   Mídia sem o botão "Papel de parede" Projetar | Lista
+OK   Exportar: "Cancelar" não envia nada CheckPermissions, GetCurrentSchedule, GetBibleVersionsV2
+OK   Exportar: confirmação diz para qual programação do Holyrics vai Enviar os 6 itens de "Lista" para o Holyrics? / Vai para a programação aberta nele agora: Culto de domingo · 2026-10-18 19:00
+OK   Exportar: confere permissões antes e usa o token CheckPermissions, GetCurrentSchedule, GetBibleVersionsV2, SearchLyrics, SearchLyrics, AddToPlaylist
+OK   Exportar: 1º item é o título com o nome da lista {"name":"AVDP — Lista","type":"title"}
+OK   Exportar: música achada no Holyrics entra como a música dele (ignora a arquivada) {"id":"777","type":"song"}
+OK   Exportar: música não achada vai como texto {"name":"Outra Música de Teste","text":"Primeira linha\nsegunda\n\nCoro","type":"plain_text"}
+OK   Exportar: trecho da Bíblia vai com os ids e a versão do Holyrics (ACF → pt_acf) {"ids":["43003016","43003017"],"type":"verse","version":"pt_acf"}
+OK   Exportar: mensagem vai como texto a partir do § 63-0318 O Primeiro Selo — §5 | Anos atrás falei por alto sobre Isto aqui, cerca de uns vint
+OK   Exportar: texto vai como texto 
+OK   Exportar: mídia fica de fora e o resumo avisa 5 itens enviados para "Culto de domingo · 2026-10-18 19:00" · 1 música(s) não achada(s) lá foram como texto · 1 ficaram de fora (mídia)
+OK   Exportar: token sem permissão dá mensagem clara e não envia Holyrics: o token não tem permissão para AddToPlaylist (o Holyrics mostrou um pedido de liberação na tela dele)
+OK   Excluir lista: "Cancelar" não apaga (confirm assíncrono do Tauri esperado) 
+OK   Exportar: não usa event_id (pago) 
+OK   Configuração do Holyrics devolvida 
+29 ok, 0 falhas

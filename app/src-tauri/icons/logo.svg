@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1024" height="1024">
+  <defs>
+    <clipPath id="lens"><circle cx="222" cy="214" r="118"/></clipPath>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="#141821"/>
+  <!-- cabo da lupa -->
+  <line x1="316" y1="308" x2="424" y2="416" stroke="#9c6f22" stroke-width="54" stroke-linecap="round"/>
+  <line x1="316" y1="308" x2="420" y2="412" stroke="#e8b04a" stroke-width="42" stroke-linecap="round"/>
+  <!-- vidro -->
+  <circle cx="222" cy="214" r="118" fill="#1c2a48"/>
+  <g clip-path="url(#lens)">
+    <!-- penas do pescoço -->
+    <path d="M96 352 C108 292 140 262 182 250 L246 262 C232 292 228 322 236 352 Z" fill="#6e4a26"/>
+    <path d="M150 352 C156 318 170 296 192 286 M188 352 C192 326 204 306 220 296" fill="none" stroke="#523519" stroke-width="7" stroke-linecap="round"/>
+    <!-- cabeça branca -->
+    <path d="M104 300 C92 222 132 146 210 134 C258 127 296 146 314 178 L300 196 C292 214 280 226 264 234 C250 242 240 252 232 266 C204 270 160 280 104 300 Z" fill="#f4f1ea"/>
+    <path d="M150 284 L164 262 M186 274 L196 254 M218 266 L224 248" stroke="#d6d1c4" stroke-width="7" stroke-linecap="round"/>
+    <!-- bico -->
+    <path d="M284 170 C318 164 346 180 352 208 C355 222 349 236 338 244 C336 228 326 218 310 216 C298 216 288 222 276 230 C272 210 274 186 284 170 Z" fill="#f2b632"/>
+    <path d="M278 214 C292 206 312 204 326 212" fill="none" stroke="#b07a14" stroke-width="5" stroke-linecap="round"/>
+    <!-- olho e sobrancelha -->
+    <path d="M238 168 C252 158 270 158 284 166" fill="none" stroke="#9aa0ab" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="260" cy="182" r="11" fill="#f2b632"/>
+    <circle cx="261" cy="182" r="6" fill="#141821"/>
+  </g>
+  <!-- aro da lupa -->
+  <circle cx="222" cy="214" r="118" fill="none" stroke="#e8b04a" stroke-width="30"/>
+  <circle cx="222" cy="214" r="133" fill="none" stroke="#9c6f22" stroke-width="3" opacity="0.6"/>
+  <!-- brilho no vidro -->
+  <path d="M146 150 C162 128 186 114 210 110" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.22"/>
+</svg>

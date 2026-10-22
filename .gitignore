@@ -1,0 +1,23 @@
+# Dependências e builds
+app/node_modules/
+app/dist/
+app/x/
+app/src-tauri/target/
+app/src-tauri/target-*/
+app/avdp-consulta/target/
+
+# Pacotes grandes (banco vai pelo GitHub Releases)
+Levar para outro PC/
+Plugin Holyrics/*.zip
+Plugin Holyrics/pacote/
+database-mensagens/
+
+# Bancos e filas
+*.db
+*.db-wal
+*.db-shm
+*.avdpfila
+
+# Sistema
+.DS_Store
+Thumbs.db
