@@ -21,8 +21,9 @@ fi
 
 # instalador: o .dmg certo para o processador deste Mac (Apple Silicon = aarch64, Intel = x64)
 case "$(uname -m)" in
-  arm64) DMG=$(ls AVDP\ Busca_*_aarch64.dmg 2>/dev/null | head -1) ;;
-  *)     DMG=$(ls AVDP\ Busca_*_x64.dmg 2>/dev/null | head -1) ;;
+  # "AVDP Busca_…" do build ou "AVDP.Busca_…" baixado do GitHub
+  arm64) DMG=$(ls AVDP*Busca_*_aarch64.dmg 2>/dev/null | head -1) ;;
+  *)     DMG=$(ls AVDP*Busca_*_x64.dmg 2>/dev/null | head -1) ;;
 esac
 if [ -z "$DMG" ]; then
   echo " Não achei o instalador \"AVDP Busca_..._$( [ "$(uname -m)" = arm64 ] && echo aarch64 || echo x64 ).dmg\" ao lado deste arquivo."

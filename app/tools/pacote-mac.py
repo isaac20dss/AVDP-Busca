@@ -18,6 +18,7 @@ MAC = os.path.join(HERE, '..', 'mac')
 def add(z, src, arc, exe=False):
     info = zipfile.ZipInfo.from_file(src, arc)
     info.compress_type = zipfile.ZIP_DEFLATED
+    info.create_system = 3  # Unix: sem isso o Mac ignora a permissão
     info.external_attr = ((0o755 if exe else 0o644) | 0o100000) << 16
     with open(src, 'rb') as f, z.open(info, 'w', force_zip64=True) as out:
         while chunk := f.read(1 << 20):
