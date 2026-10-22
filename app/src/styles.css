@@ -26,7 +26,7 @@ body,
 body {
   background: var(--bg);
   color: var(--text);
-  font: 13.5px/1.4 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font: 13.5px/1.4 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -2037,7 +2037,7 @@ label.chip-check,
   flex-direction: column;
   background: #000;
   color: #fff;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: 'Inter', 'Segoe UI', -apple-system, 'Helvetica Neue', sans-serif;
 }
 .stage-top {
   display: flex;

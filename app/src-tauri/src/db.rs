@@ -246,8 +246,14 @@ pub fn relocate_data_dir(conn: &Connection, data_dir: &Path) -> Result<usize> {
     use once_cell::sync::Lazy;
     use regex::Regex;
     // dentro do JSON as barras vêm dobradas: C:\\Users\\X\\AppData\\Roaming\\br.avdp.busca\\
-    static OLD: Lazy<Regex> = Lazy::new(|| Regex::new(r#"[A-Za-z]:(?:\\\\[^"\\]+)*?\\\\br\.avdp\.busca\\\\"#).unwrap());
-    let here = format!("{}\\", data_dir.display()).replace('\\', "\\\\");
+    // ou, banco vindo do Mac: /Users/X/Library/Application Support/br.avdp.busca/
+    // grupo 1 = o resto do caminho (fundos\\a.png), que ganha a barra deste sistema
+    static OLD: Lazy<Regex> = Lazy::new(|| {
+        Regex::new(r#"(?:[A-Za-z]:(?:\\\\[^"\\]+)*?\\\\|/(?:[^"/\\]+/)*?)br\.avdp\.busca(?:\\\\|/)([^"]*)"#).unwrap()
+    });
+    let sep = if std::path::MAIN_SEPARATOR == '\\' { "\\\\" } else { "/" };
+    let here = format!("{}{}", data_dir.display(), std::path::MAIN_SEPARATOR).replace('\\', "\\\\");
+    let fix = |c: &regex::Captures| format!("{here}{}", c[1].replace("\\\\", "/").replace('/', sep));
     let mut changed = 0;
     for (table, key, col) in [("settings", "key", "value"), ("themes", "id", "data")] {
         let rows: Vec<(String, String)> = {
@@ -256,7 +262,7 @@ pub fn relocate_data_dir(conn: &Connection, data_dir: &Path) -> Result<usize> {
             rows.collect::<std::result::Result<_, _>>()?
         };
         for (k, text) in rows {
-            let new = OLD.replace_all(&text, regex::NoExpand(&here));
+            let new = OLD.replace_all(&text, &fix);
             if new != text {
                 conn.execute(&format!("UPDATE {table} SET {col}=?1 WHERE CAST({key} AS TEXT)=?2"), [new.as_ref(), k.as_str()])?;
                 changed += 1;
@@ -304,5 +310,27 @@ mod tests {
         assert_eq!(tv["bg"]["image"], r"C:\Users\User\AppData\Roaming\br.avdp.busca\fundos\a b.png");
         // de novo, nada muda
         assert_eq!(relocate_data_dir(&c, Path::new(r"C:\Users\User\AppData\Roaming\br.avdp.busca")).unwrap(), 0);
+    }
+
+    #[test]
+    fn relocate_between_windows_and_mac() {
+        let c = Connection::open_in_memory().unwrap();
+        migrate(&c).unwrap();
+        let mac = serde_json::json!({
+            "wallpaperImage": "/Users/isaac/Library/Application Support/br.avdp.busca/fundos/fundo tv2.jpg",
+            "x": "/Users/isaac/Pictures/foto.jpg",
+        })
+        .to_string();
+        set_setting(&c, "ui", &mac).unwrap();
+        let (dir, want) = if cfg!(windows) {
+            (r"C:\Users\User\AppData\Roaming\br.avdp.busca", r"C:\Users\User\AppData\Roaming\br.avdp.busca\fundos\fundo tv2.jpg")
+        } else {
+            ("/Users/outro/Library/Application Support/br.avdp.busca", "/Users/outro/Library/Application Support/br.avdp.busca/fundos/fundo tv2.jpg")
+        };
+        assert_eq!(relocate_data_dir(&c, Path::new(dir)).unwrap(), 1);
+        let v: serde_json::Value = serde_json::from_str(&setting(&c, "ui").unwrap().unwrap()).unwrap();
+        assert_eq!(v["wallpaperImage"], want);
+        assert_eq!(v["x"], "/Users/isaac/Pictures/foto.jpg", "caminho fora da pasta de dados não muda");
+        assert_eq!(relocate_data_dir(&c, Path::new(dir)).unwrap(), 0);
     }
 }

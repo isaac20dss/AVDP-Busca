@@ -148,7 +148,7 @@ export function GlobalSearch() {
               } else if (e.key === 'ArrowUp') {
                 e.preventDefault()
                 setSel((s) => Math.max(s - 1, 0))
-              } else if (e.key === 'Enter' && entries[sel]) go(entries[sel], e.ctrlKey)
+              } else if (e.key === 'Enter' && entries[sel]) go(entries[sel], e.ctrlKey || e.metaKey)
             }}
           />
           <kbd>Enter</kbd> abrir · <kbd>Ctrl+Enter</kbd> projetar

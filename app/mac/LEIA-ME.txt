@@ -1,0 +1,22 @@
+AVDP Busca para Mac — instalação com o banco de dados
+=====================================================
+
+1. Dê dois cliques no zip (o Mac extrai numa pasta ao lado).
+2. Na pasta extraída, clique com o botão direito em "instalar.command" → Abrir → Abrir.
+   (Na primeira vez o Mac avisa "desenvolvedor não identificado", porque o app não tem
+   certificado da Apple. Se não aparecer o botão Abrir: Ajustes do Sistema → Privacidade e
+   Segurança → lá embaixo, "Abrir Mesmo Assim".)
+3. O script:
+   - guarda o banco que já existir em ~/Library/Application Support/br.avdp.busca/backup-AAAAMMDD-HHMMSS/;
+   - copia o banco novo (avdp.db e fundos) para ~/Library/Application Support/br.avdp.busca/;
+   - instala o "AVDP Busca.app" em Aplicativos (escolhe o .dmg do processador: Apple Silicon ou Intel).
+4. Abra o AVDP Busca pela pasta Aplicativos.
+
+Diferenças do Windows
+- Atalhos: onde o Windows usa Ctrl, no Mac é Cmd (⌘). Ex.: Cmd+F pesquisa, Cmd+1…5 trocam a aba.
+- F8, F9 e F10 (papel de parede, sem texto, tela preta): no teclado do Mac aperte com a tecla fn
+  (fn+F8…), ou ligue em Ajustes do Sistema → Teclado → "Usar as teclas F1, F2 etc. como teclas de função padrão".
+- Cmd+Espaço é do Spotlight: o atalho de tocar/pausar mídia pode ser trocado em Configurações → Atalhos.
+- O plugin do Holyrics (avdp-consulta) é só para Windows.
+- Projeção: em Configurações → Projeção escolha o monitor; a janela ocupa a tela inteira dele.
+  Se o Mac estiver espelhando as telas, desligue o espelhamento em Ajustes → Telas.

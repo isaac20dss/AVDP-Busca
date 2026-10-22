@@ -1,4 +1,4 @@
-# HANDOFF — AVDP Busca (estado em 2026-10-21, versão 1.3.0 + plugin do Holyrics 1.0.0)
+# HANDOFF — AVDP Busca (estado em 2026-10-22, versão 1.3.0 + Mac + git; plugin do Holyrics 1.0.0)
 
 Documento para retomar o trabalho numa sessão nova. Leia inteiro antes de mexer em qualquer coisa.
 Complementos: `docs/PESQUISA.md` (engenharia reversa e fontes), `docs/DESIGN.md` (arquitetura), `GAUNTLET.md` (rodadas de crítica), `LEIA-ME.md` (como rodar).
@@ -95,8 +95,21 @@ Os comentários do post não foram lidos: o X pede login e o espelho xcancel est
 
 ---
 
-### Próximos passos (pedido de 2026-10-22)
-Deixar o app compatível com Mac e pôr o projeto no git (`https://github.com/isaac20dss/AVDP-Busca.git`). Roteiro completo, com o que não pode subir (decisão: Bíblias e banco sobem juntos, só em repositório privado; banco e instaladores com banco pelo GitHub Releases) e os pontos só-Windows do código: `PROMPT-RETOMADA.md`.
+### Décima segunda leva (2026-10-22) — git/GitHub e compatível com Mac (roteiro: `PROMPT-RETOMADA.md`)
+**Git**: repositório na pasta `AVDP Busca` (raiz; app em `app/`), branch `main`, remoto `https://github.com/isaac20dss/AVDP-Busca.git` — **PRIVADO** (confirmado pelo Isaac em 2026-10-22; por isso `BÍBLIA/` ACF/NVI/KJA entra no git). Se um dia ficar público: tirar `BÍBLIA/` do histórico antes. Fora do git (`.gitignore` da raiz): `node_modules`, `dist`, `x`, `target*`, `avdp-consulta/target`, `Levar para outro PC/`, `Plugin Holyrics/*.zip` e `pacote/`, `database-mensagens/`, `*.db*`, `*.avdpfila`. `.gitattributes`: `text=auto`, `.cmd` CRLF, `.command`/`.sh` LF. Maior arquivo no git: 5,4 MB (KJA.xml). Sem segredo (só `token: 'teste-simulado'` do flow4). **Banco e pacotes "com banco" vão pelo GitHub Releases** (anexo até 2 GB). `gh` instalado por winget (`C:\Program Files\GitHub CLI\gh.exe`); push pelo git usa o Git Credential Manager já logado.
+
+**Mac** (código; build só no Mac ou no GitHub Actions — não testado num Mac de verdade):
+- `lib.rs`: `computer_name()` → `COMPUTERNAME`, no Mac `scutil --get ComputerName`, senão `hostname`. `open_output` usa `set_full()`: no Mac **tela cheia simples** (`set_simple_fullscreen`, sem Space novo/animação, fica no monitor onde a janela foi posta); Windows igual a antes. Pasta de dados no Mac: `~/Library/Application Support/br.avdp.busca` (o `app_data_dir` do Tauri; `AVDP_DATA_DIR` vale igual).
+- `db::relocate_data_dir`: entende caminho Windows (`C:\\…\\br.avdp.busca\\`) **e** Mac (`/Users/…/br.avdp.busca/`) e troca as barras do resto do caminho pela do sistema (banco do Windows no Mac e vice-versa). Teste `relocate_between_windows_and_mac`.
+- `msg_default_local_path`, EasySlides (`Documentos/EasyslidesData`): já usam `document_dir` — funcionam no Mac (só não acham nada se não houver). Holyrics: só pela API de rede (sem caminho `C:\`).
+- Atalhos (`lib/hotkeys.ts`): no Mac o **Cmd faz o papel do Ctrl** (`IS_MAC`, `CTRL_KEY`, `primaryMod`); `comboFromEvent` grava Cmd como "Ctrl" (o banco é o mesmo nos dois sistemas) e Control do Mac como "Meta"; Option+letra/número lê a tecla física (`e.code`); `prettyCombo` mostra ⌘ ⌃ ⌥ ⇧. "Projeta ao soltar o Ctrl" usa `CTRL_KEY` (`App.tsx`). Ctrl+Enter (salvar edição), Ctrl+Enter na busca e nas músicas aceitam Cmd. F8/F9/F10 no Mac pedem fn; Cmd+Espaço é do Spotlight (mídia tocar/pausar: trocar em Atalhos).
+- Fontes: `-apple-system`/`Helvetica Neue` depois de `Segoe UI` nos fallbacks (Windows não muda).
+- `tauri.conf.json`: `bundle.macOS.signingIdentity: "-"` (assinatura ad-hoc; sem ela o Apple Silicon diz "danificado"), `minimumSystemVersion` 10.15. `targets` continua `nsis`; o Mac usa `--bundles dmg`.
+- Plugin do Holyrics (`app/avdp-consulta`, `.cmd`) é só Windows e não entra no build do Mac (pacote Cargo separado).
+- Testes ponta a ponta (`tools/*.mjs`) usam o CDP do WebView2: **só no Windows** (WKWebView do Mac não tem CDP).
+- **GitHub Actions** `.github/workflows/build.yml`: tag `v*` ou "Run workflow" (informar a tag) → `tauri-action` gera Windows (NSIS) + Mac `aarch64` e `x86_64` (`.dmg`) e anexa ao release da tag (cria rascunho se não existir). Repositório privado: minuto de runner macOS conta 10× na cota grátis (2.000 min/mês).
+- **Pacote Mac com banco**: `app/mac/instalar.command` (igual ao `INSTALAR.cmd`: confere AVDP fechado, banco antigo → `backup-AAAAMMDD-HHMMSS`, copia `avdp.db` + `fundos`, monta o `.dmg` do processador, copia o app para Aplicativos e tira a quarentena com `xattr`) + `app/mac/LEIA-ME.txt`. Montar o zip: `python tools/pacote-mac.py <saida.zip> <pasta banco> <dmg aarch64> <dmg x64>` (guarda o +x do `.command`). Sem certificado Apple: na 1ª vez, botão direito → Abrir (ou Ajustes → Privacidade e Segurança → "Abrir Mesmo Assim").
+- Verificado no Windows: `cargo test --lib` 35, `avdp-consulta` `cargo test` 35, `tsc` ok, flow3 42, flow4 29, flow5 10, flow6 9, flow7 19 (sem zip/HUB), flow8 11, flow9 13, flow10 3 — `tauri dev` com `AVDP_DATA_DIR` numa cópia do banco 1.3 e `WEBVIEW2_USER_DATA_FOLDER` próprio.
 
 ---
 
@@ -118,7 +131,7 @@ Deixar o app compatível com Mac e pôr o projeto no git (`https://github.com/is
 
 ## 3. Arquitetura e onde está cada coisa
 
-Pasta: `C:\Users\Isaac\Documents\Claude\AVDP\AVDP Busca\` (não é repositório git).
+Pasta: `C:\Users\Isaac\Documents\Claude\AVDP\AVDP Busca\` (repositório git desde 2026-10-22, `github.com/isaac20dss/AVDP-Busca`, privado).
 
 - **Stack**: Tauri v2 (Rust) + React 19 + TypeScript + Vite 8 + zustand. SQLite com FTS5 (`rusqlite` bundled, tokenizador `unicode61 remove_diacritics 2`). Rust 1.98, VS BuildTools 18, Node 24.
 - **Banco do app**: `%APPDATA%\br.avdp.busca\avdp.db` (WAL). Imagens copiadas: `%APPDATA%\br.avdp.busca\fundos\`. Esquema versão 3 (`meta.schema`; v3 = coluna `msg_variants.superseded_by`).

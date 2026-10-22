@@ -703,7 +703,20 @@ async fn hub_finish(state: State<'_, AppState>) -> Res<i64> {
 // ---------- levar a lista para outro PC ----------
 
 fn computer_name() -> String {
-    std::env::var("COMPUTERNAME").unwrap_or_else(|_| "outro PC".into())
+    if let Ok(n) = std::env::var("COMPUTERNAME") {
+        return n;
+    }
+    // Mac: nome que aparece em Ajustes → Geral → Sobre; senão o hostname
+    let run = |cmd: &str, args: &[&str]| {
+        let out = std::process::Command::new(cmd).args(args).output().ok()?;
+        let s = String::from_utf8_lossy(&out.stdout).trim().to_string();
+        (out.status.success() && !s.is_empty()).then_some(s)
+    };
+    #[cfg(target_os = "macos")]
+    if let Some(n) = run("scutil", &["--get", "ComputerName"]) {
+        return n;
+    }
+    run("hostname", &[]).unwrap_or_else(|| "outro PC".into())
 }
 
 /// Parágrafos de uma mensagem do Tabernáculo da Fé, numa tentativa só (sem internet: `None`).
@@ -968,6 +981,15 @@ async fn stage_close(app: tauri::AppHandle) -> Res<()> {
     Ok(())
 }
 
+/// Tela cheia. No Mac, a "simples" (sem abrir um Space novo nem animação; a janela fica no monitor
+/// onde foi posta); no Windows, a normal.
+fn set_full(win: &tauri::WebviewWindow, on: bool) -> tauri::Result<()> {
+    #[cfg(target_os = "macos")]
+    return win.set_simple_fullscreen(on);
+    #[cfg(not(target_os = "macos"))]
+    return win.set_fullscreen(on);
+}
+
 /// Janela de saída (projeção ou palco) em tela cheia no monitor escolhido, ou em janela comum.
 fn open_output(app: &tauri::AppHandle, label: &str, url: &str, title: &str, monitor: Option<usize>) -> Res<()> {
     let target = match monitor {
@@ -982,14 +1004,14 @@ fn open_output(app: &tauri::AppHandle, label: &str, url: &str, title: &str, moni
             .visible(false)
             .build()?,
     };
-    win.set_fullscreen(false)?;
+    set_full(&win, false)?;
     match target {
         Some(m) => {
             win.set_decorations(false)?;
             win.set_position(*m.position())?;
             win.set_size(*m.size())?;
             win.set_always_on_top(true)?;
-            win.set_fullscreen(true)?;
+            set_full(&win, true)?;
         }
         None => {
             win.set_decorations(true)?;
@@ -1018,7 +1040,8 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
             // testes automáticos: AVDP_DATA_DIR aponta outra pasta de dados (uma cópia do banco), para o
-            // teste nunca abrir o banco do Isaac. Sem a variável, é a pasta normal (%APPDATA%\br.avdp.busca).
+            // teste nunca abrir o banco do Isaac. Sem a variável, é a pasta normal (%APPDATA%\br.avdp.busca;
+            // no Mac, ~/Library/Application Support/br.avdp.busca).
             let test_dir = std::env::var_os("AVDP_DATA_DIR").map(PathBuf::from);
             let dir = match &test_dir {
                 Some(d) => d.clone(),

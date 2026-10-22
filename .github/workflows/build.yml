@@ -1,0 +1,65 @@
+# Gera os instaladores do AVDP Busca (Windows .exe NSIS e Mac .dmg Apple Silicon + Intel)
+# e anexa ao release da tag. Rodar: criar a tag (git tag v1.3.1 && git push origin v1.3.1)
+# ou Actions → "Build" → Run workflow (informar a tag; o release precisa existir ou é criado como rascunho).
+# O banco não está no git: o pacote "com banco" é montado depois (tools/pacote-mac.py, INSTALAR.cmd).
+name: Build
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag do release (ex.: v1.3.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            args: '--bundles nsis'
+            rust_targets: ''
+          - platform: macos-latest
+            args: '--target aarch64-apple-darwin --bundles dmg'
+            rust_targets: 'aarch64-apple-darwin'
+          - platform: macos-latest
+            args: '--target x86_64-apple-darwin --bundles dmg'
+            rust_targets: 'x86_64-apple-darwin'
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_targets }}
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: 'app/src-tauri -> target'
+
+      - name: Dependências do front
+        working-directory: app
+        run: npm ci
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: app
+          tagName: ${{ inputs.tag || github.ref_name }}
+          releaseName: 'AVDP Busca ${{ inputs.tag || github.ref_name }}'
+          releaseBody: 'Instaladores sem banco. O banco (avdp.db) e os pacotes "instalar com banco" vão anexados à parte.'
+          releaseDraft: true
+          args: ${{ matrix.args }}

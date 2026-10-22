@@ -93,12 +93,26 @@ export type HotkeyMap = Partial<Record<ActionId, string[]>>
 
 const MODIFIERS = new Set(['Control', 'Shift', 'Alt', 'Meta', 'AltGraph', 'CapsLock'])
 
-/** "Ctrl+Shift+F", "F8", "ArrowRight", "Space"... a partir do evento. */
+/** macOS: o Cmd faz o papel do Ctrl. Os atalhos continuam guardados como "Ctrl+…" (mesmo banco nos dois sistemas). */
+export const IS_MAC = typeof navigator !== 'undefined' && /Mac/i.test(navigator.platform || navigator.userAgent)
+/** Nome (`e.key`) da tecla que faz o papel do Ctrl: Control no Windows, Meta (Cmd) no Mac. */
+export const CTRL_KEY = IS_MAC ? 'Meta' : 'Control'
+
+/** Ctrl no Windows, Cmd no Mac. */
+export function primaryMod(e: { ctrlKey: boolean; metaKey: boolean }): boolean {
+  return IS_MAC ? e.metaKey : e.ctrlKey
+}
+
+/** "Ctrl+Shift+F", "F8", "ArrowRight", "Space"... a partir do evento. No Mac, Cmd vira "Ctrl" e Control vira "Meta". */
 export function comboFromEvent(e: KeyboardEvent | React.KeyboardEvent): string {
   if (MODIFIERS.has(e.key)) return ''
   let k = e.key === ' ' ? 'Space' : e.key
+  // Mac: Option + letra/número muda o caractere (Option+1 = "¡"); vale a tecla física
+  if (IS_MAC && e.altKey && /^(Key[A-Z]|Digit[0-9])$/.test(e.code)) k = e.code.slice(-1)
   if (k.length === 1) k = k.toUpperCase()
-  const mods = [e.ctrlKey && 'Ctrl', e.altKey && 'Alt', e.shiftKey && 'Shift', e.metaKey && 'Meta'].filter(Boolean) as string[]
+  const ctrl = IS_MAC ? e.metaKey : e.ctrlKey
+  const meta = IS_MAC ? e.ctrlKey : e.metaKey
+  const mods = [ctrl && 'Ctrl', e.altKey && 'Alt', e.shiftKey && 'Shift', meta && 'Meta'].filter(Boolean) as string[]
   return [...mods, k].join('+')
 }
 
@@ -132,10 +146,12 @@ const PRETTY: Record<string, string> = {
   Insert: 'Ins',
 }
 
+const PRETTY_MAC: Record<string, string> = { Ctrl: '⌘', Meta: '⌃', Alt: '⌥', Shift: '⇧' }
+
 export function prettyCombo(c: string): string {
   return c
     .split('+')
-    .map((p) => PRETTY[p] ?? p)
+    .map((p) => (IS_MAC && PRETTY_MAC[p]) || PRETTY[p] || p)
     .join(' + ')
 }
 

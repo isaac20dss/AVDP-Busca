@@ -73,7 +73,7 @@ export function SongsPanel() {
       setSel((s) => Math.max(s - 1, 0))
     } else if (e.key === 'Enter' && res.hits[sel]) {
       e.preventDefault()
-      open(res.hits[sel].id, e.ctrlKey)
+      open(res.hits[sel].id, e.ctrlKey || e.metaKey)
     } else if (e.key === 'Escape' && query) {
       e.stopPropagation()
       setQuery('')

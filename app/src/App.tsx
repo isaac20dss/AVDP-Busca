@@ -16,7 +16,7 @@ import { Toasts } from './components/Toasts'
 import { TopBar } from './components/TopBar'
 import { AudioPlayer } from './components/AudioPlayer'
 import { preloadThemeFonts } from './lib/fit'
-import { comboFromEvent, effectiveMap, type ActionId } from './lib/hotkeys'
+import { CTRL_KEY, comboFromEvent, effectiveMap, type ActionId } from './lib/hotkeys'
 import { addCurrentToPlaylist, editCurrent, openPlaylistItem, projectPreview } from './lib/open'
 import { nextVersion, versionAt } from './state/bible'
 import { loadSettings, useApp, type Tab } from './store'
@@ -216,7 +216,7 @@ export default function App() {
       run(action)
     }
     const onUp = (e: KeyboardEvent) => {
-      if (e.key === 'Control' && pendingCtrlProject) {
+      if (e.key === CTRL_KEY && pendingCtrlProject) {
         pendingCtrlProject = false
         const s = useApp.getState()
         if (s.item) s.project(s.item, s.cursor)

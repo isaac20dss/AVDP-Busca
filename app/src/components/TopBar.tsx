@@ -50,7 +50,7 @@ export function TopBar() {
       </div>
       <nav className="tabs" role="tablist">
         {TABS.map((t) => (
-          <button key={t.id} role="tab" aria-selected={tab === t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)} title={`${t.label} (${t.key})`}>
+          <button key={t.id} role="tab" aria-selected={tab === t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)} title={`${t.label} (${prettyCombo(t.key)})`}>
             <Icon name={t.icon} /> {t.label}
           </button>
         ))}

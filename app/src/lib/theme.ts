@@ -63,7 +63,7 @@ export function backgroundStyle(t: ThemeData): CSSProperties {
 export function textStyle(t: ThemeData): CSSProperties {
   const shadow = t.shadow ? '0 0.06em 0.18em rgba(0,0,0,.85), 0 0 0.5em rgba(0,0,0,.45)' : 'none'
   return {
-    fontFamily: `"${t.font}", "Segoe UI", sans-serif`,
+    fontFamily: `"${t.font}", "Segoe UI", -apple-system, "Helvetica Neue", sans-serif`,
     color: t.color,
     fontWeight: t.bold ? 700 : 400,
     fontStyle: t.italic ? 'italic' : 'normal',
