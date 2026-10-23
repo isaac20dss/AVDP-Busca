@@ -24,11 +24,43 @@ pub fn run(a: &Args) -> Result<Value> {
             let to = a.get("to").map(PathBuf::from).unwrap_or_else(|| Path::new(plugin_db::DEFAULT_DIR).join(plugin_db::DB_NAME));
             plugin_db::make_db(Path::new(&from), &to)
         }
+        "abrir" => abrir(a),
+        "visual" => crate::visual::run(a),
         // resposta de tamanho conhecido, para o módulo medir até onde a saída chega inteira
         "eco" => Ok(json!({ "pad": "a".repeat(a.num("bytes").unwrap_or(1000).clamp(0, 20_000_000) as usize) })),
-        "version" | "help" => Ok(json!({ "version": env!("CARGO_PKG_VERSION"), "commands": ["info", "search", "group", "paragraphs", "filas", "fila", "make-db"] })),
+        "version" | "help" => Ok(json!({ "version": env!("CARGO_PKG_VERSION"), "commands": ["info", "search", "group", "paragraphs", "filas", "fila", "make-db", "abrir", "visual"] })),
         other => Err(AppError::msg(format!("comando desconhecido: {other}"))),
     }
+}
+
+/// Onde os instaladores põem os programas (NSIS "currentUser", %LOCALAPPDATA%): o AVDP Busca Plugin
+/// primeiro; sem ele, o próprio AVDP Busca (que com `--holyrics` abre no mesmo modo).
+pub fn avdp_exe(given: Option<String>, local_app_data: Option<PathBuf>) -> Result<PathBuf> {
+    if let Some(p) = given {
+        let p = PathBuf::from(p.trim().trim_matches('"'));
+        return if p.is_file() { Ok(p) } else { Err(AppError::msg(format!("o AVDP Busca Plugin não está em {}", p.display()))) };
+    }
+    let found = local_app_data.and_then(|d| {
+        [d.join("AVDP Busca Plugin").join("avdp-busca-plugin.exe"), d.join("AVDP Busca").join("avdp-busca.exe")].into_iter().find(|p| p.is_file())
+    });
+    found.ok_or_else(|| AppError::msg("o AVDP Busca Plugin não está instalado (%LOCALAPPDATA%\\AVDP Busca Plugin); informe o caminho nas configurações do módulo"))
+}
+
+/// Abre o AVDP Busca Plugin (ou o AVDP Busca com `--holyrics`) e sai na hora: o programa fica aberto sozinho,
+/// sem prender o módulo (o Holyrics encerra o processo chamado depois do tempo limite).
+/// Se o AVDP já estiver aberto, ele mesmo traz a janela para a frente (plugin single-instance).
+fn abrir(a: &Args) -> Result<Value> {
+    let exe = avdp_exe(a.get("exe"), std::env::var_os("LOCALAPPDATA").map(PathBuf::from))?;
+    let mut cmd = std::process::Command::new(&exe);
+    cmd.arg("--holyrics").stdin(std::process::Stdio::null()).stdout(std::process::Stdio::null()).stderr(std::process::Stdio::null());
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        // DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP: não morre junto com o avdp-consulta
+        cmd.creation_flags(0x0000_0008 | 0x0000_0200);
+    }
+    cmd.spawn().map_err(|e| AppError::msg(format!("não deu para abrir {}: {e}", exe.display())))?;
+    Ok(json!({ "opened": exe.display().to_string() }))
 }
 
 /// Tamanho máximo do slide (`--chars`; 0 = parágrafo inteiro). Padrão do AVDP: 420.

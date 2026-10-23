@@ -69,6 +69,24 @@ sincronização do Holyrics com o Google Drive.
 3. USAR
 -------
 
+AVDP Busca (primeiro botão)
+  - Abre o AVDP Busca Plugin numa janela à parte, como a janela Bíblia do Holyrics: só as abas
+    Mensagens e Bíblia, com o visual do AVDP. O Plugin é um programa à parte, instalado ao lado do
+    AVDP Busca (não o substitui), com os mesmos dados: instalador "AVDP Busca Plugin_x.x.x_x64-setup.exe",
+    vai para %LOCALAPPDATA%\AVDP Busca Plugin (outro lugar: configuração "AVDP Busca Plugin").
+    Sem o Plugin, o botão abre o próprio AVDP Busca no mesmo modo.
+  - Nessa janela o slide vai ao Holyrics como IMAGEM, igual à prévia do AVDP (tema, fundo, fonte,
+    rodapé): fica na pasta "AVDP ao vivo" da aba Imagens (Configurações do AVDP > Holyrics > Pasta
+    Imagens). Toda mudança no AVDP (rodapé, tema, divisão, F8/F9/F10) atualiza o Holyrics sozinha.
+    Esc fecha a apresentação. Versículo: com "Projetar pelo Holyrics" ligado na Bíblia, vai a versão
+    do Holyrics (ACF, NVI...); desligado, vai a imagem com a Bíblia do AVDP. Mídia não vai.
+  - "Ir para Holyrics" (canto de cima, à esquerda) minimiza o AVDP; o botão de recarregar (canto
+    de cima, à direita) recomeça a janela. Clicar de novo em "AVDP Busca" traz a mesma janela.
+  - O Holyrics precisa estar com o API Server ligado e o token no AVDP (Configurações > Holyrics),
+    liberando ShowImage, ShowVerse e CloseCurrentPresentation.
+  - Configuração do módulo "Mostrar todas as opções no painel": desligada, o painel fica só com
+    o botão AVDP Busca; ligada, mostra todos os botões (muda na hora).
+
 Pesquisar mensagem
   - Digite como no AVDP: palavras soltas, "frase exata", -palavra (excluir), OU, prefixo*,
     parecida~, titulo:palavra. Um código de data (65-1127B) também funciona.
@@ -117,7 +135,7 @@ Importar fila do AVDP
 Configurações do módulo (janela Módulos > "Configurações" do módulo)
   - Tema das mensagens; máximo de caracteres por slide; rodapé com código e §; como a mensagem
     entra na lista; máximo de resultados; caminho do banco (vazio = C:\AVDP Holyrics\avdp-mensagens.db);
-    nome do programa (avdp-consulta.exe).
+    nome do programa (avdp-consulta.exe); caminho do AVDP Busca (vazio = %LOCALAPPDATA%\AVDP Busca\avdp-busca.exe).
 
 
 4. QUANDO ENTRAREM MENSAGENS NOVAS NO AVDP

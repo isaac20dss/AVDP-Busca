@@ -1,6 +1,6 @@
 [package]
 name = "avdp-busca"
-version = "1.3.0"
+version = "1.4.0"
 description = "AVDP Busca"
 authors = ["Isaac"]
 license = ""
@@ -30,6 +30,12 @@ once_cell = "1.21.4"
 thiserror = "2.0.21"
 tokio = { version = "1.53.3", features = ["rt-multi-thread", "macros"] }
 tauri-plugin-dialog = "2.8.3"
+tauri-plugin-single-instance = "2"
+
+# modo Holyrics: foto da janela de projeção (CapturePreview do WebView2) — mesmas versões que o wry usa
+[target.'cfg(windows)'.dependencies]
+webview2-com = "0.39.1"
+windows = { version = "0.62.2", features = ["Win32_System_Com", "Win32_UI_Shell"] }
 sha2 = "0.11.1"
 hex = "0.4.3"
 reqwest = { version = "0.13.5", default-features = false, features = ["json", "rustls"] }

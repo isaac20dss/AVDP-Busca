@@ -785,6 +785,10 @@ function HolyricsTab() {
           {settings.holyricsVersion && !versions.some((v) => v.key === settings.holyricsVersion) && <option value={settings.holyricsVersion}>{settings.holyricsVersion}</option>}
         </select>
       </label>
+      <label className="frow">
+        Pasta Imagens do Holyrics (AVDP Busca Plugin: os slides vão como imagem para "AVDP ao vivo" dentro dela)
+        <input className="grow" value={settings.holyricsImageDir} onChange={(e) => saveSettings({ holyricsImageDir: e.target.value })} placeholder="C:\Holyrics\Holyrics\files\media\image" />
+      </label>
     </div>
   )
 }

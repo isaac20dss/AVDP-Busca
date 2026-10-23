@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api, inTauri } from '../api'
-import { useApp, type Tab } from '../store'
+import { HOLYRICS_TABS, useApp, type Tab } from '../store'
 import type { MonitorInfo } from '../types'
 import { keysFor, prettyCombo, type ActionId } from '../lib/hotkeys'
 import { Icon, type IconName } from './icons'
@@ -15,7 +15,8 @@ const TABS: { id: Tab; label: string; icon: IconName; key: string }[] = [
 ]
 
 export function TopBar() {
-  const { tab, setTab, setModal, blank, setBlank, endPresentation, live, projectionOpen, setProjectionOpen, settings, saveSettings, fail } = useApp(useShallow((s) => ({ tab: s.tab, setTab: s.setTab, setModal: s.setModal, blank: s.blank, setBlank: s.setBlank, endPresentation: s.endPresentation, live: s.live, projectionOpen: s.projectionOpen, setProjectionOpen: s.setProjectionOpen, settings: s.settings, saveSettings: s.saveSettings, fail: s.fail })))
+  const { tab, setTab, setModal, blank, setBlank, endPresentation, live, projectionOpen, setProjectionOpen, settings, saveSettings, fail, holyricsMode } = useApp(useShallow((s) => ({ tab: s.tab, setTab: s.setTab, setModal: s.setModal, blank: s.blank, setBlank: s.setBlank, endPresentation: s.endPresentation, live: s.live, projectionOpen: s.projectionOpen, setProjectionOpen: s.setProjectionOpen, settings: s.settings, saveSettings: s.saveSettings, fail: s.fail, holyricsMode: s.holyricsMode })))
+  const tabs = holyricsMode ? TABS.filter((t) => HOLYRICS_TABS.includes(t.id)) : TABS
   const k = (id: ActionId) => keysFor(id, settings.hotkeys).map(prettyCombo)[0] ?? ''
   const [monitors, setMonitors] = useState<MonitorInfo[]>([])
 
@@ -45,11 +46,16 @@ export function TopBar() {
 
   return (
     <header className="topbar">
+      {holyricsMode && (
+        <button className="go-holyrics" onClick={() => api.goToHolyrics().catch(fail)} title="Volta para o Holyrics (o AVDP fica aberto, minimizado)">
+          <Icon name="prev" /> Ir para Holyrics
+        </button>
+      )}
       <div className="brand">
         <img className="brand-logo" src="/logo.svg" alt="" /> AVDP Busca
       </div>
       <nav className="tabs" role="tablist">
-        {TABS.map((t) => (
+        {tabs.map((t) => (
           <button key={t.id} role="tab" aria-selected={tab === t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)} title={`${t.label} (${prettyCombo(t.key)})`}>
             <Icon name={t.icon} /> {t.label}
           </button>
@@ -71,18 +77,31 @@ export function TopBar() {
         <button className="blank-btn" onClick={endPresentation} disabled={!live && !projectionOpen} title={`Parar de projetar: limpa e fecha a janela de projeção (${k('exit')})`}>
           <Icon name="x" /> <kbd>{k('exit')}</kbd>
         </button>
-        <select className="monitor-select" value={settings.monitor ?? ''} onChange={(e) => chooseMonitor(e.target.value)} title="Monitor da projeção">
-          <option value="">Em janela</option>
-          {monitors.map((m) => (
-            <option key={m.index} value={m.index}>
-              {m.primary ? '★ ' : ''}
-              {m.name.replace(/^\\\\\.\\/, '')} ({m.width}×{m.height})
-            </option>
-          ))}
-        </select>
-        <button className={`proj-btn${projectionOpen ? ' on' : ''}`} onClick={toggleProjection} title={`Abrir/fechar a janela de projeção (${k('toggleProjection')})`}>
-          <Icon name="monitor" /> {projectionOpen ? 'Projetando' : 'Projetar'}
-        </button>
+        {holyricsMode ? (
+          <>
+            <span className="holyrics-badge" title="A projeção é do Holyrics: Projetar, setas, F8/F9/F10 e Esc mandam para ele">
+              <Icon name="monitor" /> Pelo Holyrics
+            </span>
+            <button className="icon-btn" onClick={() => window.location.reload()} title="Recarregar o plugin (a janela recomeça no modo Holyrics; nada salvo se perde)">
+              <Icon name="sync" size={18} />
+            </button>
+          </>
+        ) : (
+          <>
+            <select className="monitor-select" value={settings.monitor ?? ''} onChange={(e) => chooseMonitor(e.target.value)} title="Monitor da projeção">
+              <option value="">Em janela</option>
+              {monitors.map((m) => (
+                <option key={m.index} value={m.index}>
+                  {m.primary ? '★ ' : ''}
+                  {m.name.replace(/^\\\\\.\\/, '')} ({m.width}×{m.height})
+                </option>
+              ))}
+            </select>
+            <button className={`proj-btn${projectionOpen ? ' on' : ''}`} onClick={toggleProjection} title={`Abrir/fechar a janela de projeção (${k('toggleProjection')})`}>
+              <Icon name="monitor" /> {projectionOpen ? 'Projetando' : 'Projetar'}
+            </button>
+          </>
+        )}
         <button className="icon-btn" onClick={() => setModal({ type: 'settings' })} title="Configurações e fontes de dados">
           <Icon name="gear" size={18} />
         </button>

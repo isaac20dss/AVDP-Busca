@@ -192,7 +192,35 @@ export default function App() {
       useApp.getState().sendStage()
     })
     const unStageClosed = listen('stage-closed', () => useApp.getState().setStageOpen(false))
+    // aberto pelo botão "AVDP Busca" do módulo do Holyrics (já aberto: o plugin single-instance avisa)
+    api.holyricsMode().then((on) => on && useApp.getState().enterHolyricsMode()).catch(() => {})
+    const unHolyrics = listen('holyrics-mode', () => useApp.getState().enterHolyricsMode())
+    // modo Holyrics: cada slide pintado na projeção (escondida) vira foto no Holyrics; uma por vez,
+    // e se outro chegou no meio, tira de novo no fim
+    let busy = false
+    let again = false
+    const unPainted = listen('projection-painted', async () => {
+      const s = useApp.getState()
+      if (!s.holyricsMode || !s.live || s.liveViaHolyrics) return
+      if (busy) {
+        again = true
+        return
+      }
+      busy = true
+      try {
+        do {
+          again = false
+          await api.holyricsShowCapture(useApp.getState().settings.holyricsImageDir)
+        } while (again)
+      } catch (e) {
+        useApp.getState().fail(e)
+      } finally {
+        busy = false
+      }
+    })
     return () => {
+      unPainted.then((f) => f())
+      unHolyrics.then((f) => f())
       un.then((f) => f())
       unClosed.then((f) => f())
       unStage.then((f) => f())

@@ -1,7 +1,7 @@
 // Janela de projeção (tela cheia no monitor do público).
 import { emit, listen } from '@tauri-apps/api/event'
 import { useEffect, useRef, useState } from 'react'
-import { DEFAULT_THEME } from '../lib/theme'
+import { DEFAULT_THEME, imageUrl } from '../lib/theme'
 import type { LivePayload } from '../types'
 import { SlideRender } from './SlideRender'
 
@@ -31,6 +31,29 @@ export function Projection() {
       un.then((f) => f())
     }
   }, [])
+
+  // modo Holyrics: avisa quando o slide novo já está pintado (fonte e imagem de fundo carregadas), para a
+  // foto ir ao Holyrics — sem esperar a imagem, a 1ª vez de um fundo (ex.: papel de parede no F8) saía preta
+  const lastP = layers[layers.length - 1]?.p
+  useEffect(() => {
+    if (!lastP) return
+    let alive = true
+    const bg = lastP.theme.bg
+    const image =
+      bg.kind === 'image' && bg.image && lastP.blank !== 'black'
+        ? new Promise<void>((done) => {
+            const img = new Image()
+            img.onload = img.onerror = () => img.decode().catch(() => {}).finally(done)
+            img.src = imageUrl(bg.image)
+          })
+        : Promise.resolve()
+    Promise.all([document.fonts.ready, image]).then(() =>
+      requestAnimationFrame(() => requestAnimationFrame(() => alive && emit('projection-painted').catch(() => {}))),
+    )
+    return () => {
+      alive = false
+    }
+  }, [lastP])
 
   const blank: LivePayload = { seq: -1, slide: null, theme: { ...DEFAULT_THEME, bg: { kind: 'color', color: '#000' } }, blank: 'black', logoText: '', fadeMs: 0 }
   const shown = layers.length ? layers : [{ seq: -1, p: blank }]

@@ -15,6 +15,8 @@
 //!   filas [--dir <pasta>]                   filas do AVDP (.avdpfila) achadas no PC
 //!   fila --file <arquivo.avdpfila> [--chars N]   itens da fila prontos para a lista do Holyrics
 //!   make-db --from <avdp.db> [--to <arquivo>]    gera o banco só de mensagens do plugin
+//!   abrir [--exe <avdp-busca.exe>]               abre o AVDP Busca em modo Holyrics (botão do módulo)
+//!   visual [--avdp-dir <pasta>] [--lib <aba Imagens>]   tema das letras + papel de parede do AVDP para o Holyrics
 
 #![allow(dead_code)]
 
@@ -37,6 +39,7 @@ mod fila;
 mod plugin_db;
 mod saida;
 mod slides;
+mod visual;
 #[cfg(test)]
 mod tests;
 

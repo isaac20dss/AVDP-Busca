@@ -48,7 +48,7 @@ function info() {
     };
 }
 
-function settings(module) {
+function settings(moduleInfo) {
     return [
         { id: 'tema', name: 'Tema das mensagens (vazio = tema padrão da apresentação rápida)', type: 'theme' },
         { id: 'caracteres', name: 'Máximo de caracteres por slide (parágrafo maior é dividido)', type: 'number', min: 120, max: 1200, default_value: 420 },
@@ -57,14 +57,38 @@ function settings(module) {
         { id: 'item_lista', name: 'Mensagem na lista de reprodução', type: 'string', allowed_values: [ITEM_TEXTO, ITEM_ACAO], default_value: ITEM_TEXTO },
         { id: 'limite', name: 'Máximo de resultados na pesquisa', type: 'number', min: 20, max: 300, default_value: 80 },
         { id: 'banco', name: 'Banco das mensagens (vazio = C:\\AVDP Holyrics\\avdp-mensagens.db)', type: 'string', max_length: 400, default_value: '' },
-        { id: 'exe', name: 'Programa de consulta (nome na aba Arquivos)', type: 'string', max_length: 200, default_value: EXE_PADRAO }
+        { id: 'exe', name: 'Programa de consulta (nome na aba Arquivos)', type: 'string', max_length: 200, default_value: EXE_PADRAO },
+        { id: 'avdp', name: 'AVDP Busca Plugin (vazio = %LOCALAPPDATA%\\AVDP Busca Plugin\\avdp-busca-plugin.exe)', type: 'string', max_length: 400, default_value: '' },
+        {
+            id: 'todas_opcoes', name: 'Mostrar todas as opções no painel (desligado: só o botão AVDP Busca)', type: 'boolean', default_value: false,
+            // o Holyrics só refaz os botões quando pedido: ao marcar/desmarcar guarda a escolha e redesenha o painel
+            onchange: function (obj) {
+                var v = obj && obj.input ? obj.input.todas_opcoes : null;
+                module.setGlobal('todas_opcoes', v === true || String(v) === 'true');
+                module.updatePanel();
+            }
+        }
     ];
 }
 
 // ---------- ações (botões no painel do módulo) ----------
 
-function actions(module) {
-    return [
+function actions(moduleInfo) {
+    var todas = [
+        {
+            id: 'abrir_avdp',
+            name: 'AVDP Busca',
+            hint: 'Abre o AVDP Busca numa janela própria (Mensagens e Bíblia); ele projeta por aqui. "Ir para Holyrics" volta.',
+            icon: 'menu_book',
+            action: seguro(acaoAbrirAvdp)
+        },
+        {
+            id: 'aplicar_visual',
+            name: 'Aplicar visual do AVDP',
+            hint: 'Cria no Holyrics o tema das letras do AVDP (fundo, fonte, margens) e põe o papel de parede (F8) do AVDP',
+            icon: 'palette',
+            action: seguro(acaoAplicarVisual)
+        },
         {
             id: 'pesquisar',
             name: 'Pesquisar mensagem',
@@ -101,6 +125,11 @@ function actions(module) {
             action: seguro(acaoConferir)
         }
     ];
+    // configuração "Mostrar todas as opções" desligada: o painel fica só com o botão AVDP Busca
+    // escolha recém-confirmada (validator) vale antes da configuração salva ser relida
+    var g = module.getGlobal('todas_opcoes', null);
+    var s = (g === true || g === false) ? g : cfg('todas_opcoes', false);
+    return (s === true || String(s) === 'true') ? todas : [todas[0]];
 }
 
 // Item da lista de reprodução e outros scripts: projeta a mensagem buscando o texto na hora.
@@ -842,6 +871,46 @@ function acaoImportarFila() {
     if (rel.fora.length) { msg += '\nFicam de fora: ' + rel.fora.join('; ') + '.'; }
     if (!h.confirm(msg + '\n\nContinuar?', 'Importar fila do AVDP')) { return; }
     adicionar(add, fila.name + ' — ' + (add.length - 1) + ' itens');
+}
+
+// Abre o AVDP Busca em modo Holyrics (como a janela Bíblia do Holyrics): o avdp-consulta.exe
+// inicia o programa solto e responde na hora; já aberto, o AVDP só volta para a frente.
+function acaoAbrirAvdp() {
+    var cli = ['abrir'];
+    var caminho = trim(cfg('avdp', ''));
+    if (caminho) {
+        cli.push('--exe', hexUtf8(caminho));
+    }
+    var x = rodar(cli, 5000);
+    if (!trim(x.out)) {
+        throw semResposta(x);
+    }
+    var j = lerJson(x.out);
+    if (!j || !j.ok) {
+        throw new Error(j && j.error ? j.error : 'resposta inválida do ' + nomeExe() + ': ' + corta(x.out, 200));
+    }
+}
+
+// O avdp-consulta.exe lê no banco do AVDP o tema das letras e o papel de parede, copia as imagens
+// para a aba Imagens (pasta AVDP) e devolve o tema no formato do Holyrics; o tema abre no editor do
+// Holyrics para conferir e salvar. O papel de parede só troca a imagem (ligar/desligar segue no F8).
+function acaoAplicarVisual() {
+    var x = rodar(['visual'], 15000);
+    if (!trim(x.out)) {
+        throw semResposta(x);
+    }
+    var j = lerJson(x.out);
+    if (!j || !j.ok) {
+        throw new Error(j && j.error ? j.error : 'resposta inválida do ' + nomeExe() + ': ' + corta(x.out, 200));
+    }
+    var feito = '';
+    if (j.wallpaper) {
+        hlyOk(h.hly('SetWallpaperSettings', { file: j.wallpaper, adjust_type: 'FILL' }), 'o Holyrics não trocou o papel de parede');
+        feito = '; papel de parede: ' + j.wallpaper + ' (F8)';
+    }
+    h.popupCreateTheme(j.theme, function (id) {
+        h.notification('AVDP: ' + (id ? 'tema "' + j.theme.name + '" criado' : 'tema não salvo') + feito, 10);
+    });
 }
 
 function acaoConferir() {

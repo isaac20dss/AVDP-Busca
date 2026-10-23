@@ -1,5 +1,6 @@
 mod bible;
 mod books;
+mod capture;
 mod db;
 mod error;
 mod holyrics;
@@ -81,6 +82,7 @@ struct AppInfo {
     db_path: String,
     data_dir: String,
     version: String,
+    identifier: String,
 }
 
 #[tauri::command]
@@ -89,6 +91,7 @@ async fn app_info(state: State<'_, AppState>, app: tauri::AppHandle) -> Res<AppI
         db_path: state.path.display().to_string(),
         data_dir: state.data_dir.display().to_string(),
         version: app.package_info().version.to_string(),
+        identifier: app.config().identifier.clone(),
     })
 }
 
@@ -864,9 +867,96 @@ async fn holyrics_show_verse(state: State<'_, AppState>, ids: Vec<String>, versi
 }
 
 #[tauri::command]
-async fn holyrics_show_slides(state: State<'_, AppState>, slides: Vec<String>) -> Res<()> {
+async fn holyrics_show_slides(state: State<'_, AppState>, slides: Vec<String>, index: Option<usize>) -> Res<()> {
     let cfg = state.holyrics();
-    holyrics::show_slides(&cfg, slides).await
+    holyrics::show_slides(&cfg, slides, index.unwrap_or(0)).await
+}
+
+/// Aberto pelo botão "AVDP Busca" do módulo do Holyrics (`--holyrics`): janela só com Mensagens e
+/// Bíblia, projetando pelo Holyrics.
+fn holyrics_flag<I: IntoIterator<Item = S>, S: AsRef<str>>(args: I) -> bool {
+    args.into_iter().any(|a| a.as_ref() == "--holyrics")
+}
+
+/// "AVDP Busca Plugin" (`tauri.plugin.conf.json`): o mesmo programa com outro nome e identificador,
+/// instalado ao lado do AVDP Busca; abre sempre no modo Holyrics e usa os mesmos dados.
+const PLUGIN_ID: &str = "br.avdp.busca.plugin";
+
+fn is_plugin(app: &tauri::AppHandle) -> bool {
+    app.config().identifier == PLUGIN_ID
+}
+
+#[tauri::command]
+fn holyrics_mode(app: tauri::AppHandle) -> bool {
+    is_plugin(&app) || holyrics_flag(std::env::args())
+}
+
+/// Modo Holyrics: a janela de projeção desenha o slide fora da tela (1920×1080), só para a foto.
+#[tauri::command]
+async fn capture_open(app: tauri::AppHandle) -> Res<()> {
+    let off = tauri::LogicalPosition::new(-30000.0, -30000.0);
+    let win = match app.get_webview_window("projection") {
+        Some(w) => w,
+        None => WebviewWindowBuilder::new(&app, "projection", WebviewUrl::App("index.html#/projection".into()))
+            .title("AVDP Busca — Holyrics")
+            .decorations(false)
+            .skip_taskbar(true)
+            .focused(false)
+            .inner_size(1920.0, 1080.0)
+            .position(off.x, off.y)
+            .build()?,
+    };
+    set_full(&win, false)?;
+    win.set_always_on_top(false)?;
+    win.set_decorations(false)?;
+    win.set_size(tauri::LogicalSize::new(1920.0, 1080.0))?;
+    win.set_position(off)?;
+    win.show()?;
+    if let Some(main) = app.get_webview_window("main") {
+        let _ = main.set_focus();
+    }
+    Ok(())
+}
+
+static SHOT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+/// Pasta dentro da aba Imagens do Holyrics com as fotos dos slides.
+const SHOT_DIR: &str = "AVDP ao vivo";
+
+/// Foto da projeção → `{aba Imagens}\AVDP ao vivo\slide-….png` → `ShowImage` no Holyrics.
+/// Nome novo a cada foto (o Holyrics guarda a imagem pelo nome); ficam só as 3 últimas.
+#[tauri::command]
+async fn holyrics_show_capture(app: tauri::AppHandle, state: State<'_, AppState>, dir: String) -> Res<String> {
+    let lib = PathBuf::from(dir.trim());
+    if !lib.is_dir() {
+        return Err(AppError::msg(format!("pasta Imagens do Holyrics não encontrada: {} (Configurações → Holyrics)", lib.display())));
+    }
+    let win = app.get_webview_window("projection").ok_or_else(|| AppError::msg("a janela de projeção não está aberta"))?;
+    let png = capture::png(&win).await?;
+    let folder = lib.join(SHOT_DIR);
+    std::fs::create_dir_all(&folder)?;
+    let name = format!("slide-{}-{}.jpg", std::process::id(), SHOT.fetch_add(1, std::sync::atomic::Ordering::SeqCst));
+    std::fs::write(folder.join(&name), &png)?;
+    let mut old: Vec<(std::time::SystemTime, PathBuf)> = std::fs::read_dir(&folder)?
+        .filter_map(|e| e.ok())
+        .filter(|e| e.file_name().to_string_lossy().starts_with("slide-"))
+        .filter_map(|e| Some((e.metadata().ok()?.modified().ok()?, e.path())))
+        .collect();
+    old.sort();
+    for (_, p) in old.iter().rev().skip(3) {
+        let _ = std::fs::remove_file(p);
+    }
+    let cfg = state.holyrics();
+    holyrics::call(&cfg, "ShowImage", serde_json::json!({ "file": format!("{SHOT_DIR}/{name}") })).await?;
+    Ok(name)
+}
+
+/// "Ir para Holyrics": a janela do AVDP sai da frente (minimiza) e o Holyrics, atrás dela, volta.
+#[tauri::command]
+fn go_to_holyrics(app: tauri::AppHandle) -> Res<()> {
+    if let Some(w) = app.get_webview_window("main") {
+        w.minimize()?;
+    }
+    Ok(())
 }
 
 /// Ações do Holyrics que o app pode disparar (lista fechada).
@@ -1037,18 +1127,34 @@ async fn projection_close(app: tauri::AppHandle) -> Res<()> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        // um AVDP só (mesmo banco): abrir de novo, pelo atalho ou pelo módulo do Holyrics, traz a janela
+        // aberta para a frente; vindo do módulo (`--holyrics`), ela passa para o modo Holyrics
+        .plugin(tauri_plugin_single_instance::init(|app, argv, _cwd| {
+            if is_plugin(app) || holyrics_flag(&argv) {
+                let _ = app.emit_to("main", "holyrics-mode", ());
+            }
+            if let Some(w) = app.get_webview_window("main") {
+                let _ = w.unminimize();
+                let _ = w.show();
+                let _ = w.set_focus();
+            }
+        }))
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
             // testes automáticos: AVDP_DATA_DIR aponta outra pasta de dados (uma cópia do banco), para o
             // teste nunca abrir o banco do Isaac. Sem a variável, é a pasta normal (%APPDATA%\br.avdp.busca;
             // no Mac, ~/Library/Application Support/br.avdp.busca).
             let test_dir = std::env::var_os("AVDP_DATA_DIR").map(PathBuf::from);
+            // o Plugin usa a pasta do AVDP Busca (mesmo banco, temas e configurações)
             let dir = match &test_dir {
                 Some(d) => d.clone(),
+                None if is_plugin(app.handle()) => app.path().app_data_dir()?.with_file_name("br.avdp.busca"),
                 None => app.path().app_data_dir()?,
             };
             std::fs::create_dir_all(&dir)?;
-            if test_dir.is_some() {
+            // o escopo "$APPDATA/**" do tauri.conf é a pasta do identificador: no Plugin (br.avdp.busca.plugin)
+            // ele não cobre br.avdp.busca, e os fundos dos temas e o papel de parede saíam pretos (403)
+            if test_dir.is_some() || is_plugin(app.handle()) {
                 let _ = app.asset_protocol_scope().allow_directory(&dir, true);
             }
             let path = dir.join("avdp.db");
@@ -1138,6 +1244,10 @@ pub fn run() {
             holyrics_versions,
             holyrics_show_verse,
             holyrics_show_slides,
+            holyrics_mode,
+            go_to_holyrics,
+            capture_open,
+            holyrics_show_capture,
             holyrics_call,
             media_list,
             media_add,
@@ -1152,6 +1262,16 @@ pub fn run() {
         ])
         .run(tauri::generate_context!())
         .expect("erro ao iniciar o AVDP Busca");
+}
+
+#[cfg(test)]
+mod mode_tests {
+    #[test]
+    fn holyrics_flag_only_with_the_exact_argument() {
+        assert!(super::holyrics_flag(["avdp-busca.exe", "--holyrics"]));
+        assert!(!super::holyrics_flag(["avdp-busca.exe"]));
+        assert!(!super::holyrics_flag(["avdp-busca.exe", "--holyrics-x"]));
+    }
 }
 
 #[cfg(test)]

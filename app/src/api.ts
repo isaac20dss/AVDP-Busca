@@ -106,7 +106,11 @@ export const api = {
 
   holyricsVersions: () => invoke<unknown>('holyrics_versions'),
   holyricsShowVerse: (ids: string[], version?: string) => invoke<void>('holyrics_show_verse', { ids, version: version ?? null }),
-  holyricsShowSlides: (slides: string[]) => invoke<void>('holyrics_show_slides', { slides }),
+  holyricsShowSlides: (slides: string[], index = 0) => invoke<void>('holyrics_show_slides', { slides, index }),
+  captureOpen: () => invoke<void>('capture_open'),
+  holyricsShowCapture: (dir: string) => invoke<string>('holyrics_show_capture', { dir }),
+  holyricsMode: () => invoke<boolean>('holyrics_mode'),
+  goToHolyrics: () => invoke<void>('go_to_holyrics'),
   holyricsCall: (action: string, body: Record<string, unknown>) => invoke<unknown>('holyrics_call', { action, body }),
 
   mediaList: (kind: '' | 'image' | 'video' | 'audio', query: string) => invoke<MediaFile[]>('media_list', { kind, query }),

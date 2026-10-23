@@ -71,9 +71,9 @@ pub async fn show_verse(cfg: &HolyricsConfig, ids: Vec<String>, version: Option<
     call(cfg, "ShowVerse", body).await.map(|_| ())
 }
 
-pub async fn show_slides(cfg: &HolyricsConfig, slides: Vec<String>) -> Result<(), AppError> {
+pub async fn show_slides(cfg: &HolyricsConfig, slides: Vec<String>, index: usize) -> Result<(), AppError> {
     let slides: Vec<Value> = slides.into_iter().map(|t| json!({ "text": t })).collect();
-    call(cfg, "ShowQuickPresentation", json!({ "slides": slides })).await.map(|_| ())
+    call(cfg, "ShowQuickPresentation", json!({ "slides": slides, "initial_index": index })).await.map(|_| ())
 }
 
 pub async fn versions(cfg: &HolyricsConfig) -> Result<Value, AppError> {

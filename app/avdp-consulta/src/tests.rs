@@ -263,3 +263,64 @@ fn make_db_leaves_no_side_files_next_to_the_avdp_db() {
     assert_eq!(r["groups"].as_array().unwrap().len(), 1, "{r}");
     drop(open);
 }
+
+#[test]
+fn abrir_acha_o_avdp_instalado_ou_o_caminho_dado() {
+    use crate::commands::avdp_exe;
+    let d = temp_dir("abrir");
+    // sem instalação: erro legível com a pasta esperada
+    let e = avdp_exe(None, Some(d.clone())).unwrap_err().to_string();
+    assert!(e.contains("não está instalado"), "{e}");
+    // só o AVDP Busca instalado (%LOCALAPPDATA%\AVDP Busca): abre ele com --holyrics
+    let exe = d.join("AVDP Busca").join("avdp-busca.exe");
+    std::fs::create_dir_all(exe.parent().unwrap()).unwrap();
+    std::fs::write(&exe, b"").unwrap();
+    assert_eq!(avdp_exe(None, Some(d.clone())).unwrap(), exe);
+    // com o AVDP Busca Plugin instalado, ele vem primeiro
+    let plugin = d.join("AVDP Busca Plugin").join("avdp-busca-plugin.exe");
+    std::fs::create_dir_all(plugin.parent().unwrap()).unwrap();
+    std::fs::write(&plugin, b"").unwrap();
+    assert_eq!(avdp_exe(None, Some(d.clone())).unwrap(), plugin);
+    // caminho das configurações do módulo (com aspas) vence; inexistente é erro
+    assert_eq!(avdp_exe(Some(format!("\"{}\"", exe.display())), None).unwrap(), exe);
+    assert!(avdp_exe(Some(d.join("nada.exe").display().to_string()), Some(d.clone())).is_err());
+    // o comando com caminho errado não abre nada e responde erro
+    let v = run(&["abrir", "--exe", &hex(&d.join("nada.exe").display().to_string())]);
+    assert_eq!(v["ok"], false);
+}
+
+#[test]
+fn visual_copia_fundos_e_monta_o_tema_do_holyrics() {
+    let d = temp_dir("visual");
+    let data = d.join("br.avdp.busca");
+    std::fs::create_dir_all(data.join("fundos")).unwrap();
+    std::fs::write(data.join("fundos").join("fundo HL.png"), b"png").unwrap();
+    std::fs::write(data.join("fundos").join("parede.jpg"), b"jpg").unwrap();
+    let c = rusqlite::Connection::open(data.join("avdp.db")).unwrap();
+    c.execute_batch("CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT); CREATE TABLE themes(id INTEGER PRIMARY KEY, name TEXT, data TEXT);").unwrap();
+    // caminhos de outro PC: acha pelo nome em fundos
+    let ui = json!({ "themeByKind": { "song": 2 }, "wallpaperImage": r"C:\Users\Outro\AppData\Roaming\br.avdp.busca\fundos\parede.jpg" });
+    c.execute("INSERT INTO settings VALUES('ui', ?1)", [ui.to_string()]).unwrap();
+    c.execute("INSERT INTO themes VALUES(1, 'Madeira', ?1)", [json!({ "bg": { "kind": "gradient", "gradient": "radial-gradient(#3a2a1c 0%, #140d08 75%)" } }).to_string()]).unwrap();
+    let t = json!({ "bg": { "kind": "image", "image": r"C:\Users\Outro\fundos\fundo HL.png", "dim": 0 }, "font": "Montserrat", "size": 14, "color": "#ffffff", "bold": true,
+        "align": "center", "valign": "middle", "lineHeight": 1.3, "shadow": true, "outline": 0, "padding": 6 });
+    c.execute("INSERT INTO themes VALUES(2, 'Clássico escuro', ?1)", [t.to_string()]).unwrap();
+    drop(c);
+    let lib = d.join("image");
+    let v = run(&["visual", "--avdp-dir", &hex(&data.display().to_string()), "--lib", &hex(&lib.display().to_string())]);
+    assert_eq!(v["wallpaper"], "AVDP/parede.jpg", "{v}");
+    let th = &v["theme"];
+    assert_eq!(th["name"], "AVDP - Clássico escuro");
+    assert_eq!(th["background"], json!({ "type": "image_file", "id": "AVDP/fundo HL.png", "adjust_type": "fill", "opacity": 100 }));
+    assert_eq!((th["font"]["name"].as_str(), th["font"]["size"].as_f64(), th["font"]["color"].as_str()), (Some("Montserrat"), Some(14.0), Some("FFFFFF")));
+    assert_eq!(th["font"]["line_spacing"], 0.3);
+    assert_eq!(th["align"]["margin"]["left"], 4.1);
+    assert!(lib.join("AVDP").join("fundo HL.png").is_file() && lib.join("AVDP").join("parede.jpg").is_file());
+    // sem tema escolhido: o primeiro; gradiente vira a primeira cor
+    let c = rusqlite::Connection::open(data.join("avdp.db")).unwrap();
+    c.execute("UPDATE settings SET value=?1", [json!({}).to_string()]).unwrap();
+    drop(c);
+    let v = run(&["visual", "--avdp-dir", &hex(&data.display().to_string()), "--lib", &hex(&lib.display().to_string())]);
+    assert_eq!(v["theme"]["background"], json!({ "type": "color", "id": "3A2A1C" }), "{v}");
+    assert!(v["wallpaper"].is_null());
+}

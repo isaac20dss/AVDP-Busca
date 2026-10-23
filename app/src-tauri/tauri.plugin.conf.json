@@ -1,0 +1,6 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "AVDP Busca Plugin",
+  "mainBinaryName": "avdp-busca-plugin",
+  "identifier": "br.avdp.busca.plugin"
+}

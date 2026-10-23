@@ -464,6 +464,24 @@ mark {
   background: #1d5f3b;
   border-color: var(--ok);
 }
+.go-holyrics {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.holyrics-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #1d5f3b;
+  border: 1px solid var(--ok);
+  font-size: 13px;
+  white-space: nowrap;
+}
 .monitor-select {
   max-width: 180px;
   font-size: 12.5px;

@@ -21,6 +21,8 @@ export interface Settings {
   /** Projetar a Bíblia pelo Holyrics (ACF, NVI, KJA… licenciadas dentro dele). */
   bibleViaHolyrics: boolean
   holyricsVersion: string
+  /** Aba Imagens da biblioteca do Holyrics: no modo Holyrics as fotos dos slides vão para "AVDP ao vivo" dentro dela. */
+  holyricsImageDir: string
   showSongFooter: boolean
   /** Abre a janela de projeção sozinha ao projetar. */
   autoOpenProjection: boolean
@@ -53,6 +55,7 @@ const DEFAULT_SETTINGS: Settings = {
   bibleVersions: [],
   bibleViaHolyrics: false,
   holyricsVersion: '',
+  holyricsImageDir: 'C:\\Holyrics\\Holyrics\\files\\media\\image',
   showSongFooter: false,
   autoOpenProjection: true,
   hotkeys: {},
@@ -84,6 +87,9 @@ interface Toast {
 interface Store {
   tab: Tab
   setTab: (t: Tab) => void
+  /** Aberto pelo botão do módulo do Holyrics: só Mensagens e Bíblia, tudo projetado pelo Holyrics. */
+  holyricsMode: boolean
+  enterHolyricsMode: () => void
   settings: Settings
   saveSettings: (p: Partial<Settings>) => void
   themes: ThemeRow[]
@@ -172,11 +178,26 @@ export function displaySlide(item: Item | null, slide: Slide | null, s: Settings
 
 export const KIND_TAB: Record<ItemKind, Tab> = { song: 'letras', verse: 'biblia', message: 'mensagens', text: 'textos', media: 'midia' }
 
+/** Abas da janela aberta pelo Holyrics (como a janela Bíblia dele). */
+export const HOLYRICS_TABS: Tab[] = ['mensagens', 'biblia']
+
 export const useApp = create<Store>((set, get) => ({
   tab: 'letras',
   setTab: (tab) => {
     if (tab === get().tab) return
+    if (get().holyricsMode && !HOLYRICS_TABS.includes(tab)) return
     set({ tab, item: get().tabItems[tab] ?? null, cursor: 0 })
+  },
+  holyricsMode: false,
+  enterHolyricsMode: () => {
+    set({ holyricsMode: true })
+    if (!HOLYRICS_TABS.includes(get().tab)) get().setTab('mensagens')
+    // a janela escondida da foto já fica pronta: a 1ª projeção não espera ela abrir (581 → ~80 ms)
+    if (inTauri() && !get().projectionOpen) {
+      set({ projectionOpen: true })
+      api.captureOpen().catch(() => set({ projectionOpen: false }))
+    }
+    document.title = 'AVDP Busca — Holyrics'
   },
   settings: DEFAULT_SETTINGS,
   saveSettings: (p) => {
@@ -237,10 +258,13 @@ export const useApp = create<Store>((set, get) => ({
   project: (item, index) => {
     const i = Math.max(0, Math.min(index, item.slides.length - 1))
     const s = get().settings
+    const st = get()
+    if (st.holyricsMode && item.kind === 'media') return st.fail('Mídia não vai pelo Holyrics: projete pelo próprio Holyrics.')
+    // Bíblia licenciada do Holyrics (ACF, NVI…): vai a referência; o resto, no modo Holyrics, vai como foto
+    // da projeção do AVDP (App.tsx, 'projection-painted')
     const viaHolyrics = item.kind === 'verse' && s.bibleViaHolyrics
     // A prévia (cursor) acompanha o ao vivo só quando estava junto dele (ou o item entra no ar agora).
     // Escolhida noutro slide, ela fica onde o operador pôs: prévia e ao vivo separados.
-    const st = get()
     const sameItem = st.item?.key === item.key
     const following = !st.live || st.live.key !== item.key || st.cursor === st.liveIndex
     // projetar um slide tira a tela preta / papel de parede / slide vazio
@@ -260,9 +284,9 @@ export const useApp = create<Store>((set, get) => ({
       get().sendStage()
       return
     }
-    if (s.autoOpenProjection && !get().projectionOpen && inTauri()) {
+    if ((st.holyricsMode || s.autoOpenProjection) && !get().projectionOpen && inTauri()) {
       set({ projectionOpen: true })
-      api.projectionOpen(s.monitor).catch((e) => {
+      ;(st.holyricsMode ? api.captureOpen() : api.projectionOpen(s.monitor)).catch((e) => {
         set({ projectionOpen: false })
         get().fail(e)
       })
@@ -291,12 +315,13 @@ export const useApp = create<Store>((set, get) => ({
     get().sendLive()
   },
   endPresentation: () => {
-    const via = get().liveViaHolyrics
+    const via = get().liveViaHolyrics || get().holyricsMode
     set({ live: null, liveIndex: 0, blank: 'none', liveViaHolyrics: false })
     if (via && inTauri()) api.holyricsCall('CloseCurrentPresentation', {}).catch(get().fail)
     get().sendLive()
-    // Esc para de projetar: depois do esmaecimento a janela de projeção fecha (abre de novo ao projetar)
-    if (inTauri() && get().projectionOpen) {
+    // Esc para de projetar: depois do esmaecimento a janela de projeção fecha (abre de novo ao projetar);
+    // no modo Holyrics ela fica (escondida) para a próxima foto sair logo
+    if (inTauri() && get().projectionOpen && !get().holyricsMode) {
       const seq = get().liveSeq
       setTimeout(() => {
         const s = get()
@@ -324,7 +349,8 @@ export const useApp = create<Store>((set, get) => ({
       theme: blank === 'logo' && settings.wallpaperImage ? { ...theme, bg: { kind: 'image', image: settings.wallpaperImage, color: '#000' } } : theme,
       blank,
       logoText: settings.logoText,
-      fadeMs: settings.fadeMs,
+      // modo Holyrics: a transição é do Holyrics; a foto sai do slide já pronto
+      fadeMs: get().holyricsMode ? 0 : settings.fadeMs,
     }
     emitTo('projection', 'live', payload).catch(() => {})
   },
