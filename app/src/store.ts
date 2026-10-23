@@ -43,6 +43,8 @@ export interface Settings {
   msgView: 'paragrafos' | 'slides'
   /** Modelo do rodapé das mensagens ("{codigo} · {titulo} · §{num}"). */
   msgFooter: string
+  /** Ao abrir o programa, sincroniza as mensagens com Busca CBB e Tabernáculo da Fé (as editadas não mudam). */
+  autoSync: boolean
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -67,6 +69,7 @@ const DEFAULT_SETTINGS: Settings = {
   bibleCycle: [],
   msgView: 'paragrafos',
   msgFooter: DEFAULT_MSG_FOOTER,
+  autoSync: false,
 }
 
 export type Modal =
@@ -144,7 +147,7 @@ interface Store {
   modal: Modal
   setModal: (m: Modal) => void
   toasts: Toast[]
-  toast: (text: string, kind?: Toast['kind']) => void
+  toast: (text: string, kind?: Toast['kind'], ms?: number) => void
   fail: (e: unknown) => void
   /** Pedido de foco/recarga entre painéis (ex.: abrir mensagem pela busca global). */
   focusRequest: { kind: string; payload: unknown; at: number } | null
@@ -413,10 +416,10 @@ export const useApp = create<Store>((set, get) => ({
   modal: null,
   setModal: (modal) => set({ modal }),
   toasts: [],
-  toast: (text, kind = 'info') => {
+  toast: (text, kind = 'info', ms) => {
     const id = toastId++
     set({ toasts: [...get().toasts, { id, text, kind }] })
-    setTimeout(() => set({ toasts: get().toasts.filter((t) => t.id !== id) }), kind === 'error' ? 7000 : 3200)
+    setTimeout(() => set({ toasts: get().toasts.filter((t) => t.id !== id) }), ms ?? (kind === 'error' ? 7000 : 3200))
   },
   fail: (e) => get().toast(errText(e), 'error'),
   focusRequest: null,

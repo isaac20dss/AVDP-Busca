@@ -243,12 +243,14 @@ export function selectionItem(): Item | null {
   const abbrevs = abbrevsOf(shown)
   const o = verseOptions()
   const together = app.settings.bibleRangeMode === 'juntos'
+  const range = `${info.name} ${chapter}:${rangeLabel(sel)}`
   return {
     kind: 'verse',
     key: `verse:${shown.join(',')}:${book}:${chapter}:sel:${sel.join('.')}:${together ? 'j' : 'q'}${o.splitChars ? 's' : ''}${o.peek ? 'p' : ''}`,
-    title: `${info.name} ${chapter}:${rangeLabel(sel)}`,
+    title: range,
     subtitle: abbrevs.join(' / '),
-    slides: together ? versesTogether(info, chapter, chosen, abbrevs, o) : verseSlides(info, chapter, chosen, abbrevs, o),
+    // "Só ref." num trecho: todos os slides mostram o trecho inteiro ("João 3:1-14"), não o versículo do slide
+    slides: together ? versesTogether(info, chapter, chosen, abbrevs, o) : verseSlides(info, chapter, chosen, abbrevs, o).map((s) => ({ ...s, refText: range })),
     ref: { book, chapter, verses: sel },
   }
 }

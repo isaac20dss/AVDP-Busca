@@ -1,69 +1,77 @@
-AVDP Mensagens para o Holyrics 1.0.0 - passo a passo
-=====================================================
+AVDP Busca Plugin para o Holyrics 1.4.0 - passo a passo
+=======================================================
 
-O que é: um módulo do Holyrics (o "plugin") com as Mensagens do AVDP Busca. Dentro do Holyrics
-dá para pesquisar as mensagens do mesmo jeito do AVDP, projetar a mensagem inteira a partir do
-parágrafo (§) escolhido, pôr a mensagem na lista de reprodução e importar a fila exportada pelo
-AVDP Busca (.avdpfila). Funciona com o AVDP fechado e sem internet.
+O que é: um botão "AVDP Busca" dentro do Holyrics que abre o AVDP Busca Plugin numa janela à parte
+(como a janela Bíblia do Holyrics), com as Mensagens e a Bíblia do AVDP. O que você projeta ali
+aparece no Holyrics exatamente como na prévia do AVDP (tema, fundo, fonte, rodapé). O botão
+"Ir para Holyrics" volta para o Holyrics. Também dá para pesquisar e projetar mensagens direto
+pelos botões do módulo (com "Mostrar todas as opções" ligado). Funciona sem internet.
 
-São três peças:
-  - avdp-mensagens.js     o módulo (texto que se cola na janela Módulos do Holyrics);
-  - avdp-consulta.exe     o programa que lê o banco (fica na aba Arquivos da biblioteca do Holyrics);
-  - avdp-mensagens.db     o banco só com as mensagens (220 MB), em C:\AVDP Holyrics\.
-O banco fica fora da biblioteca do Holyrics de propósito: assim ele não entra no backup nem na
-sincronização do Holyrics com o Google Drive.
+O pacote tem:
+  - AVDP Busca Plugin-setup.exe   o programa (instala em %LOCALAPPDATA%\AVDP Busca Plugin);
+  - banco-avdp\                   o banco do AVDP Busca (mensagens, Bíblias, temas e fundos);
+  - avdp-mensagens.js             o módulo (texto que se cola na janela Módulos do Holyrics);
+  - avdp-consulta.exe             o programa que o módulo chama (vai para a biblioteca do Holyrics);
+  - banco\avdp-mensagens.db       o banco só com as mensagens para os botões do módulo (220 MB);
+  - INSTALAR.cmd                  faz a parte 1 sozinho.
+O AVDP Busca Plugin não substitui o AVDP Busca: se o computador já tem o AVDP Busca, os dois usam
+o mesmo banco (o que já existe não é trocado).
 
 
 1. INSTALAR (UMA VEZ EM CADA COMPUTADOR)
 ----------------------------------------
 
- 1. Extraia o zip  AVDP-Mensagens-Holyrics-1.0.0.zip : botão direito > "Extrair tudo..." > "Extrair".
+ 1. Extraia o zip: botão direito > "Extrair tudo..." > "Extrair".
 
- 2. Na pasta extraída, dê dois cliques em  INSTALAR.cmd
+ 2. Feche o Holyrics. Na pasta extraída, dê dois cliques em  INSTALAR.cmd
     - Se o Windows perguntar "Deseja executar este arquivo?", clique em "Executar".
     - Se aparecer "O Windows protegeu o computador", clique em "Mais informações" e depois em
-      "Executar assim mesmo" (o programa não tem assinatura digital; é normal).
+      "Executar assim mesmo" (os programas não têm assinatura digital; é normal).
 
- 3. A janela preta:
-    - cria a pasta  C:\AVDP Holyrics\  com o banco, o programa, o módulo e o
-      ATUALIZAR-BANCO-DO-PLUGIN.cmd;
-    - copia o avdp-consulta.exe para a biblioteca do Holyrics:
-      C:\Holyrics\Holyrics\files\media\file   (é a aba "Arquivos" da biblioteca).
-      Se o Holyrics estiver em outra pasta, ela pergunta o caminho;
-    - testa o programa. No fim deve aparecer uma linha assim:
-      OK: avdp-consulta 1.0.0 lendo C:\AVDP Holyrics\avdp-mensagens.db: 727 mensagens com texto ...
+ 3. A janela preta faz, em ordem:
+    [1/5] instala o AVDP Busca Plugin (sem perguntas);
+    [2/5] põe o banco do AVDP Busca em %APPDATA%\br.avdp.busca  (só se ainda não houver um);
+    [3/5] cria  C:\AVDP Holyrics\  com o banco do módulo, o programa e o módulo;
+    [4/5] copia o avdp-consulta.exe para a biblioteca do Holyrics
+          (C:\Holyrics\Holyrics\files\media\file; se o Holyrics estiver em outra pasta, ela pergunta)
+          e testa: deve aparecer "OK: avdp-consulta ... mensagens com texto ...";
+    [5/5] deixa o código do módulo copiado (é só colar no passo 2.3).
     Aperte uma tecla para fechar.
 
 
-2. COLAR O MÓDULO NO HOLYRICS (UMA VEZ)
----------------------------------------
+2. NO HOLYRICS (UMA VEZ)
+-----------------------
 
- Funciona no Holyrics grátis (testado na versão 2.30.0 em 2026-10-18; não precisa do Holyrics Plan).
+ Funciona no Holyrics grátis (testado na 2.30.0; não precisa do Holyrics Plan).
 
- 1. Abra o Holyrics normalmente.
+ 1. Abra o Holyrics.
 
- 2. Abra a janela Módulos: na barra de módulos (logo abaixo de "Favoritos"), clique nos três
-    pontinhos (⋮) bem à esquerda > "Módulos (Editar)". Clique em "Adicionar" para criar um módulo
-    JavaScript novo (dê o nome que quiser, por exemplo "AVDP Busca").
+ 2. Janela Módulos: na barra de módulos (abaixo de "Favoritos"), três pontinhos (⋮) bem à esquerda
+    > "Módulos (Editar)" > "Adicionar" > JavaScript. Dê o nome "AVDP Busca".
 
- 3. Abra o arquivo  C:\AVDP Holyrics\avdp-mensagens.js  no Bloco de Notas, selecione tudo
-    (Ctrl+A) e copie (Ctrl+C). Na janela Módulos, clique em "Código" no módulo novo, apague o que
-    tiver (Ctrl+A) e cole (Ctrl+V). Clique em "Salvar".
+ 3. No módulo novo, clique em "Código", apague o que tiver (Ctrl+A) e cole (Ctrl+V). "Salvar".
+    (Se a área de transferência já mudou: abra C:\AVDP Holyrics\avdp-mensagens.js no Bloco de
+    Notas, Ctrl+A, Ctrl+C.)
 
  4. Deixe o módulo marcado (ativado) na primeira coluna.
 
- 5. Libere o programa: na janela Módulos, "Configurações" do módulo > "Permissões avançadas" >
-    "allowed_files", marque  avdp-consulta.exe .
-    Sem isso o Holyrics não deixa o módulo rodar o programa (aparece um aviso dizendo isso).
+ 5. "Configurações" do módulo > "Permissões avançadas" > "allowed_files": marque  avdp-consulta.exe .
 
- 6. Aparecem 5 botões na barra de módulos:
-      Pesquisar mensagem | Abrir por data | Adicionar à lista | Importar fila do AVDP | Conferir
+ 6. Ligue a API do Holyrics (o Plugin projeta por ela):
+    Arquivo > Configurações > aba "API Server": marque "Ativado" em "API Server - Local" e veja a
+    Porta (padrão 8091). Em "Gerenciar permissões", crie um token (dê o nome "AVDP Busca") e libere
+    as ações ShowImage, ShowVerse e CloseCurrentPresentation (ou todas). Copie o token.
 
- 7. Teste: clique em "Conferir". Deve mostrar o banco, "Mensagens com texto: 727 de 1300" e
-    "Respostas do programa: 64000 ok +7 quebras, ... 2000 ok".
+ 7. Clique no botão "AVDP Busca" da barra de módulos: abre o AVDP Busca Plugin. Na engrenagem
+    (canto de cima, à direita) > Holyrics: Endereço 127.0.0.1, a Porta do passo 6 e cole o token.
+    "Salvar e testar". Se o Holyrics não estiver em C:\Holyrics, ajuste também "Pasta Imagens do
+    Holyrics" (a pasta ...\Holyrics\files\media\image).
 
- Para trocar o módulo por uma versão nova: mesmo caminho do passo 2, botão "Código", Ctrl+A,
- Ctrl+V do arquivo novo e "Salvar".
+ 8. Pronto. Para não projetar na TV durante um teste: no Holyrics, "Configurações de exibição" >
+    marque "Ocultar tela"; desmarque depois.
+
+ Para trocar o módulo por uma versão nova: Módulos > "Código" > Ctrl+A > Ctrl+V do arquivo novo >
+ "Salvar".
 
 
 3. USAR
@@ -135,14 +143,19 @@ Importar fila do AVDP
 Configurações do módulo (janela Módulos > "Configurações" do módulo)
   - Tema das mensagens; máximo de caracteres por slide; rodapé com código e §; como a mensagem
     entra na lista; máximo de resultados; caminho do banco (vazio = C:\AVDP Holyrics\avdp-mensagens.db);
-    nome do programa (avdp-consulta.exe); caminho do AVDP Busca (vazio = %LOCALAPPDATA%\AVDP Busca\avdp-busca.exe).
+    nome do programa (avdp-consulta.exe); caminho do AVDP Busca Plugin (vazio = %LOCALAPPDATA%\AVDP Busca Plugin\avdp-busca-plugin.exe); mostrar todas as opções.
 
 
 4. QUANDO ENTRAREM MENSAGENS NOVAS NO AVDP
 ------------------------------------------
 
-O banco do plugin é uma cópia. Depois de baixar mensagens novas no AVDP Busca (Tabernáculo da Fé,
-Busca CBB...), dê dois cliques em  C:\AVDP Holyrics\ATUALIZAR-BANCO-DO-PLUGIN.cmd .
+No AVDP Busca Plugin (ou no AVDP Busca): engrenagem > Mensagens > marque "Sincronizar
+automaticamente". A cada abertura ele baixa o que for novo ou revisado no Tabernáculo da Fé e no
+Busca CBB (mensagens que você corrigiu não são alteradas). Desligado, ele só avisa quando há
+novidade online; aí é só clicar em "Sincronizar agora" nessa mesma tela.
+
+Os botões do módulo usam uma cópia. Para atualizar essa cópia depois de sincronizar, dê dois
+cliques em  C:\AVDP Holyrics\ATUALIZAR-BANCO-DO-PLUGIN.cmd .
 Ele lê o banco do AVDP deste computador (só lê, não muda nada nele), gera um banco novo do plugin
 (uns 15 segundos) e só troca o antigo depois de conferir o novo. Rode com o Holyrics fechado, ou
 pelo menos sem usar o módulo naquele momento.
@@ -151,11 +164,10 @@ pelo menos sem usar o módulo naquele momento.
 5. LEVAR PARA O OUTRO COMPUTADOR
 --------------------------------
 
- 1. Ponha no Google Drive (na mesma pasta do AVDP Busca, fora da pasta do Obsidian):
-      AVDP-Mensagens-Holyrics-1.0.0.zip
-      LEIA-ME - PASSO A PASSO.txt (este arquivo)
- 2. No outro computador: baixe o zip e siga as partes 1 e 2 deste arquivo.
-    O banco já vai dentro do zip; não precisa do AVDP Busca instalado para o plugin funcionar.
+ 1. Leve o zip  AVDP-Busca-Plugin-Holyrics-1.4.0.zip  (pendrive, Google Drive...) e este arquivo.
+ 2. No outro computador: extraia e siga as partes 1 e 2. Tudo vai dentro do zip; não precisa do
+    AVDP Busca instalado nem de internet. O token do Holyrics NÃO vai no zip: crie um no Holyrics
+    de lá (parte 2, passo 6).
 
 
 6. SE ALGO DER ERRADO

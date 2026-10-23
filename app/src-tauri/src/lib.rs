@@ -550,6 +550,42 @@ async fn msg_sync_tdf(state: State<'_, AppState>, app: tauri::AppHandle) -> Res<
     Ok(TdfReport { total, downloaded, superseded })
 }
 
+#[derive(Serialize)]
+struct OnlinePending {
+    /// Tabernáculo da Fé: mensagens novas ou revisadas pelo site desde a última sincronização.
+    tdf: usize,
+    /// Busca CBB: mensagens no site além das que já estão no banco.
+    cbb: i64,
+}
+
+/// Quanto há de novo online, sem baixar texto (uma consulta a cada site). Para o aviso ao abrir.
+#[tauri::command]
+async fn msg_online_pending(state: State<'_, AppState>) -> Res<OnlinePending> {
+    let client = reqwest::Client::builder()
+        .user_agent("AVDP-Busca/0.1")
+        .timeout(std::time::Duration::from_secs(30))
+        .build()?;
+    let titles: Vec<messages::TdfTitle> = tdf_get(&client, &format!("{}messageGetTitles?orderBy=date", messages::TDF_API)).await?;
+    let page: messages::CbbPage = client
+        .post(messages::CBB_URL)
+        .json(&json!({ "pagina": 1, "itensPorPagina": 1 }))
+        .send()
+        .await?
+        .error_for_status()?
+        .json()
+        .await?;
+    let c = state.conn();
+    let versions: HashMap<String, i64> = db::setting(&c, "tdf_versions")?.and_then(|s| serde_json::from_str(&s).ok()).unwrap_or_default();
+    let stored: std::collections::HashSet<String> = {
+        let mut st = c.prepare("SELECT source_id FROM msg_variants WHERE source='tdf' AND para_count > 0")?;
+        let rows = st.query_map([], |r| r.get(0))?;
+        rows.collect::<std::result::Result<_, _>>()?
+    };
+    let tdf = titles.iter().filter(|t| versions.get(&t.code) != Some(&t.version) || !stored.contains(&t.code)).count();
+    let cbb_stored: i64 = c.query_row("SELECT count(*) FROM msg_variants WHERE source='cbb'", [], |r| r.get(0))?;
+    Ok(OnlinePending { tdf, cbb: (page.total.unwrap_or(0) - cbb_stored).max(0) })
+}
+
 // ---------- livros (Eras) e série dos Selos, de um zip ou pasta de TXT ----------
 
 /// Importa os TXT do zip/pasta: capítulos do livro das Eras e as mensagens dos Selos (essas só se o
@@ -1218,6 +1254,7 @@ pub fn run() {
             msg_import_local,
             msg_sync_cbb,
             msg_sync_tdf,
+            msg_online_pending,
             msg_import_books,
             msg_para_save,
             msg_para_join,

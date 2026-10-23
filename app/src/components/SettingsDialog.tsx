@@ -453,7 +453,7 @@ function FooterEditor() {
 }
 
 function MessagesTab() {
-  const { toast, fail, request } = useApp(useShallow((s) => ({ toast: s.toast, fail: s.fail, request: s.request })))
+  const { toast, fail, request, settings, saveSettings } = useApp(useShallow((s) => ({ toast: s.toast, fail: s.fail, request: s.request, settings: s.settings, saveSettings: s.saveSettings })))
   const hub = useHubSync()
   const [stats, setStats] = useState<MsgStats | null>(null)
   const [path, setPath] = useState('')
@@ -498,6 +498,11 @@ function MessagesTab() {
           </div>
         </div>
       )}
+      <label className="frow">
+        <input type="checkbox" checked={settings.autoSync} onChange={(e) => saveSettings({ autoSync: e.target.checked })} />
+        <b>Sincronizar automaticamente</b> — ao abrir o programa, baixa o que for novo ou revisado no Tabernáculo da Fé e no Busca CBB (mensagens editadas aqui não
+        são alteradas). Desligado, o programa só avisa quando houver novidade online.
+      </label>
       <h3>Banco local (database-mensagens)</h3>
       <div className="row-buttons">
         <input className="grow" value={path} onChange={(e) => setPath(e.target.value)} placeholder="caminho do mensagens.db" />

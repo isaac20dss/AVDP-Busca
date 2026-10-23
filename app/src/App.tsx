@@ -152,6 +152,30 @@ const GLOBAL_ACTIONS = new Set<ActionId>([
 ])
 const IN_MODAL = new Set<ActionId>(['wallpaper', 'blank', 'black'])
 
+/** Ao abrir: "Sincronizar automaticamente" ligado baixa o que é novo no Tabernáculo da Fé e no Busca CBB
+ * (as traduções editadas não são sobrescritas); desligado, só avisa se há novidade online. Sem internet, quieto. */
+async function startupSync(map: Record<string, string>) {
+  const s = useApp.getState()
+  // AVDP Busca e AVDP Busca Plugin usam o mesmo banco: o que abrir logo depois do outro não repete
+  const recent = Date.now() / 1000 - Math.max(+(map.tdf_synced_at ?? 0), +(map.cbb_synced_at ?? 0)) < 30 * 60
+  try {
+    if (s.settings.autoSync) {
+      if (recent) return
+      const tdf = await api.msgSyncTdf()
+      const cbb = await api.msgSyncCbb()
+      s.request('msg-data-changed', null)
+      if (tdf.downloaded > 0) s.toast(`Mensagens sincronizadas: ${tdf.downloaded} novas ou revisadas do Tabernáculo da Fé · Busca CBB conferido (${cbb})`, 'ok', 8000)
+      return
+    }
+    const p = await api.msgOnlinePending()
+    const n = p.tdf + p.cbb
+    if (n > 0)
+      s.toast(`Há ${n} mensagens novas ou revisadas online (Tabernáculo da Fé ${p.tdf}, Busca CBB ${p.cbb}). Sincronize em Configurações → Mensagens ou ligue "Sincronizar automaticamente".`, 'info', 12000)
+  } catch {
+    /* sem internet ou site fora do ar: tenta na próxima abertura */
+  }
+}
+
 export default function App() {
   const tab = useApp((s) => s.tab)
   const modal = useApp((s) => s.modal)
@@ -178,6 +202,8 @@ export default function App() {
         setTimeout(() => {
           for (const c of [GlobalSearch, SettingsDialog, ThemeEditor, SongEditor, TextEditor, ImportDialog]) c.preload().catch(() => {})
         }, 1500)
+        // sincronização/aviso depois da tela pronta (não atrasa a abertura)
+        setTimeout(() => api.getSettings().then(startupSync).catch(() => {}), 4000)
       }
     })()
     // a janela de projeção pede o slide atual quando abre

@@ -77,6 +77,7 @@ export const api = {
   msgImportLocal: (path: string) => invoke<{ read: number; with_text: number; paragraphs: number; groups: number }>('msg_import_local', { path }),
   msgSyncCbb: () => invoke<number>('msg_sync_cbb'),
   msgSyncTdf: () => invoke<TdfReport>('msg_sync_tdf'),
+  msgOnlinePending: () => invoke<{ tdf: number; cbb: number }>('msg_online_pending'),
   msgParaSave: (variantId: number, seq: number, text: string) => invoke<void>('msg_para_save', { variantId, seq, text }),
   msgParaJoin: (variantId: number, seq: number) => invoke<boolean>('msg_para_join', { variantId, seq }),
   msgEditsUndo: (variantId: number) => invoke<boolean>('msg_edits_undo', { variantId }),
