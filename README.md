@@ -1,84 +1,109 @@
 # AVDP Busca
 
 Passador de letras no estilo do Holyrics, com Bíblia (ACF, NVI, KJA e outras) e Mensagens (busca no estilo do The Table).
-Windows e Mac. Versão atual: **1.3.0**.
+Windows e Mac. Versão atual: **1.4.0** · Plugin para o Holyrics: **AVDP Busca Plugin 1.4.0** (Windows).
 
 > Repositório **privado**: tem as Bíblias ACF/NVI/KJA e o banco de mensagens (no Releases), que são protegidos por direito autoral. Não tornar público.
 
----
+## ⬇️ Baixar a versão mais recente
 
-## O que baixar
+### **[github.com/isaac20dss/AVDP-Busca/releases/latest](https://github.com/isaac20dss/AVDP-Busca/releases/latest)**
 
-Para **usar** o programa, não precisa do código: baixe o pacote pronto em
-**[Releases → v1.3.0](https://github.com/isaac20dss/AVDP-Busca/releases/tag/v1.3.0)** (lá embaixo, em *Assets*).
+Abra o link acima e baixe, em **Assets** (lá embaixo), o arquivo do seu caso:
 
-| Seu computador | Baixe | Tamanho |
-|---|---|---|
-| Windows | `AVDP-Busca-1.3.0-instalar-com-banco.zip` | 172 MB |
-| Mac (Apple Silicon ou Intel) | `AVDP-Busca-1.3.0-Mac-instalar-com-banco.zip` | 185 MB |
+| Quero… | Baixe |
+|---|---|
+| Instalar no **Windows** pela primeira vez (programa + banco) | `AVDP-Busca-1.4.0-instalar-com-banco.zip` |
+| Instalar no **Mac** pela primeira vez (programa + banco) | `AVDP-Busca-1.4.0-Mac-instalar-com-banco.zip` |
+| **Atualizar** o Windows (já tem o banco) | `AVDP.Busca_1.4.0_x64-setup.exe` |
+| **Atualizar** o Mac Apple Silicon (M1, M2, M3…) | `AVDP.Busca_1.4.0_aarch64.dmg` |
+| **Atualizar** o Mac Intel | `AVDP.Busca_1.4.0_x64.dmg` |
+| Usar dentro do **Holyrics** (Windows) | `AVDP-Busca-Plugin-Holyrics-1.4.0.zip` |
 
-"Com banco" = instalador **+** o banco de dados já pronto (mensagens, Bíblias, fundos). É o que você quer na primeira instalação.
-Os arquivos soltos (`…_x64-setup.exe`, `….dmg`) são só o programa, sem banco: servem para atualizar um computador que já tem o banco.
+"Com banco" = instalador **+** banco de dados pronto (mensagens, Bíblias, temas, fundos). O banco que já existir no computador vai para
+uma pasta de backup (nada é apagado). Os arquivos soltos (`.exe`, `.dmg`) só trocam o programa e mantêm o banco.
+
+### Novidades da 1.4.0
+- **Sincronizar automaticamente** (Configurações → Mensagens): ao abrir, baixa o que for novo ou revisado no Tabernáculo da Fé e no
+  Busca CBB; mensagens que você corrigiu não mudam. Desligado, o programa avisa quando há novidade online.
+- **Só ref.** num trecho (ex.: versículos 1 a 14) mostra **"João 3:1-14"** na prévia e no telão.
+- **AVDP Busca Plugin** para o Holyrics: um botão "AVDP Busca" dentro do Holyrics abre o AVDP numa janela à parte; o que você projeta
+  aparece no Holyrics exatamente como na prévia do AVDP.
 
 ---
 
 ## Instalar no Windows
 
-1. Baixe `AVDP-Busca-1.3.0-instalar-com-banco.zip` (tabela acima).
+1. Baixe `AVDP-Busca-1.4.0-instalar-com-banco.zip` ([versão mais recente](https://github.com/isaac20dss/AVDP-Busca/releases/latest)).
 2. Botão direito no zip → **Extrair tudo…** → **Extrair**. (Não rode de dentro do zip.)
-3. A pasta extraída tem:
-   | Arquivo / pasta | O que é |
-   |---|---|
-   | `INSTALAR.cmd` | **é este que você abre** |
-   | `AVDP Busca_1.3.0_x64-setup.exe` | instalador (o `INSTALAR.cmd` abre sozinho) |
-   | `banco\` | banco de dados (`avdp.db`) e imagens de fundo (`fundos\`) |
-   | `LEIA-ME.txt` | este passo a passo, resumido |
-4. Feche o AVDP Busca, se estiver aberto.
-5. Dois cliques em **`INSTALAR.cmd`**. Ele:
-   - guarda o banco que já existir em `%APPDATA%\br.avdp.busca\backup-AAAAMMDD-HHMMSS\` (nada é apagado);
-   - copia o banco novo para `%APPDATA%\br.avdp.busca\`;
-   - abre o instalador → **Avançar** até o fim.
-6. Se o Windows mostrar "O Windows protegeu o computador": **Mais informações → Executar assim mesmo** (o programa não tem certificado pago).
-7. Abra o **AVDP Busca** pelo menu Iniciar.
+3. Feche o AVDP Busca, se estiver aberto.
+4. Na pasta extraída, dois cliques em **`INSTALAR.cmd`**. Ele guarda o banco antigo em
+   `%APPDATA%\br.avdp.busca\backup-AAAAMMDD-HHMMSS\`, copia o banco novo e abre o instalador → **Avançar** até o fim.
+5. Se o Windows mostrar "O Windows protegeu o computador": **Mais informações → Executar assim mesmo** (o programa não tem certificado pago).
+6. Abra o **AVDP Busca** pelo menu Iniciar.
 
-**Atualizar** (já tem o banco): rode só o `AVDP.Busca_…_x64-setup.exe` do Releases. Instala por cima e mantém o banco.
+**Atualizar**: rode só o `AVDP.Busca_…_x64-setup.exe`. Instala por cima e mantém o banco.
 
 ---
 
 ## Instalar no Mac
 
-1. Baixe `AVDP-Busca-1.3.0-Mac-instalar-com-banco.zip` (tabela acima).
+1. Baixe `AVDP-Busca-1.4.0-Mac-instalar-com-banco.zip` ([versão mais recente](https://github.com/isaac20dss/AVDP-Busca/releases/latest)).
 2. Dois cliques no zip: o Mac extrai numa pasta ao lado (em Transferências).
-3. A pasta extraída tem:
-   | Arquivo / pasta | O que é |
-   |---|---|
-   | `instalar.command` | **é este que você abre** |
-   | `AVDP Busca_1.3.0_aarch64.dmg` | programa para Mac Apple Silicon (M1, M2, M3…) |
-   | `AVDP Busca_1.3.0_x64.dmg` | programa para Mac Intel |
-   | `banco/` | banco de dados (`avdp.db`) e imagens de fundo (`fundos/`) |
-   | `LEIA-ME.txt` | este passo a passo, resumido |
+3. Feche o AVDP Busca, se estiver aberto (Cmd+Q).
+4. **Botão direito** (ou Control+clique) em **`instalar.command`** → **Abrir** → **Abrir**.
+   - "Desenvolvedor não identificado" é esperado (sem certificado da Apple). Sem o botão **Abrir**:
+     **Ajustes do Sistema → Privacidade e Segurança → Abrir Mesmo Assim**, e abra de novo.
+5. No Terminal, o script guarda o banco antigo em `~/Library/Application Support/br.avdp.busca/backup-…/`, copia o banco novo,
+   escolhe o `.dmg` do seu processador e instala o **AVDP Busca** em **Aplicativos**. Em "Pronto", aperte Enter.
+6. Abra o **AVDP Busca** em **Aplicativos** (ou Launchpad).
 
-   Não precisa saber qual é o seu processador: o `instalar.command` escolhe o `.dmg` certo.
-4. Feche o AVDP Busca, se estiver aberto (Cmd+Q).
-5. **Botão direito** (ou Control+clique) em **`instalar.command`** → **Abrir** → **Abrir**.
-   - O Mac avisa "desenvolvedor não identificado" porque o programa não tem certificado da Apple. É esperado.
-   - Se não aparecer o botão **Abrir**: **Ajustes do Sistema → Privacidade e Segurança** → lá embaixo, **Abrir Mesmo Assim** → volte e abra de novo.
-6. Abre o Terminal e o script:
-   - guarda o banco que já existir em `~/Library/Application Support/br.avdp.busca/backup-AAAAMMDD-HHMMSS/`;
-   - copia o banco novo para `~/Library/Application Support/br.avdp.busca/`;
-   - instala o **AVDP Busca** em **Aplicativos** e libera a abertura dele.
-7. Quando aparecer "Pronto", aperte Enter e feche o Terminal.
-8. Abra o **AVDP Busca** pela pasta **Aplicativos** (ou Launchpad).
+**Atualizar**: baixe o `.dmg` do seu Mac (`aarch64` = Apple Silicon, `x64` = Intel), abra e arraste o AVDP Busca para
+**Aplicativos** (substituir). Na primeira abertura: botão direito → **Abrir**.
 
-**Atualizar** (já tem o banco): baixe o `.dmg` do seu Mac (`aarch64` = Apple Silicon, `x64` = Intel), abra e arraste o AVDP Busca para **Aplicativos** (substituir). Na primeira abertura: botão direito → **Abrir**.
+**Diferenças no Mac**: **Cmd (⌘)** no lugar do Ctrl nos atalhos · **F8/F9/F10** com **fn** (ou "Usar F1, F2… como teclas de função"
+em Ajustes → Teclado) · **Cmd+Espaço** é do Spotlight (troque o atalho de mídia em Configurações → Atalhos) · projeção: escolha
+o monitor em Configurações → Projeção e desligue o espelhamento das telas · o **plugin do Holyrics** é só Windows.
 
-### Diferenças no Mac
-- **Cmd (⌘) no lugar do Ctrl** em todos os atalhos: Cmd+F pesquisa, Cmd+1…5 trocam a aba, Cmd+K busca geral.
-- **F8 / F9 / F10** (papel de parede, sem texto, tela preta): aperte com **fn** (fn+F8…), ou ligue em
-  Ajustes do Sistema → Teclado → "Usar as teclas F1, F2 etc. como teclas de função padrão".
-- **Cmd+Espaço** é do Spotlight: troque o atalho de tocar/pausar mídia em Configurações → Atalhos.
-- **Projeção**: em Configurações → Projeção escolha o monitor. Se o Mac estiver **espelhando** as telas, desligue em Ajustes → Telas.
-- O **plugin do Holyrics** (`avdp-consulta`) é só para Windows.
+---
+
+## Instalar o plugin no Holyrics (Windows)
+
+Funciona no **Holyrics grátis** (testado na 2.30.0). O AVDP Busca Plugin **não substitui** o AVDP Busca: os dois podem ficar no
+mesmo computador e usam o mesmo banco.
+
+**Parte 1 — no Windows (uma vez por computador)**
+1. Baixe `AVDP-Busca-Plugin-Holyrics-1.4.0.zip` ([versão mais recente](https://github.com/isaac20dss/AVDP-Busca/releases/latest)).
+2. Botão direito → **Extrair tudo…** → **Extrair**.
+3. **Feche o Holyrics.** Na pasta extraída, dois cliques em **`INSTALAR.cmd`** (se o Windows avisar: **Mais informações → Executar assim mesmo**).
+   A janela preta faz sozinha:
+   - instala o **AVDP Busca Plugin**;
+   - põe o banco do AVDP em `%APPDATA%\br.avdp.busca` (só se ainda não houver um — o que existe não é trocado);
+   - cria `C:\AVDP Holyrics\` com o banco do módulo;
+   - copia o `avdp-consulta.exe` para a biblioteca do Holyrics (`C:\Holyrics\Holyrics\files\media\file`; se o Holyrics estiver
+     em outra pasta, ela pergunta) e testa;
+   - deixa o **código do módulo copiado** (Ctrl+V no passo 6).
+
+**Parte 2 — no Holyrics (uma vez)**
+
+4. Abra o Holyrics.
+5. Na barra de módulos (abaixo de "Favoritos"): **⋮** (três pontinhos, à esquerda) → **Módulos (Editar)** → **Adicionar** →
+   JavaScript. Nome: **AVDP Busca**.
+6. No módulo novo: **Código** → Ctrl+A → **Ctrl+V** → **Salvar**. Deixe o módulo marcado (ativado).
+7. **Configurações** do módulo → **Permissões avançadas** → **allowed_files** → marque **avdp-consulta.exe**.
+8. **Arquivo → Configurações → API Server**: marque **Ativado** em "API Server - Local" e anote a **Porta** (padrão 8091).
+   Em **Gerenciar permissões**, crie um token (nome "AVDP Busca"), libere **ShowImage**, **ShowVerse** e
+   **CloseCurrentPresentation** (ou todas) e copie o token.
+9. Clique no botão **AVDP Busca** da barra de módulos: abre o AVDP Busca Plugin. Na **engrenagem** (canto de cima, à direita) →
+   **Holyrics**: Endereço `127.0.0.1`, a Porta do passo 8 e o token → **Salvar e testar**.
+   Se o Holyrics não estiver em `C:\Holyrics`, ajuste também **Pasta Imagens do Holyrics** (`…\Holyrics\files\media\image`).
+
+**Usar**: no AVDP Busca Plugin, Projetar, setas, F8/F9/F10 e Esc vão para o Holyrics, idênticos à prévia. **Ir para Holyrics**
+(canto de cima, à esquerda) volta; o botão **AVDP Busca** traz a janela de novo. Nas configurações do módulo,
+**Mostrar todas as opções** liga os outros botões (pesquisar e projetar mensagens direto, importar fila…).
+Para testar sem a TV: no Holyrics, **Configurações de exibição → Ocultar tela**.
+
+Passo a passo completo e soluções de problemas: [`Plugin Holyrics/LEIA-ME - PASSO A PASSO.txt`](Plugin%20Holyrics/LEIA-ME%20-%20PASSO%20A%20PASSO.txt).
 
 ---
 
@@ -91,7 +116,8 @@ Para instalar, **nenhuma pasta daqui é necessária**: use o Releases (acima). A
 | `app/` | código do programa (Tauri + Rust + React) | só para compilar ou alterar o programa (ver "Compilar" abaixo) |
 | `app/src/` | tela (React/TypeScript) | editar a interface |
 | `app/src-tauri/` | parte em Rust: banco, busca, Bíblia, mensagens, projeção | editar o funcionamento; `cargo test --lib` testa |
-| `app/avdp-consulta/` | plugin do Holyrics (programa + módulo `.js`), **só Windows** | ver `Plugin Holyrics/LEIA-ME - PASSO A PASSO.txt` |
+| `app/avdp-consulta/` | programa `avdp-consulta` e módulo `.js` do plugin do Holyrics, **só Windows** | ver "Instalar o plugin no Holyrics" acima |
+| `app/src-tauri/tauri.plugin.conf.json` | configuração do **AVDP Busca Plugin** (mesmo código, outro nome/identificador) | `npx tauri build --config src-tauri/tauri.plugin.conf.json` |
 | `app/mac/` | `instalar.command` e `LEIA-ME.txt` do pacote do Mac | entram no zip do Mac (`app/tools/pacote-mac.py`); não rodar daqui |
 | `app/tools/` | testes automáticos (Windows) e scripts de pacote | uso de desenvolvimento |
 | `BÍBLIA/` | ACF, NVI e KJA em JSON, SQLite e XML | **já estão dentro do banco** do pacote. Só use se instalar sem banco: AVDP → Configurações → Bíblias → **Importar arquivo** (sigla ACF/NVI/KJA, arquivo `.json` ou `.xml` da pasta) |
@@ -121,6 +147,6 @@ No Mac: `npx tauri build --bundles dmg` (gera o `.dmg` do processador do Mac).
 Sem banco, o programa abre vazio: copie o `banco/avdp.db` de um pacote do Releases para a pasta de dados
 (Windows `%APPDATA%\br.avdp.busca\`, Mac `~/Library/Application Support/br.avdp.busca/`) com o programa fechado.
 
-**Gerar instaladores pelo GitHub** (sem ter um Mac): crie uma tag e envie (`git tag v1.3.1 && git push origin v1.3.1`), ou em
+**Gerar instaladores pelo GitHub** (sem ter um Mac): crie uma tag e envie (`git tag v1.4.1 && git push origin v1.4.1`), ou em
 **Actions → Build → Run workflow** informe a tag. O GitHub compila Windows + Mac e anexa ao release.
 Pacote "com banco" do Mac: `python app/tools/pacote-mac.py <saida.zip> <pasta banco> <dmg aarch64> <dmg x64>`.
