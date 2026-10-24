@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { keysFor, prettyCombo } from '../lib/hotkeys'
 import { projectPreview } from '../lib/open'
 import { parseTheme } from '../lib/theme'
-import { useBible } from '../state/bible'
+import { selectionItem, useBible } from '../state/bible'
 import { displaySlide, useApp } from '../store'
 import { Icon } from './icons'
 import { SlideRender } from './SlideRender'
@@ -17,9 +17,13 @@ export function PreviewPanel() {
   const themeId = item?.themeId ?? settings.themeByKind[kind] ?? themes[0]?.id
   const theme = useMemo(() => parseTheme(themes.find((t) => t.id === themeId) ?? themes[0]), [themes, themeId])
   const slide = item?.slides[cursor] ?? null
-  const shown = displaySlide(item, slide, settings)
   const onAir = !!item && live?.key === item.key && liveIndex === cursor
   const isRange = tab === 'biblia' && kind === 'verse' && sel.length > 1
+  // "Só ref." com trecho marcado: a prévia mostra o trecho ("João 3:1-14"), como vai para o ar — não o
+  // versículo do cursor no capítulo
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const range = useMemo(() => (isRange && settings.bibleOnlyRef ? selectionItem() : null), [isRange, sel, item, settings])
+  const shown = range ? displaySlide(range, range.slides[0] ?? null, settings) : displaySlide(item, slide, settings)
   const enter = prettyCombo(keysFor('projectSelected', settings.hotkeys)[0] ?? 'Enter')
   const move = (d: number) => item && setCursor(Math.max(0, Math.min(cursor + d, item.slides.length - 1)))
 

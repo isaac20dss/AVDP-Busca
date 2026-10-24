@@ -29,6 +29,25 @@ export default async ({ main }) => {
   })
   check('Só ref. no trecho: todos os slides mostram "João 3:1-14"', r.n === 14 && r.first === 'João 3:1-14' && r.last === 'João 3:1-14', JSON.stringify(r))
 
+  // a prévia, com o trecho marcado e o cursor no último versículo, também mostra o trecho
+  const pv = await main.evaluate(async () => {
+    const app = window.__avdp.getState()
+    const before = { mode: app.settings.bibleRangeMode, only: app.settings.bibleOnlyRef, tab: app.tab }
+    app.saveSettings({ bibleRangeMode: 'sequencia', bibleOnlyRef: true })
+    app.setTab('biblia')
+    window.__avdpBible.getState().go(43, 3)
+    for (let i = 0; i < 40 && window.__avdpBible.getState().verses.length === 0; i++) await new Promise((r) => setTimeout(r, 100))
+    window.__avdpBible.setState({ sel: Array.from({ length: 14 }, (_, i) => i + 1) })
+    app.setCursor(13)
+    await new Promise((r) => setTimeout(r, 400))
+    const text = document.querySelector('.preview-panel .stage-text')?.textContent?.trim()
+    window.__avdpBible.setState({ sel: [] })
+    app.saveSettings({ bibleRangeMode: before.mode, bibleOnlyRef: before.only })
+    app.setTab(before.tab)
+    return text
+  })
+  check('Prévia com trecho marcado mostra "João 3:1-14" (não o último versículo)', pv === 'João 3:1-14', pv)
+
   const t0 = Date.now()
   const p = await inv('msg_online_pending').catch((e) => ({ erro: String(e) }))
   check('Consulta de novidades online responde (sem baixar)', typeof p.tdf === 'number' && typeof p.cbb === 'number', `${JSON.stringify(p)} em ${Date.now() - t0} ms`)
