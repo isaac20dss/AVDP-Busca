@@ -19,6 +19,7 @@ Abra o link acima e baixe, em **Assets** (lá embaixo), o arquivo do seu caso:
 | **Atualizar** o Mac Apple Silicon (M1, M2, M3…) | `AVDP.Busca_1.4.0_aarch64.dmg` |
 | **Atualizar** o Mac Intel | `AVDP.Busca_1.4.0_x64.dmg` |
 | Usar dentro do **Holyrics** (Windows) | `AVDP-Busca-Plugin-Holyrics-1.4.0.zip` |
+| Instalar as **fontes de letra** dos temas no computador (para o Holyrics mostrar igual) | `AVDP-Busca-Fontes.zip` → extrair → `INSTALAR-FONTES.cmd` (Windows) ou `instalar-fontes.command` (Mac) |
 
 "Com banco" = instalador **+** banco de dados pronto (mensagens, Bíblias, temas, fundos). O banco que já existir no computador vai para
 uma pasta de backup (nada é apagado). Os arquivos soltos (`.exe`, `.dmg`) só trocam o programa e mantêm o banco.
@@ -121,6 +122,7 @@ Para instalar, **nenhuma pasta daqui é necessária**: use o Releases (acima). A
 | `app/mac/` | `instalar.command` e `LEIA-ME.txt` do pacote do Mac | entram no zip do Mac (`app/tools/pacote-mac.py`); não rodar daqui |
 | `app/tools/` | testes automáticos (Windows) e scripts de pacote | uso de desenvolvimento |
 | `BÍBLIA/` | ACF, NVI e KJA em JSON, SQLite e XML | **já estão dentro do banco** do pacote. Só use se instalar sem banco: AVDP → Configurações → Bíblias → **Importar arquivo** (sigla ACF/NVI/KJA, arquivo `.json` ou `.xml` da pasta) |
+| `fontes/` | fontes de letra dos temas (Montserrat, Inter, Lato, Open Sans, Merriweather, Roboto Slab; TTF, licenças OFL/Apache em `licencas/`) | o programa já traz as fontes dentro dele; instale no sistema para o Holyrics: `INSTALAR-FONTES.cmd` (Windows, sem administrador) ou `instalar-fontes.command` (Mac). Depois feche e abra o Holyrics |
 | `Plugin Holyrics/` | passo a passo do plugin do Holyrics | ler o `LEIA-ME - PASSO A PASSO.txt` (o zip do plugin não está no git) |
 | `docs/` | pesquisa, arquitetura, melhorias propostas, prints do gauntlet | só leitura |
 | `.github/workflows/build.yml` | gera os instaladores Windows e Mac no GitHub | roda sozinho ao criar uma tag `v…` |
