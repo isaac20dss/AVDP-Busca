@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "AVDP Busca",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "identifier": "br.avdp.busca",
   "build": {
     "frontendDist": "../dist",

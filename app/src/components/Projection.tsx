@@ -1,6 +1,7 @@
 // Janela de projeção (tela cheia no monitor do público).
 import { emit, listen } from '@tauri-apps/api/event'
 import { useEffect, useRef, useState } from 'react'
+import { ensureFont, loadCustomFonts } from '../lib/fonts'
 import { DEFAULT_THEME, imageUrl } from '../lib/theme'
 import type { LivePayload } from '../types'
 import { SlideRender } from './SlideRender'
@@ -14,9 +15,14 @@ export function Projection() {
   const [layers, setLayers] = useState<Layer[]>([])
   const timer = useRef<number | undefined>(undefined)
 
+  // fonte importada depois que esta janela abriu: carrega antes de desenhar (fila mantém a ordem dos slides)
+  const queue = useRef<Promise<void>>(Promise.resolve())
+
   useEffect(() => {
     const un = listen<LivePayload>('live', (e) => {
-      const p = e.payload
+      queue.current = queue.current.then(() => ensureFont(e.payload.theme.font)).then(() => show(e.payload))
+    })
+    const show = (p: LivePayload) => {
       setLayers((ls) => {
         const last = ls[ls.length - 1]
         // mesmo slide (mudou só tela preta, tema, papel de parede): atualiza sem reiniciar vídeo
@@ -25,7 +31,8 @@ export function Projection() {
       })
       window.clearTimeout(timer.current)
       timer.current = window.setTimeout(() => setLayers((ls) => ls.slice(-1)), Math.max(60, p.fadeMs) + 80)
-    })
+    }
+    loadCustomFonts().catch(() => [])
     emit('projection-ready').catch(() => {})
     return () => {
       un.then((f) => f())

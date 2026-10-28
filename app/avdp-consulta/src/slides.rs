@@ -9,9 +9,23 @@ fn len(s: &str) -> usize {
     s.encode_utf16().count()
 }
 
-/// Quebra um texto longo em pedaços de até `max` caracteres, no fim de frases (`chunkText`).
+/// Referência bíblica não se parte entre slides ("Mat. 16:17", "Is. 54:13", "I Cor. 2:6-16", "João 6:45"):
+/// o ponto da abreviação vira U+E000 (não fecha frase) e os espaços viram U+00A0 (não separam palavra).
+/// Mesma regra do `glueRefs` do app.
+pub fn glue_refs(t: &str) -> String {
+    static ABBR: Lazy<Regex> = Lazy::new(|| Regex::new(r"(^|[^\p{L}\d])(\p{Lu}\p{Ll}{0,5})\.( ?)(\d{1,3}:\d)").unwrap());
+    static BOOK: Lazy<Regex> = Lazy::new(|| Regex::new(r"(\p{L}) (\d{1,3}:\d)").unwrap());
+    static ORD: Lazy<Regex> = Lazy::new(|| Regex::new(r"(^|[^\p{L}\d])(I{1,3}|[1-3]) (\p{Lu}\p{Ll}{1,12}\x{E000}?\x{A0}?\d)").unwrap());
+    let t = ABBR.replace_all(t, |c: &regex::Captures| {
+        format!("{}{}\u{E000}{}{}", &c[1], &c[2], if c[3].is_empty() { "" } else { "\u{A0}" }, &c[4])
+    });
+    let t = BOOK.replace_all(&t, "${1}\u{A0}${2}");
+    ORD.replace_all(&t, "${1}${2}\u{A0}${3}").into_owned()
+}
+
+/// Quebra um texto longo em pedaços de até `max` caracteres, no fim de frases, sem partir
+/// referência bíblica (`chunkText`).
 pub fn chunk_text(text: &str, max: usize) -> Vec<String> {
-    static SENTENCE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"[^.!?…]+[.!?…]+["”’)]*\s*|[^.!?…]+$"#).unwrap());
     let t = crate::text::squash_spaces(text);
     if t.is_empty() {
         return vec![];
@@ -19,9 +33,14 @@ pub fn chunk_text(text: &str, max: usize) -> Vec<String> {
     if len(&t) <= max {
         return vec![t];
     }
+    chunk_glued(&glue_refs(&t), max).into_iter().map(|s| s.replace('\u{E000}', ".").replace('\u{A0}', " ")).collect()
+}
+
+fn chunk_glued(t: &str, max: usize) -> Vec<String> {
+    static SENTENCE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"[^.!?…]+[.!?…]+["”’)]*\s*|[^.!?…]+$"#).unwrap());
     let sentences: Vec<&str> = {
-        let v: Vec<&str> = SENTENCE.find_iter(&t).map(|m| m.as_str()).collect();
-        if v.is_empty() { vec![t.as_str()] } else { v }
+        let v: Vec<&str> = SENTENCE.find_iter(t).map(|m| m.as_str()).collect();
+        if v.is_empty() { vec![t] } else { v }
     };
     let mut out: Vec<String> = vec![];
     let mut cur = String::new();
@@ -147,6 +166,22 @@ mod tests {
         for (text, max, want) in cases {
             assert_eq!(chunk_text(&text, max), want, "{text}");
         }
+    }
+
+    #[test]
+    fn bible_reference_stays_in_one_slide() {
+        // saídas do chunkText do app (slides.ts) no Node com o mesmo texto (2026-10-28)
+        let t = "Volte porém a Is. 54:13 de onde isto foi tirado e assim se lê: \"E todos os teus filhos serão discípulos do Senhor.\" Os TODOS de Deus são os FILHOS de Deus. Veja Mat. 16:17 e I Cor. 2:6-16 também, e Mat.16:17.";
+        assert_eq!(
+            chunk_text(t, 60),
+            vec![
+                "Volte porém a Is. 54:13 de onde isto foi tirado e assim se",
+                "lê: \"E todos os teus filhos serão discípulos do Senhor.\"",
+                "Os TODOS de Deus são os FILHOS de Deus.",
+                "Veja Mat. 16:17 e I Cor. 2:6-16 também, e Mat.16:17.",
+            ]
+        );
+        assert_eq!(chunk_text("a b c d e f g h i j em João 6:45 e mais", 22), vec!["a b c d e f g h i j em", "João 6:45 e mais"]);
     }
 
     #[test]

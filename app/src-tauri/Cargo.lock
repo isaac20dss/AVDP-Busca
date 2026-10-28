@@ -215,7 +215,7 @@ checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 
 [[package]]
 name = "avdp-busca"
-version = "1.4.0"
+version = "1.5.0"
 dependencies = [
  "hex",
  "once_cell",
@@ -233,6 +233,7 @@ dependencies = [
  "tauri-plugin-single-instance",
  "thiserror 2.0.21",
  "tokio",
+ "ttf-parser",
  "unicode-normalization",
  "webview2-com",
  "windows",
@@ -4574,6 +4575,12 @@ name = "try-lock"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
+
+[[package]]
+name = "ttf-parser"
+version = "0.25.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2df906b07856748fa3f6e0ad0cbaa047052d4a7dd609e231c4f72cee8c36f31"
 
 [[package]]
 name = "typed-path"

@@ -1,6 +1,6 @@
 [package]
 name = "avdp-busca"
-version = "1.4.0"
+version = "1.5.0"
 description = "AVDP Busca"
 authors = ["Isaac"]
 license = ""
@@ -35,6 +35,7 @@ sha2 = "0.11.1"
 hex = "0.4.3"
 reqwest = { version = "0.13.5", default-features = false, features = ["json", "rustls"] }
 zip = { version = "9.0.3", default-features = false, features = ["deflate"] }
+ttf-parser = "0.25.1"
 
 # modo Holyrics: foto da janela de projeção (CapturePreview do WebView2) — mesmas versões que o wry usa
 [target.'cfg(windows)'.dependencies]

@@ -297,6 +297,14 @@ export interface PlaylistItem {
   label: string
 }
 
+/** Fonte de letra importada de arquivo (pasta `fontes` dos dados do app). */
+export interface CustomFont {
+  family: string
+  weight: number
+  italic: boolean
+  file: string
+}
+
 export interface ThemeRow {
   id: number
   name: string

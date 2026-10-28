@@ -3,6 +3,7 @@ mod books;
 mod capture;
 mod db;
 mod error;
+mod fonts;
 mod holyrics;
 mod hub;
 mod media;
@@ -856,6 +857,45 @@ async fn theme_store_image(state: State<'_, AppState>, path: String) -> Res<Stri
     Ok(dst.display().to_string())
 }
 
+// ---------- fontes de letra ----------
+
+#[derive(Serialize)]
+struct FontsList {
+    system: Vec<String>,
+    custom: Vec<fonts::CustomFont>,
+}
+
+/// Fontes importadas para o app e, com `system`, as instaladas no computador (a 1ª leitura demora).
+#[tauri::command]
+async fn fonts_list(state: State<'_, AppState>, system: bool) -> Res<FontsList> {
+    let dir = state.data_dir.clone();
+    let system = if system {
+        tokio::task::spawn_blocking(fonts::system_families).await.map_err(|e| AppError::msg(e.to_string()))?
+    } else {
+        vec![]
+    };
+    Ok(FontsList { system, custom: fonts::custom(&dir) })
+}
+
+/// Copia um arquivo de fonte (.ttf/.otf/.woff/.woff2) para a pasta do app.
+#[tauri::command]
+async fn font_import(state: State<'_, AppState>, path: String) -> Res<fonts::CustomFont> {
+    fonts::import(&state.data_dir, &PathBuf::from(path))
+}
+
+/// Bytes de uma fonte importada (o front registra com `FontFace`).
+#[tauri::command]
+async fn font_bytes(state: State<'_, AppState>, file: String) -> Res<tauri::ipc::Response> {
+    Ok(tauri::ipc::Response::new(std::fs::read(fonts::file_path(&state.data_dir, &file)?)?))
+}
+
+/// Tira uma fonte importada da pasta do app.
+#[tauri::command]
+async fn font_remove(state: State<'_, AppState>, file: String) -> Res<()> {
+    std::fs::remove_file(fonts::file_path(&state.data_dir, &file)?)?;
+    Ok(())
+}
+
 // ---------- listas ----------
 
 #[tauri::command]
@@ -1272,6 +1312,10 @@ pub fn run() {
             theme_save,
             theme_delete,
             theme_store_image,
+            fonts_list,
+            font_import,
+            font_bytes,
+            font_remove,
             playlists_list,
             playlist_create,
             playlist_rename,

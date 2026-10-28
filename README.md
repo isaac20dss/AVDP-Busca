@@ -1,7 +1,7 @@
 # AVDP Busca
 
 Passador de letras no estilo do Holyrics, com Bíblia (ACF, NVI, KJA e outras) e Mensagens (busca no estilo do The Table).
-Windows e Mac. Versão atual: **1.4.0** · Plugin para o Holyrics: **AVDP Busca Plugin 1.4.0** (Windows).
+Windows e Mac. Versão atual: **1.5.0** · Plugin para o Holyrics: **AVDP Busca Plugin 1.5.0** (Windows).
 
 > Repositório **privado**: tem as Bíblias ACF/NVI/KJA e o banco de mensagens (no Releases), que são protegidos por direito autoral. Não tornar público.
 
@@ -13,16 +13,28 @@ Abra o link acima e baixe, em **Assets** (lá embaixo), o arquivo do seu caso:
 
 | Quero… | Baixe |
 |---|---|
-| Instalar no **Windows** pela primeira vez (programa + banco) | `AVDP-Busca-1.4.0-instalar-com-banco.zip` |
-| Instalar no **Mac** pela primeira vez (programa + banco) | `AVDP-Busca-1.4.0-Mac-instalar-com-banco.zip` |
-| **Atualizar** o Windows (já tem o banco) | `AVDP.Busca_1.4.0_x64-setup.exe` |
-| **Atualizar** o Mac Apple Silicon (M1, M2, M3…) | `AVDP.Busca_1.4.0_aarch64.dmg` |
-| **Atualizar** o Mac Intel | `AVDP.Busca_1.4.0_x64.dmg` |
-| Usar dentro do **Holyrics** (Windows) | `AVDP-Busca-Plugin-Holyrics-1.4.0.zip` |
+| Instalar no **Windows** pela primeira vez (programa + banco) | `AVDP-Busca-1.4.0-instalar-com-banco.zip` ([release v1.4.0](https://github.com/isaac20dss/AVDP-Busca/releases/tag/v1.4.0)) e depois atualizar |
+| Instalar no **Mac** pela primeira vez (programa + banco) | `AVDP-Busca-1.4.0-Mac-instalar-com-banco.zip` ([release v1.4.0](https://github.com/isaac20dss/AVDP-Busca/releases/tag/v1.4.0)) e depois atualizar |
+| **Atualizar** o Windows: AVDP Busca **e** Plugin de uma vez (já tem o banco) | `AVDP-Busca-1.5.0-atualizar-Windows.zip` → extrair → `ATUALIZAR.cmd` |
+| **Atualizar** só o AVDP Busca no Windows | `AVDP.Busca_1.5.0_x64-setup.exe` |
+| **Atualizar** o Mac Apple Silicon (M1, M2, M3…) | `AVDP.Busca_1.5.0_aarch64.dmg` |
+| **Atualizar** o Mac Intel | `AVDP.Busca_1.5.0_x64.dmg` |
+| Usar dentro do **Holyrics** (Windows), 1ª vez | `AVDP-Busca-Plugin-Holyrics-1.4.0.zip` ([release v1.4.0](https://github.com/isaac20dss/AVDP-Busca/releases/tag/v1.4.0)) e depois `ATUALIZAR.cmd` |
 | Instalar as **fontes de letra** dos temas no computador (para o Holyrics mostrar igual) | `AVDP-Busca-Fontes.zip` → extrair → `INSTALAR-FONTES.cmd` (Windows) ou `instalar-fontes.command` (Mac) |
 
 "Com banco" = instalador **+** banco de dados pronto (mensagens, Bíblias, temas, fundos). O banco que já existir no computador vai para
 uma pasta de backup (nada é apagado). Os arquivos soltos (`.exe`, `.dmg`) só trocam o programa e mantêm o banco.
+
+### Novidades da 1.5.0
+- **Fontes de letra de fora**: no editor de tema, a Fonte lista também as **instaladas no computador** (Arial, Calibri…) e o botão
+  de importar aceita arquivo de fonte (`.ttf`, `.otf`, `.woff`, `.woff2`).
+- **Aba Textos** também no AVDP Busca Plugin (Holyrics).
+- Trocar **Parágrafos ⇄ Slides** mantém o mesmo parágrafo no centro da tela.
+- **Tamanho da letra digitado**: escreva o número inteiro (ex.: 15); vale ao sair da caixa ou com Enter.
+- **Referência bíblica não se parte** entre slides ("Mat. 16:17", "Is. 54:13", "I Cor. 2:6-16").
+
+**Atualizar outro computador (Windows)**: baixe `AVDP-Busca-1.5.0-atualizar-Windows.zip`, extraia, feche Holyrics/AVDP e dê dois
+cliques em `ATUALIZAR.cmd`. Troca o AVDP Busca, o AVDP Busca Plugin e o `avdp-consulta.exe` do módulo; bancos e configurações ficam.
 
 ### Novidades da 1.4.0
 - **Sincronizar automaticamente** (Configurações → Mensagens): ao abrir, baixa o que for novo ou revisado no Tabernáculo da Fé e no

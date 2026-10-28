@@ -2,6 +2,7 @@
 import { invoke } from '@tauri-apps/api/core'
 import type {
   BibleInfo,
+  CustomFont,
   BibleMeta,
   BookInfo,
   ChapterVerse,
@@ -95,6 +96,10 @@ export const api = {
   themeSave: (theme: ThemeRow) => invoke<number>('theme_save', { theme }),
   themeDelete: (id: number) => invoke<void>('theme_delete', { id }),
   themeStoreImage: (path: string) => invoke<string>('theme_store_image', { path }),
+  fontsList: (system: boolean) => invoke<{ system: string[]; custom: CustomFont[] }>('fonts_list', { system }),
+  fontImport: (path: string) => invoke<CustomFont>('font_import', { path }),
+  fontBytes: (file: string) => invoke<ArrayBuffer>('font_bytes', { file }),
+  fontRemove: (file: string) => invoke<void>('font_remove', { file }),
 
   playlistsList: () => invoke<Playlist[]>('playlists_list'),
   playlistCreate: (name: string) => invoke<number>('playlist_create', { name }),

@@ -355,6 +355,45 @@ export function MessageReader() {
 
   useEffect(() => setFindIdx(0), [find, variantId])
 
+  // trocar Parágrafos ⇄ Slides: o parágrafo que estava no centro da tela continua no centro
+  const keepSeq = useRef<number | null>(null)
+  const setView = (msgView: 'paragrafos' | 'slides') => {
+    if ((msgView === 'slides') === bySlides) return
+    const body = bodyRef.current
+    if (body) {
+      const r = body.getBoundingClientRect()
+      const focused = focusSeq != null ? body.querySelector(`[data-seq="${focusSeq}"]`)?.getBoundingClientRect() : null
+      if (focused && focused.bottom > r.top && focused.top < r.bottom) keepSeq.current = focusSeq
+      else {
+        const mid = r.top + r.height / 2
+        const rows = [...body.querySelectorAll<HTMLElement>('[data-seq]')]
+        const hit = rows.find((el) => el.getBoundingClientRect().bottom >= mid)
+        keepSeq.current = hit ? +hit.dataset.seq! : null
+      }
+    }
+    saveSettings({ msgView })
+  }
+  useEffect(() => {
+    const seq = keepSeq.current
+    keepSeq.current = null
+    const body = bodyRef.current
+    const el = seq != null ? body?.querySelector(`[data-seq="${seq}"]`) : null
+    if (!body || !el) return
+    // no modo Slides os parágrafos longe da tela têm altura estimada (content-visibility): ao montar, a
+    // altura real empurra o alvo; confere por alguns quadros e centraliza de novo se saiu do lugar
+    el.scrollIntoView({ block: 'center' })
+    let frames = 12
+    let raf = 0
+    const check = () => {
+      const r = body.getBoundingClientRect()
+      const b = el.getBoundingClientRect()
+      if (Math.abs(b.top + b.bottom - r.top - r.bottom) > 8) el.scrollIntoView({ block: 'center' })
+      if (--frames > 0) raf = requestAnimationFrame(check)
+    }
+    raf = requestAnimationFrame(check)
+    return () => cancelAnimationFrame(raf)
+  }, [bySlides])
+
   if (!group)
     return (
       <div className="center-empty">
@@ -423,14 +462,14 @@ export function MessageReader() {
             onClick={() => {
               setEditing(!editing)
               setEditSeq(null)
-              if (!editing && bySlides) saveSettings({ msgView: 'paragrafos' })
+              if (!editing && bySlides) setView('paragrafos')
             }}
             title="Corrigir o texto: clique num parágrafo para editar (erro de escrita, palavras grudadas) ou juntar com o seguinte"
           >
             <Icon name="edit" /> {editing ? 'Editando' : 'Editar'}
           </button>
           <div className="seg" role="group" aria-label="Como mostrar a mensagem">
-            <button className={bySlides ? '' : 'on'} onClick={() => saveSettings({ msgView: 'paragrafos' })} title="Parágrafo inteiro">
+            <button className={bySlides ? '' : 'on'} onClick={() => setView('paragrafos')} title="Parágrafo inteiro">
               Parágrafos
             </button>
             <button
@@ -438,7 +477,7 @@ export function MessageReader() {
               onClick={() => {
                 setEditing(false)
                 setEditSeq(null)
-                saveSettings({ msgView: 'slides' })
+                setView('slides')
               }}
               title="Cada parágrafo dividido como vai para o telão"
             >

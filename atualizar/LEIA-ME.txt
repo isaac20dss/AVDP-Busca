@@ -1,0 +1,36 @@
+AVDP Busca 1.5.0 - ATUALIZAR outro computador (Windows)
+========================================================
+
+Serve para o computador que JA TEM o AVDP Busca e/ou o AVDP Busca Plugin (1.4.0 ou anterior)
+com o banco. Troca so os programas; banco, temas, listas, edicoes e configuracoes ficam.
+Computador novo (sem nada): use primeiro o AVDP-Busca-1.4.0-instalar-com-banco.zip e o
+AVDP-Busca-Plugin-Holyrics-1.4.0.zip (release v1.4.0) e depois este pacote.
+
+1. Botao direito no zip > "Extrair tudo..." > Extrair. (Nao rode de dentro do zip.)
+2. Feche o Holyrics, o AVDP Busca e o AVDP Busca Plugin.
+3. Na pasta extraida, dois cliques em ATUALIZAR.cmd.
+   Se o Windows avisar "O Windows protegeu o computador": Mais informacoes > Executar assim mesmo.
+   Ele instala por cima:
+     - AVDP Busca 1.5.0         (%LOCALAPPDATA%\AVDP Busca)
+     - AVDP Busca Plugin 1.5.0  (%LOCALAPPDATA%\AVDP Busca Plugin)
+     - avdp-consulta.exe novo em C:\AVDP Holyrics e na aba Arquivos do Holyrics
+       (C:\Holyrics\Holyrics\files\media\file), se existirem.
+4. Abra o Holyrics. O modulo "AVDP Busca" NAO precisa ser colado de novo (o codigo nao mudou).
+   Se o Holyrics recusar o avdp-consulta.exe: Modulos > AVDP Busca > Configuracoes >
+   Permissoes avancadas > allowed_files > marcar avdp-consulta.exe de novo.
+
+Sem o ATUALIZAR.cmd (a mao): rode "AVDP Busca_1.5.0_x64-setup.exe" e
+"AVDP Busca Plugin_1.5.0_x64-setup.exe" (Avancar ate o fim) e copie o avdp-consulta.exe
+para C:\AVDP Holyrics e para C:\Holyrics\Holyrics\files\media\file (substituir).
+
+Novidades da 1.5.0
+- Fontes de letra de fora: no editor de tema, a lista de Fonte mostra tambem as fontes
+  instaladas no computador (Arial, Calibri...) e o botao de seta importa um arquivo de fonte
+  (.ttf, .otf, .woff, .woff2). A fonte importada fica no banco do app (pasta fontes);
+  levar para outro PC = importar o mesmo arquivo la.
+- Aba Textos tambem no AVDP Busca Plugin (modo Holyrics).
+- Trocar Paragrafos <-> Slides mantem o mesmo paragrafo no centro da tela.
+- Tamanho da letra digitado: escreve o numero inteiro (ex.: 15) e so vale ao sair da caixa
+  (ou Enter); Esc desfaz.
+- Referencia biblica nao se parte entre slides: "Mat. 16:17", "Is. 54:13", "I Cor. 2:6-16",
+  "Joao 6:45" ficam sempre no mesmo slide (no app, no Plugin e no modulo do Holyrics).

@@ -16,6 +16,7 @@ import { Toasts } from './components/Toasts'
 import { TopBar } from './components/TopBar'
 import { AudioPlayer } from './components/AudioPlayer'
 import { preloadThemeFonts } from './lib/fit'
+import { loadCustomFonts } from './lib/fonts'
 import { CTRL_KEY, comboFromEvent, effectiveMap, type ActionId } from './lib/hotkeys'
 import { addCurrentToPlaylist, editCurrent, openPlaylistItem, projectPreview } from './lib/open'
 import { nextVersion, versionAt } from './state/bible'
@@ -191,6 +192,7 @@ export default function App() {
         const st = useApp.getState()
         await Promise.all([st.loadThemes(), st.loadBibles()])
         // as fontes dos temas medem quanto texto cabe por slide (divisão pelo tamanho da letra)
+        await loadCustomFonts().catch(() => [])
         await preloadThemeFonts()
         if (!map.welcome_done) await Welcome.preload().catch(() => null)
         setFirstRun(!map.welcome_done)

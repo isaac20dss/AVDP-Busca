@@ -2287,6 +2287,11 @@ label.chip-check,
   align-items: center;
   gap: 6px;
 }
+.size-row select {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+}
 .size-row input[type='range'] {
   flex: 1;
 }

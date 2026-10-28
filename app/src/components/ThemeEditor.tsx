@@ -1,11 +1,12 @@
 // Editor de tema com prévia ao vivo (fundo, fonte, tamanho, cores, alinhamento, sombra, contorno, rodapé).
 import { open as openDialog } from '@tauri-apps/plugin-dialog'
-import { useState } from 'react'
-import { api } from '../api'
+import { useEffect, useState } from 'react'
+import { api, inTauri } from '../api'
 import { autoMerge, chunkOfTheme, preloadThemeFonts } from '../lib/fit'
-import { FONTS, margins, parseTheme } from '../lib/theme'
+import { loadCustomFonts } from '../lib/fonts'
+import { DEFAULT_THEME, FONTS, margins, parseTheme } from '../lib/theme'
 import { useApp } from '../store'
-import type { ThemeData, ThemeRow } from '../types'
+import type { CustomFont, ThemeData, ThemeRow } from '../types'
 import { Modal } from './Modal'
 import { SlideRender } from './SlideRender'
 import { Icon } from './icons'
@@ -22,6 +23,40 @@ export function ThemeEditor({ initial }: { initial: ThemeRow }) {
   const mg = margins(t)
   const chunkHere = chunkOfTheme(t)
   const close = () => setModal(null)
+
+  const [sizeDraft, setSizeDraft] = useState<string | null>(null)
+  const commitSize = () => {
+    const v = parseFloat((sizeDraft ?? '').replace(',', '.'))
+    if (sizeDraft != null && Number.isFinite(v)) set({ size: Math.min(30, Math.max(2.5, v)) })
+    setSizeDraft(null)
+  }
+
+  // fontes de fora do app: importadas de arquivo e instaladas no computador
+  const [custom, setCustom] = useState<CustomFont[]>([])
+  const [systemFamilies, setSystemFamilies] = useState<string[]>([])
+  useEffect(() => {
+    if (!inTauri()) return
+    loadCustomFonts().then(setCustom).catch(() => {})
+    api.fontsList(true).then((r) => setSystemFamilies(r.system.filter((f) => !FONTS.includes(f)))).catch(() => {})
+  }, [])
+  const customFamilies = [...new Set(custom.map((f) => f.family))].filter((f) => !FONTS.includes(f))
+  const known = new Set([...FONTS, ...customFamilies, ...systemFamilies])
+  const importFont = async () => {
+    const p = await openDialog({ multiple: true, filters: [{ name: 'Fonte', extensions: ['ttf', 'otf', 'woff', 'woff2'] }] })
+    if (!p) return
+    let last = ''
+    for (const path of Array.isArray(p) ? p : [p]) last = (await api.fontImport(String(path))).family
+    setCustom(await loadCustomFonts())
+    set({ font: last })
+    toast(`Fonte "${last}" importada`, 'ok')
+  }
+  const removeFont = async () => {
+    const family = t.font
+    if (!(await confirm(`Tirar a fonte importada "${family}" do app? Temas que usam ela passam para a fonte reserva.`))) return
+    for (const f of custom.filter((x) => x.family === family)) await api.fontRemove(f.file)
+    setCustom(custom.filter((x) => x.family !== family))
+    set({ font: DEFAULT_THEME.font })
+  }
 
   const save = async () => {
     try {
@@ -104,25 +139,65 @@ export function ThemeEditor({ initial }: { initial: ThemeRow }) {
           <div className="row2">
             <label>
               Fonte
-              <select value={t.font} onChange={(e) => set({ font: e.target.value })}>
-                {FONTS.map((f) => (
-                  <option key={f} value={f} style={{ fontFamily: f }}>
-                    {f}
-                  </option>
-                ))}
-              </select>
+              <span className="size-row">
+                <select value={t.font} onChange={(e) => set({ font: e.target.value })}>
+                  <optgroup label="Do app">
+                    {FONTS.map((f) => (
+                      <option key={f} value={f} style={{ fontFamily: f }}>
+                        {f}
+                      </option>
+                    ))}
+                  </optgroup>
+                  {customFamilies.length > 0 && (
+                    <optgroup label="Importadas">
+                      {customFamilies.map((f) => (
+                        <option key={f} value={f} style={{ fontFamily: f }}>
+                          {f}
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  {systemFamilies.length > 0 && (
+                    <optgroup label="Instaladas no computador">
+                      {systemFamilies.map((f) => (
+                        <option key={f} value={f}>
+                          {f}
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  {!known.has(t.font) && <option value={t.font}>{t.font}</option>}
+                </select>
+                <button onClick={() => importFont().catch(fail)} title="Importar fonte de um arquivo (.ttf, .otf, .woff, .woff2)">
+                  <Icon name="upload" />
+                </button>
+                {customFamilies.includes(t.font) && (
+                  <button onClick={() => removeFont().catch(fail)} title={`Tirar a fonte importada "${t.font}" do app`}>
+                    <Icon name="trash" />
+                  </button>
+                )}
+              </span>
             </label>
             <label>
               Tamanho da letra (% da altura)
               <span className="size-row">
                 <input type="range" min={2.5} max={30} step={0.1} value={t.size} onChange={(e) => set({ size: +e.target.value })} />
+                {/* digita à vontade; o valor só vale ao sair da caixa (ou Enter) */}
                 <input
                   type="number"
                   min={2.5}
                   max={30}
                   step={0.5}
-                  value={+t.size.toFixed(1)}
-                  onChange={(e) => e.target.value !== '' && set({ size: Math.min(30, Math.max(2.5, +e.target.value)) })}
+                  value={sizeDraft ?? String(+t.size.toFixed(1))}
+                  onChange={(e) => setSizeDraft(e.target.value)}
+                  onBlur={commitSize}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') e.currentTarget.blur()
+                    if (e.key === 'Escape') {
+                      e.stopPropagation()
+                      setSizeDraft(null)
+                    }
+                  }}
                   aria-label="Tamanho da letra em porcentagem"
                 />
                 %

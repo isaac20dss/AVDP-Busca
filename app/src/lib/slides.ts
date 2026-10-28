@@ -83,11 +83,32 @@ export function songItem(song: Song, opt: SlideOptions): Item {
   }
 }
 
-/** Quebra um texto longo em pedaços de até `max` caracteres, no fim de frases. */
+// Referência bíblica não se parte entre slides ("Mat. 16:17", "Is. 54:13", "I Cor. 2:6-16", "João 6:45"):
+// o ponto da abreviação vira REF_DOT (não fecha frase) e os espaços viram REF_SPACE (não separam palavra);
+// os dois voltam ao normal no fim. Mesma regra no `slides.rs` do plugin.
+const REF_DOT = ''
+const REF_SPACE = ' '
+const REF_ABBR = /(^|[^\p{L}\d])(\p{Lu}\p{Ll}{0,5})\.( ?)(\d{1,3}:\d)/gu
+const REF_BOOK = /(\p{L}) (\d{1,3}:\d)/gu
+const REF_ORD = /(^|[^\p{L}\d])(I{1,3}|[1-3]) (\p{Lu}\p{Ll}{1,12}? ?\d)/gu
+
+export function glueRefs(t: string): string {
+  return t
+    .replace(REF_ABBR, (_, a: string, b: string, sp: string, c: string) => `${a}${b}${REF_DOT}${sp ? REF_SPACE : ''}${c}`)
+    .replace(REF_BOOK, `$1${REF_SPACE}$2`)
+    .replace(REF_ORD, `$1$2${REF_SPACE}$3`)
+}
+const unglue = (t: string) => t.replace(//g, '.').replace(/ /g, ' ')
+
+/** Quebra um texto longo em pedaços de até `max` caracteres, no fim de frases (sem partir referência bíblica). */
 export function chunkText(text: string, max: number): string[] {
   const t = text.replace(/\s+/g, ' ').trim()
   if (!t) return []
   if (t.length <= max) return [t]
+  return chunkGlued(glueRefs(t), max).map(unglue)
+}
+
+function chunkGlued(t: string, max: number): string[] {
   const sentences = t.match(/[^.!?…]+[.!?…]+["”’)]*\s*|[^.!?…]+$/g) ?? [t]
   const out: string[] = []
   let cur = ''

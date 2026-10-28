@@ -182,7 +182,7 @@ export function displaySlide(item: Item | null, slide: Slide | null, s: Settings
 export const KIND_TAB: Record<ItemKind, Tab> = { song: 'letras', verse: 'biblia', message: 'mensagens', text: 'textos', media: 'midia' }
 
 /** Abas da janela aberta pelo Holyrics (como a janela Bíblia dele). */
-export const HOLYRICS_TABS: Tab[] = ['mensagens', 'biblia']
+export const HOLYRICS_TABS: Tab[] = ['mensagens', 'biblia', 'textos']
 
 export const useApp = create<Store>((set, get) => ({
   tab: 'letras',
