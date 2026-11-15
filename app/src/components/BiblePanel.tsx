@@ -18,6 +18,8 @@ export function BiblePanel() {
   const [ref, setRef] = useState<VerseRef | null>(null)
   const [opts, setOpts] = useState<QueryOpts>(defaultOpts({ whole_word: true }))
   const [scope, setScope] = useState<'all' | 'ot' | 'nt' | 'book'>('all')
+  /** Livro escolhido para pesquisar (0 = o livro aberto). */
+  const [searchBook, setSearchBook] = useState(0)
   const [res, setRes] = useState<VerseResults | null>(null)
   const [searching, setSearching] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -48,6 +50,7 @@ export function BiblePanel() {
     if (focusRequest?.kind === 'search-narrow' && focusRequest.payload === 'biblia') {
       // Ctrl+Shift+F: pesquisa no livro atual (como no Holyrics)
       setScope('book')
+      setSearchBook(0)
       setView('pesquisa')
       inputRef.current?.select()
     }
@@ -87,11 +90,11 @@ export function BiblePanel() {
   }, [input])
 
   const search = useCallback(
-    async (q: string, o = opts, sc = scope, so = sort, offset = 0) => {
+    async (q: string, o = opts, sc = scope, so = sort, offset = 0, sb = searchBook) => {
       if (!q.trim() || !versions[0]) return
       setSearching(true)
       try {
-        const r = await api.bibleSearch({ query: q, opts: o, bible: versions[0], scope: sc, book, limit: 150, offset, sort: so })
+        const r = await api.bibleSearch({ query: q, opts: o, bible: versions[0], scope: sc, book: sb || book, limit: 150, offset, sort: so })
         setRes((prev) => (offset && prev ? { ...r, hits: [...prev.hits, ...r.hits] } : r))
         setView('pesquisa')
         if (!offset) api.historyAdd('biblia', q, JSON.stringify(o), r.total).catch(() => {})
@@ -101,7 +104,7 @@ export function BiblePanel() {
         setSearching(false)
       }
     },
-    [opts, scope, sort, versions, book, fail],
+    [opts, scope, sort, versions, book, searchBook, fail],
   )
 
   const submit = async (e?: React.FormEvent) => {
@@ -304,7 +307,6 @@ export function BiblePanel() {
                   ['all', 'Toda a Bíblia'],
                   ['ot', 'AT'],
                   ['nt', 'NT'],
-                  ['book', bookInfo?.name ?? 'Livro'],
                 ] as const
               ).map(([id, label]) => (
                 <label key={id}>
@@ -319,6 +321,33 @@ export function BiblePanel() {
                   {label}
                 </label>
               ))}
+              <label>
+                <input
+                  type="radio"
+                  checked={scope === 'book'}
+                  onChange={() => {
+                    setScope('book')
+                    if (input.trim()) search(input, opts, 'book')
+                  }}
+                />{' '}
+                <select
+                  value={searchBook || book}
+                  onChange={(e) => {
+                    const b = +e.target.value
+                    setSearchBook(b)
+                    setScope('book')
+                    if (input.trim()) search(input, opts, 'book', sort, 0, b)
+                  }}
+                  aria-label="Livro da pesquisa"
+                  title="Pesquisar só neste livro"
+                >
+                  {books.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
           </div>
           <div className="list-meta">

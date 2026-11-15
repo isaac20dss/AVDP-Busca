@@ -1139,6 +1139,9 @@ fn groups_by_query(conn: &Connection, parsed: &search::Parsed, q: &MsgSearch, ex
     if q.only_preferred {
         wh.push("(g.preferred_variant IS NULL OR g.preferred_variant = v.id)".into());
     }
+    if let Some(c) = collection_sql(&q.collection) {
+        wh.push(c);
+    }
     let mut st = conn.prepare(&format!(
         "SELECT v.group_id, v.title FROM msg_variants v JOIN msg_groups g ON g.id = v.group_id WHERE {} ORDER BY g.date_key, g.suffix",
         wh.join(" AND ")
@@ -1308,10 +1311,8 @@ fn list_groups_inner(conn: &Connection, q: &ListQuery) -> Result<GroupList> {
         let ids: Vec<String> = q.ids.iter().map(|i| i.to_string()).collect();
         wh.push(format!("g.id IN ({})", ids.join(",")));
     }
-    match q.collection.as_str() {
-        "selos" => wh.push(format!("g.code IN ({})", SELOS_CODES.iter().map(|c| format!("'{c}'")).collect::<Vec<_>>().join(","))),
-        "eras" => wh.push("g.code LIKE 'ERAS-%'".into()),
-        _ => {}
+    if let Some(c) = collection_sql(&q.collection) {
+        wh.push(c);
     }
     if let Some((dk, sfx)) = parse_date(&q.filter) {
         args.push(Box::new(dk));
@@ -1423,6 +1424,17 @@ pub struct MsgSearch {
     pub by_message: bool,
     pub limit: u32,
     pub offset: u32,
+    /// Só uma coleção: "selos" ou "eras" (vazio = todas), como na lista de mensagens.
+    pub collection: String,
+}
+
+/// Condição SQL (sobre `g.code`) da coleção "selos" ou "eras"; None = todas.
+fn collection_sql(c: &str) -> Option<String> {
+    match c {
+        "selos" => Some(format!("g.code IN ({})", SELOS_CODES.iter().map(|c| format!("'{c}'")).collect::<Vec<_>>().join(","))),
+        "eras" => Some("g.code LIKE 'ERAS-%'".into()),
+        _ => None,
+    }
 }
 
 #[derive(Serialize)]
@@ -1462,7 +1474,7 @@ pub fn search_messages(conn: &Connection, vocab: &search::Vocab, q: &MsgSearch) 
     let direct = if trimmed.is_empty() {
         vec![]
     } else if parse_date(trimmed).is_some() {
-        list_groups(conn, &ListQuery { filter: trimmed.to_string(), limit: 12, ..Default::default() })?.rows
+        list_groups(conn, &ListQuery { filter: trimmed.to_string(), limit: 12, collection: q.collection.clone(), ..Default::default() })?.rows
     } else {
         // títulos que casam com a consulta inteira (modo, OU, XOR, exclusão, frase, variações…)
         groups_by_query(conn, &parsed, q, vocab, if title_only { 200 } else { 8 })?
@@ -1503,6 +1515,9 @@ pub fn search_messages(conn: &Connection, vocab: &search::Vocab, q: &MsgSearch) 
     }
     if q.only_preferred {
         wh.push("(g.preferred_variant IS NULL OR g.preferred_variant = v.id)".into());
+    }
+    if let Some(c) = collection_sql(&q.collection) {
+        wh.push(c);
     }
     // cópia antiga igual à do Tabernáculo da Fé: fora, a não ser que o operador escolha as fontes
     if q.sources.is_empty() {
@@ -1741,6 +1756,15 @@ mod tests {
         assert!(r.direct.is_empty(), "filtro de anos vale nos títulos");
         let r = search_messages(&c, &v, &MsgSearch { query: "graça".into(), year_from: Some(1950), ..Default::default() }).unwrap();
         assert!(!r.direct.is_empty());
+        // coleção Selos/Eras na pesquisa: as mensagens de teste (1958) não são de nenhuma das duas
+        for col in ["selos", "eras"] {
+            for by_message in [false, true] {
+                let r = search_messages(&c, &v, &MsgSearch { query: "graça".into(), collection: col.into(), by_message, ..Default::default() }).unwrap();
+                assert_eq!((r.total, r.direct.len()), (0, 0), "coleção {col}");
+            }
+        }
+        let r = search_messages(&c, &v, &MsgSearch { query: "graça".into(), collection: "".into(), ..Default::default() }).unwrap();
+        assert_eq!(r.total, 3);
         // sugestões ao digitar: palavra do índice e título
         let s = suggest(&c, "a gra").unwrap();
         assert!(s.terms.iter().any(|t| t.word == "graca" && t.count == 3), "{:?}", s.terms.iter().map(|t| &t.word).collect::<Vec<_>>());

@@ -21,3 +21,6 @@ database-mensagens/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# instaladores copiados dos target* (limpeza 2026-10-29)
+app/instaladores/

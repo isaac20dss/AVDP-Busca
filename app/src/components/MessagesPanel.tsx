@@ -38,6 +38,8 @@ export function MessagesPanel() {
   const [filters, setFilters] = useState({ yearFrom: '', yearTo: '', local: '', translations: [] as string[], sources: [] as string[], onlyPreferred: false })
   const [sort, setSort] = useState<MsgSearch['sort']>('relevance')
   const [byMessage, setByMessage] = useState(false)
+  /** Pesquisar só na série dos Selos ou só nos capítulos do livro das Eras. */
+  const [collection, setCollection] = useState<'' | 'selos' | 'eras'>('')
   const [showFilters, setShowFilters] = useState(false)
   const [res, setRes] = useState<MsgResults | null>(null)
   const [busy, setBusy] = useState(false)
@@ -86,6 +88,7 @@ export function MessagesPanel() {
     by_message: byMessage,
     limit: 80,
     offset,
+    collection,
   })
 
   const run = useCallback(
@@ -107,7 +110,7 @@ export function MessagesPanel() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [query, opts, filters, sort, byMessage],
+    [query, opts, filters, sort, byMessage, collection],
   )
 
   useEffect(() => {
@@ -274,6 +277,14 @@ export function MessagesPanel() {
               <button className={`chip${showFilters || activeFilters ? ' on' : ''}`} onClick={() => setShowFilters((v) => !v)}>
                 <Icon name="filter" size={13} /> Filtros{activeFilters ? ` (${activeFilters})` : ''}
               </button>
+              <div className="seg collections" role="group" aria-label="Coleções">
+                <button className={collection === 'selos' ? 'on' : ''} onClick={() => setCollection(collection === 'selos' ? '' : 'selos')} title="Pesquisar só na série dos Sete Selos (63-0317 a 63-0324)">
+                  Selos
+                </button>
+                <button className={collection === 'eras' ? 'on' : ''} onClick={() => setCollection(collection === 'eras' ? '' : 'eras')} title="Pesquisar só nos capítulos do livro Uma Exposição das Sete Eras da Igreja (ERAS-01 a ERAS-10)">
+                  Eras
+                </button>
+              </div>
               <select value={sort} onChange={(e) => setSort(e.target.value as MsgSearch['sort'])} aria-label="Ordenar por">
                 <option value="relevance">Relevância</option>
                 <option value="date">Data</option>

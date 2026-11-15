@@ -152,6 +152,15 @@ Pedido do Isaac (com foto da tela: "Is." num slide e "54:13" no outro, na Era de
 - Testes: `tools/flow13.mjs` 17/17 (Plugin em `tauri dev`, Era de Esmirna: 1597 slides sem referência partida; centro 124 → 124 nas duas trocas; tamanho; 141 fontes instaladas; importar/remover Roboto Slab); `cargo test --lib` 38 (+2 de `fonts`); `avdp-consulta` 38 (+1 `bible_reference_stays_in_one_slide`); `tsc` ok.
 - **Pacote de atualização** (`atualizar/ATUALIZAR.cmd` + `LEIA-ME.txt`, no git): zip `AVDP-Busca-1.5.0-atualizar-Windows.zip` = os dois instaladores 1.5.0 + `avdp-consulta.exe`; instala com `/S` por cima e copia o exe para `C:\AVDP Holyrics` e a biblioteca do Holyrics, sem tocar em banco. Computador novo continua pelos zips "com banco" do v1.4.0.
 
+### Décima quinta leva (2026-11-15) — FEITA e testada (`tauri dev`, cópia do banco 1.3): versão 1.6.0
+- **1.6.0 gerada** (pedido do Isaac): `app/instaladores/` = `AVDP Busca_1.6.0_x64-setup.exe`, `AVDP Busca Plugin_1.6.0_x64-setup.exe`, `avdp-consulta-1.6.0.exe`; `Levar para outro PC\AVDP-Busca-1.6.0-atualizar-Windows.zip` (+ pasta). "Deixe só a mais recente": instaladores 1.0.0–1.5.0, zips 1.0.0 (código-fonte, instalar-com-banco), atualizar 1.5.0 e `Plugin Holyrics\AVDP-Busca-Plugin-Holyrics-1.4.0.zip` foram para a **Lixeira** (recuperáveis). `pacote\` agora leva o instalador 1.6.0 (o `INSTALAR.cmd` acha por `AVDP Busca_*_x64-setup.exe`). Release no GitHub e tag `v1.6.0` (gera os .dmg do Mac) **não** feitos: esperam o ok do Isaac.
+Pedido do Isaac (com foto do leitor no modo Slides):
+1. **Tirar a dica** "Clique: prévia • duplo clique: projetar este slide" → `MessageReader`: sem `title` nos slides (`.chunk`) nem nos parágrafos. A dica da grade de versículos da Bíblia ficou.
+2. **Trecho (começo e fim do slide)**, para o pregador que lê só uma parte: botão **Trecho** na barra do leitor (volta para Parágrafos); clique na palavra do começo e na do fim (pode ser em parágrafos diferentes; em qualquer ordem; vira palavra inteira) → barra "Trecho: §… até §… · N slides" com **Projetar trecho** e **Limpar**. Projeta um item à parte (`key` `message:…:trecho:…`, `messageItem(only)` em `state/msg.ts`), dividido pelo tamanho da letra, mesmo rodapé. Clique normal continua sendo prévia.
+3. **Selos / Eras na aba Pesquisar** das mensagens: `MsgSearch.collection` (`messages.rs` `collection_sql`, vale nos parágrafos e nos títulos diretos), botões ao lado de Filtros.
+4. **Livro escolhido na pesquisa da Bíblia**: a 4ª opção do escopo virou lista com os 66 livros (`searchBook`; 0 = livro aberto; Ctrl+Shift+F volta ao livro aberto). O comando já aceitava `scope: 'book'`.
+- Testes: `tools/flow14.mjs` 20/20; `cargo test --lib` 38; `avdp-consulta` 38; `tsc` ok.
+
 ---
 
 ## 2. Regras e decisões que NÃO podem ser quebradas
@@ -330,6 +339,8 @@ Testes: `cd app/src-tauri && cargo test --lib` (25 testes passam; `real_local` �
 ---
 
 ## 6. Armadilhas desta máquina
+
+- **Limpeza de disco (2026-10-29, ok do Isaac):** todos os `app/src-tauri/target*` e `app/avdp-consulta/target` foram apagados (~35 GB de cache do Cargo; `target/debug` sozinho tinha 21 GB), além de `Plugin Holyrics/pacote/` e `AVDP-Mensagens-Holyrics-1.0.0.zip`. Os instaladores 1.0.0–1.5.0 (app e Plugin) e o `avdp-consulta.exe` 1.5.0 estão em `app/instaladores/` (fora do git). O próximo `tauri build` compila do zero. Caminhos `target-1.x/...` citados acima não existem mais.
 
 - **Claude empacotado (desde 2026-10-18)**: o app do Claude passou a rodar como pacote MSIX (`Claude_pzs8sxrjxfjjc`; a pasta temporária virou `C:\Users\Isaac\ClaudeTmp`). Tudo que ele abre (Bash, PowerShell, Node, `tauri dev`, o exe de release) grava `%APPDATA%` numa cópia desviada em `%LOCALAPPDATA%\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\…` e lê essa cópia; o AVDP aberto pelo Isaac fora do Claude usa a pasta real. Em 2026-10-18 isso **tirou o banco da pasta real** (ver seção 5, item 4). Por isso:
   - **Nunca abrir o AVDP pelo Claude com a pasta de dados normal.** Use sempre `AVDP_DATA_DIR=<pasta no scratchpad com uma cópia do banco>` (o app usa essa pasta e libera ela no protocolo de arquivos). Exemplo: copiar `Levar para outro PC\pacote\banco\*` para `scratchpad\dados-teste\` e rodar `AVDP_DATA_DIR="C:\…\dados-teste" WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=--remote-debugging-port=9222 npx tauri dev` (ou o exe de release).

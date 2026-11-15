@@ -1,7 +1,7 @@
-AVDP Busca 1.5.0 - ATUALIZAR outro computador (Windows)
+AVDP Busca 1.6.0 - ATUALIZAR outro computador (Windows)
 ========================================================
 
-Serve para o computador que JA TEM o AVDP Busca e/ou o AVDP Busca Plugin (1.4.0 ou anterior)
+Serve para o computador que JA TEM o AVDP Busca e/ou o AVDP Busca Plugin (1.5.0 ou anterior)
 com o banco. Troca so os programas; banco, temas, listas, edicoes e configuracoes ficam.
 Computador novo (sem nada): use primeiro o AVDP-Busca-1.4.0-instalar-com-banco.zip e o
 AVDP-Busca-Plugin-Holyrics-1.4.0.zip (release v1.4.0) e depois este pacote.
@@ -11,17 +11,25 @@ AVDP-Busca-Plugin-Holyrics-1.4.0.zip (release v1.4.0) e depois este pacote.
 3. Na pasta extraida, dois cliques em ATUALIZAR.cmd.
    Se o Windows avisar "O Windows protegeu o computador": Mais informacoes > Executar assim mesmo.
    Ele instala por cima:
-     - AVDP Busca 1.5.0         (%LOCALAPPDATA%\AVDP Busca)
-     - AVDP Busca Plugin 1.5.0  (%LOCALAPPDATA%\AVDP Busca Plugin)
+     - AVDP Busca 1.6.0         (%LOCALAPPDATA%\AVDP Busca)
+     - AVDP Busca Plugin 1.6.0  (%LOCALAPPDATA%\AVDP Busca Plugin)
      - avdp-consulta.exe novo em C:\AVDP Holyrics e na aba Arquivos do Holyrics
        (C:\Holyrics\Holyrics\files\media\file), se existirem.
 4. Abra o Holyrics. O modulo "AVDP Busca" NAO precisa ser colado de novo (o codigo nao mudou).
    Se o Holyrics recusar o avdp-consulta.exe: Modulos > AVDP Busca > Configuracoes >
    Permissoes avancadas > allowed_files > marcar avdp-consulta.exe de novo.
 
-Sem o ATUALIZAR.cmd (a mao): rode "AVDP Busca_1.5.0_x64-setup.exe" e
-"AVDP Busca Plugin_1.5.0_x64-setup.exe" (Avancar ate o fim) e copie o avdp-consulta.exe
+Sem o ATUALIZAR.cmd (a mao): rode "AVDP Busca_1.6.0_x64-setup.exe" e
+"AVDP Busca Plugin_1.6.0_x64-setup.exe" (Avancar ate o fim) e copie o avdp-consulta.exe
 para C:\AVDP Holyrics e para C:\Holyrics\Holyrics\files\media\file (substituir).
+
+Novidades da 1.6.0
+- Trecho: botao na barra do leitor de mensagens para projetar so uma parte do texto.
+  Clique na palavra onde o slide comeca e na palavra onde termina e depois em
+  "Projetar trecho"; "Limpar" desfaz.
+- Selos / Eras tambem na aba Pesquisar das mensagens.
+- Pesquisa da Biblia num livro escolhido (lista com os 66 livros).
+- Sem a dica "Clique: previa / duplo clique..." ao passar o mouse na mensagem.
 
 Novidades da 1.5.0
 - Fontes de letra de fora: no editor de tema, a lista de Fonte mostra tambem as fontes

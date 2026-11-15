@@ -30,6 +30,7 @@ const P: Record<string, string> = {
   arrowDown: 'M12 5v14 M19 12l-7 7-7-7',
   history: 'M3 3v5h5 M3.05 13A9 9 0 1 0 6 5.3L3 8 M12 7v5l4 2',
   columns: 'M3 4h18v16H3z M12 4v16',
+  brackets: 'M8 4H5v16h3 M16 4h3v16h-3',
   send: 'M22 2L11 13 M22 2l-7 20-4-9-9-4z',
   filter: 'M22 3H2l8 9.5V19l4 2v-8.5z',
   pause: 'M6 4h4v16H6z M14 4h4v16h-4z',

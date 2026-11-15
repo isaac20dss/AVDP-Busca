@@ -273,6 +273,8 @@ export interface MsgSearch {
   by_message: boolean
   limit: number
   offset: number
+  /** Só a série dos Selos ou só os capítulos do livro das Eras ('' = todas). */
+  collection?: '' | 'selos' | 'eras'
 }
 
 export interface HistoryItem {

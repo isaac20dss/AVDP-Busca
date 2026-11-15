@@ -2350,3 +2350,30 @@ label.chip-check,
   content-visibility: auto;
   contain-intrinsic-size: auto 160px;
 }
+
+/* ---------- trecho: só uma parte do texto vai para o telão ---------- */
+.banner.trecho-bar {
+  margin: 8px 14px 0;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.banner.trecho-bar > span {
+  flex: 1;
+  min-width: 0;
+}
+.para .trecho {
+  background: rgba(240, 181, 69, 0.28);
+  box-shadow: 0 0 0 1px rgba(240, 181, 69, 0.55);
+  border-radius: 3px;
+}
+.para .trecho.start {
+  border-left: 2px solid #f0b545;
+  box-shadow: none;
+  background: none;
+}
+.reader-body.picking .para {
+  cursor: text;
+}

@@ -8,7 +8,7 @@ import { keysFor, prettyCombo } from '../lib/hotkeys'
 import { addCurrentToPlaylist } from '../lib/open'
 import { chunkText, paraChunks } from '../lib/slides'
 import { textSimilarity, translationName } from '../lib/translations'
-import { dropParas, rawParas, republishMessage, useMsg } from '../state/msg'
+import { dropParas, messageItem, rawParas, republishMessage, useMsg } from '../state/msg'
 import { useApp } from '../store'
 import type { Paragraph } from '../types'
 import { Highlight } from './Marked'
@@ -43,15 +43,40 @@ function findMatches(paras: Paragraph[], q: string): { seqs: number[]; terms: st
   return { seqs, terms: ws, phrases: [], byNumber: false }
 }
 
-/** Pedaço do parágrafo (slide) onde está o ponto clicado: mesma divisão do telão. */
-function chunkAt(text: string, parts: string[], el: HTMLElement, x: number, y: number): number {
-  if (parts.length < 2) return 0
+/** Posição (caractere do texto) do ponto clicado dentro do parágrafo; -1 = fora do texto. */
+function offsetAt(el: HTMLElement, x: number, y: number): number {
   const r = document.caretRangeFromPoint?.(x, y)
-  if (!r || !el.contains(r.startContainer)) return 0
+  if (!r || !el.contains(r.startContainer)) return -1
   const pre = document.createRange()
   pre.setStart(el, 0)
   pre.setEnd(r.startContainer, r.startOffset)
-  return chunkIndexAt(text, parts, pre.toString().length)
+  return pre.toString().length
+}
+
+/** Pedaço do parágrafo (slide) onde está o ponto clicado: mesma divisão do telão. */
+function chunkAt(text: string, parts: string[], el: HTMLElement, x: number, y: number): number {
+  if (parts.length < 2) return 0
+  const off = offsetAt(el, x, y)
+  return off < 0 ? 0 : chunkIndexAt(text, parts, off)
+}
+
+/** Começo da palavra em `o` (o trecho não começa no meio de palavra). */
+function wordStart(t: string, o: number): number {
+  o = Math.max(0, Math.min(o, t.length))
+  while (o > 0 && !/\s/.test(t[o - 1])) o--
+  return o
+}
+/** Fim da palavra em `o`, com a pontuação grudada nela. */
+function wordEnd(t: string, o: number): number {
+  o = Math.max(0, Math.min(o, t.length))
+  while (o < t.length && !/\s/.test(t[o])) o++
+  return o
+}
+
+/** Ponta do trecho escolhido: parágrafo (seq) e caractere dentro dele. */
+interface TrechoPos {
+  seq: number
+  off: number
 }
 
 interface RowActions {
@@ -59,6 +84,8 @@ interface RowActions {
   projectSlide: (slide: number) => void
   projectFrom: (seq: number) => void
   startEdit: (seq: number, text: string) => void
+  /** Escolhendo o trecho: o clique marca o começo ou o fim (true = tratado). */
+  pick: (seq: number, off: number) => boolean
 }
 
 interface RowProps {
@@ -74,13 +101,17 @@ interface RowProps {
   /** Texto da tradução comparada (null = sem esse parágrafo; undefined = sem comparação). */
   cmp: string | null | undefined
   act: { current: RowActions }
+  /** Parte deste parágrafo que está no trecho escolhido (caracteres ra..rb); -1 = nenhuma. */
+  ra?: number
+  rb?: number
 }
 
 const CompareCell = ({ cmp, num }: { cmp: string | null | undefined; num: number }) =>
   cmp === undefined ? null : <p className="cmp">{cmp ?? <em className="hint">(sem parágrafo {num})</em>}</p>
 
 /** Parágrafo inteiro. Memorizado: mover a prévia ou o ao vivo só redesenha os parágrafos que mudam. */
-const ParaView = memo(function ParaView({ p, start, parts, focus, live, match, terms, phrases, prefix, cmp, act }: RowProps) {
+const ParaView = memo(function ParaView({ p, start, parts, focus, live, match, terms, phrases, prefix, cmp, act, ra = -1, rb = -1 }: RowProps) {
+  const hl = (text: string) => <Highlight text={text} terms={terms} phrases={phrases} prefix={prefix} />
   return (
     <div
       data-seq={p.seq}
@@ -89,9 +120,14 @@ const ParaView = memo(function ParaView({ p, start, parts, focus, live, match, t
       onMouseDown={(e) => (e.ctrlKey || e.metaKey) && e.detail > 1 && e.preventDefault()}
       onClick={(e) => {
         const el = e.currentTarget.querySelector('p')
+        // 2º clique de um duplo clique escolhendo o trecho: não conta como nova ponta
+        if (e.detail > 1 && act.current.pick(-1, -1)) return
+        const off = el ? offsetAt(el, e.clientX, e.clientY) : -1
+        if (act.current.pick(p.seq, off)) return
         act.current.select(p.seq, start + (el ? chunkAt(p.text, parts, el, e.clientX, e.clientY) : 0))
       }}
       onDoubleClick={(e) => {
+        if (act.current.pick(-1, -1)) return
         // Ctrl + duplo clique numa palavra: projeta o slide (pedaço do parágrafo) onde ela está
         const el = e.currentTarget.querySelector('p')
         if ((e.ctrlKey || e.metaKey) && el) {
@@ -99,11 +135,18 @@ const ParaView = memo(function ParaView({ p, start, parts, focus, live, match, t
           act.current.projectSlide(start + chunkAt(p.text, parts, el, e.clientX, e.clientY))
         } else act.current.projectFrom(p.seq)
       }}
-      title="Clique: prévia • duplo clique: projetar a partir daqui • Ctrl + duplo clique numa palavra: projetar só o slide dela"
     >
       <span className="pnum">{p.num > 0 ? p.num : ''}</span>
       <p>
-        <Highlight text={p.text} terms={terms} phrases={phrases} prefix={prefix} />
+        {ra < 0 ? (
+          hl(p.text)
+        ) : (
+          <>
+            {hl(p.text.slice(0, ra))}
+            <span className={`trecho${rb <= ra ? ' start' : ''}`}>{hl(p.text.slice(ra, rb))}</span>
+            {hl(p.text.slice(Math.max(ra, rb)))}
+          </>
+        )}
       </p>
       <CompareCell cmp={cmp} num={p.num} />
     </div>
@@ -125,7 +168,6 @@ const ParaSlides = memo(function ParaSlides({ p, start, parts, focus, live, matc
               onMouseDown={(e) => e.detail > 1 && e.preventDefault()}
               onClick={() => act.current.select(p.seq, s)}
               onDoubleClick={() => act.current.projectSlide(s)}
-              title="Clique: prévia • duplo clique: projetar este slide"
             >
               {parts.length > 1 && (
                 <span className="chunk-n">
@@ -172,6 +214,16 @@ export function MessageReader() {
   /** Próxima rolagem até o parágrafo em foco: 'none' (clique), 'nearest' (setas) ou centro (padrão). */
   const nextScroll = useRef<'none' | 'nearest' | null>(null)
   const act = useRef<RowActions>(null!)
+  // trecho: o operador marca a palavra onde o slide começa e a palavra onde termina (pregador lê só uma parte)
+  const [picking, setPicking] = useState(false)
+  const [trA, setTrA] = useState<TrechoPos | null>(null)
+  const [trB, setTrB] = useState<TrechoPos | null>(null)
+  const pickedAt = useRef(0)
+  useEffect(() => {
+    setPicking(false)
+    setTrA(null)
+    setTrB(null)
+  }, [variantId, group?.id])
 
   // pedaços de cada parágrafo como vão para o telão (divisão pelo tamanho da letra do tema), e o primeiro slide de cada um
   // depende do tema das mensagens (tamanho da letra, margens, tolerância) e das configurações: refaz quando mudam
@@ -207,6 +259,30 @@ export function MessageReader() {
 
   const matches = useMemo(() => findMatches(paras, find), [paras, find])
   const matchSet = useMemo(() => new Set(matches.seqs), [matches])
+
+  /** Trecho em ordem (parágrafo/caractere do começo e do fim), já na palavra inteira. */
+  const trecho = useMemo(() => {
+    if (!trA) return null
+    const ia = paras.findIndex((p) => p.seq === trA.seq)
+    if (ia < 0) return null
+    if (!trB) {
+      const o = wordStart(paras[ia].text, trA.off)
+      return { ia, oa: o, ib: ia, ob: o, done: false }
+    }
+    const ib = paras.findIndex((p) => p.seq === trB.seq)
+    if (ib < 0) return null
+    let [x, y] = [
+      { i: ia, o: trA.off },
+      { i: ib, o: trB.off },
+    ]
+    if (y.i < x.i || (y.i === x.i && y.o < x.o)) [x, y] = [y, x]
+    return { ia: x.i, oa: wordStart(paras[x.i].text, x.o), ib: y.i, ob: wordEnd(paras[y.i].text, y.o), done: true }
+  }, [trA, trB, paras])
+  /** Parte do parágrafo `i` dentro do trecho ([-1, -1] = fora). */
+  const trechoRange = (i: number): [number, number] => {
+    if (!trecho || i < trecho.ia || i > trecho.ib) return [-1, -1]
+    return [i === trecho.ia ? trecho.oa : 0, i === trecho.ib ? trecho.ob : paras[i].text.length]
+  }
 
   // traduções com texto quase igual (mesma tradução vinda de outra fonte)
   const [similar, setSimilar] = useState<Record<number, { other: number; ratio: number }>>({})
@@ -439,8 +515,46 @@ export function MessageReader() {
     }
   }
 
+  const pick = (seq: number, off: number) => {
+    if (seq < 0) return picking || Date.now() - pickedAt.current < 600
+    if (!picking) return false
+    if (off < 0) return true
+    pickedAt.current = Date.now()
+    window.getSelection()?.removeAllRanges()
+    if (!trA || trB) {
+      setTrA({ seq, off })
+      setTrB(null)
+    } else {
+      setTrB({ seq, off })
+      setPicking(false)
+    }
+    return true
+  }
+  const clearTrecho = () => {
+    setPicking(false)
+    setTrA(null)
+    setTrB(null)
+  }
+  /** Só o trecho escolhido, dividido em slides como o resto da mensagem (mesmo rodapé). */
+  const trechoItem = () => {
+    if (!trecho?.done) return null
+    const sub = paras
+      .slice(trecho.ia, trecho.ib + 1)
+      .map((p, k) => {
+        const [a, b] = trechoRange(trecho.ia + k)
+        return { ...p, text: p.text.slice(a, b).trim() }
+      })
+      .filter((p) => p.text)
+    const it = sub.length ? messageItem(sub) : null
+    return it && { ...it, key: `${it.key}:trecho:${paras[trecho.ia].seq}.${trecho.oa}-${paras[trecho.ib].seq}.${trecho.ob}`, subtitle: `${it.subtitle} · trecho` }
+  }
+  const tItem = trecho?.done ? trechoItem() : null
+  const projectTrecho = () => {
+    if (tItem) project(tItem, 0)
+  }
+
   // as linhas do leitor são memorizadas: recebem as ações por uma referência estável (sempre a versão atual)
-  act.current = { select, projectSlide, projectFrom, startEdit }
+  act.current = { select, projectSlide, projectFrom, startEdit, pick }
 
   const step = (d: number) => {
     if (!matches.seqs.length) return
@@ -484,6 +598,22 @@ export function MessageReader() {
               Slides
             </button>
           </div>
+          <button
+            className={picking ? 'on' : ''}
+            onClick={() => {
+              if (picking) return setPicking(false)
+              setEditing(false)
+              setEditSeq(null)
+              if (bySlides) setView('paragrafos')
+              setTrA(null)
+              setTrB(null)
+              setPicking(true)
+            }}
+            disabled={!paras.length}
+            title="Projetar só uma parte do texto: clique na palavra onde o slide começa e na palavra onde termina"
+          >
+            <Icon name="brackets" /> Trecho
+          </button>
           <button className="primary" onClick={() => (isOpen ? projectSlide(cursor) : projectFrom(focusSeq ?? paras[0]?.seq ?? 0))} disabled={!paras.length} title="Projetar o slide da prévia (Enter)">
             <Icon name="play" /> Projetar
           </button>
@@ -584,7 +714,32 @@ export function MessageReader() {
         </button>
       </div>
 
-      <div className={`reader-body${compareId ? ' compare' : ''}`} ref={bodyRef}>
+      {(picking || trecho) && (
+        <div className="banner trecho-bar">
+          <span>
+            {picking && !trA ? (
+              'Trecho: clique na palavra onde o slide começa.'
+            ) : picking || !trecho ? (
+              'Agora clique na palavra onde o slide termina.'
+            ) : (
+              <>
+                Trecho: §{paras[trecho.ia].num} “{paras[trecho.ia].text.slice(trecho.oa).split(/\s+/).slice(0, 4).join(' ')}…” até §{paras[trecho.ib].num} “…
+                {paras[trecho.ib].text.slice(0, trecho.ob).split(/\s+/).slice(-4).join(' ')}” · {tItem?.slides.length ?? 0} slide{tItem?.slides.length === 1 ? '' : 's'}
+              </>
+            )}
+          </span>
+          {tItem && (
+            <button className="primary small" onClick={projectTrecho} title="Projetar só o trecho escolhido">
+              <Icon name="play" /> Projetar trecho
+            </button>
+          )}
+          <button className="small" onClick={clearTrecho}>
+            {picking ? 'Cancelar' : 'Limpar'}
+          </button>
+        </div>
+      )}
+
+      <div className={`reader-body${compareId ? ' compare' : ''}${picking ? ' picking' : ''}`} ref={bodyRef}>
         {loading && <div className="hint">Carregando…</div>}
         {!paras.length && !loading && <div className="center-empty">Esta tradução não tem texto. Escolha outra acima ou sincronize o Busca CBB / Tabernáculo da Fé.</div>}
         {paras.map((p, i) => {
@@ -648,6 +803,7 @@ export function MessageReader() {
               </div>
             )
           if (editing) return <EditTarget key={p.id} p={p} act={act} />
+          const [ra, rb] = trechoRange(i)
           return (
             <ParaView
               key={p.id}
@@ -662,6 +818,8 @@ export function MessageReader() {
               prefix={shownPrefix}
               cmp={cmp}
               act={act}
+              ra={ra}
+              rb={rb}
             />
           )
         })}

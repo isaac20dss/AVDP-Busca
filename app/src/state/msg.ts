@@ -120,8 +120,10 @@ async function loadParas(variantId: number, source?: string): Promise<Paragraph[
   return ps.map((p) => ({ ...p, text: paraText(p.text, p.num) })).filter((p) => p.text.trim())
 }
 
-export function messageItem(): Item | null {
-  const { group, variantId, paras } = useMsg.getState()
+/** Item da mensagem aberta; com `only`, só esses parágrafos (trecho escolhido pelo operador). */
+export function messageItem(only?: Paragraph[]): Item | null {
+  const { group, variantId } = useMsg.getState()
+  const paras = only ?? useMsg.getState().paras
   if (!group || !variantId) return null
   const v = group.variants.find((x) => x.id === variantId)
   const title = v?.title || group.title
